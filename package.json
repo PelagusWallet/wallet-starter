@@ -1,0 +1,89 @@
+{
+  "name": "pelagus-extension",
+  "displayName": "Pelagus",
+  "version": "0.0.0",
+  "description": "Embark on Web3.",
+  "author": "alan",
+  "scripts": {
+    "dev": "plasmo dev",
+    "build": "plasmo build",
+    "package": "plasmo package"
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.20.6",
+    "@headlessui/react": "^1.7.7",
+    "@heroicons/react": "^2.0.13",
+    "@ledgerhq/hw-app-eth": "^6.30.3",
+    "@ledgerhq/hw-transport-webhid": "^6.27.9",
+    "@ledgerhq/hw-transport-webusb": "^6.27.9",
+    "@metamask/browser-passworder": "^4.0.2",
+    "@plasmohq/messaging": "^0.1.8",
+    "@plasmohq/redux-persist": "^6.1.0",
+    "@plasmohq/storage": "^1.5.0",
+    "@reduxjs/toolkit": "^1.9.5",
+    "@scure/bip32": "^1.1.1",
+    "@tailwindcss/forms": "^0.5.3",
+    "@tailwindcss/typography": "^0.5.8",
+    "@types/webextension-polyfill": "^0.10.0",
+    "assert": "^2.0.0",
+    "bip39": "^3.0.4",
+    "buffer": "^6.0.3",
+    "classnames": "^2.3.2",
+    "crypto-browserify": "^3.12.0",
+    "csstype": "^3.1.1",
+    "framer-motion": "^8.0.2",
+    "hdkey": "^2.0.1",
+    "lodash": "^4.17.21",
+    "postcss": "^8.4.20",
+    "quais": "^0.1.10",
+    "react": "18.2.0",
+    "react-confetti": "^6.1.0",
+    "react-dom": "18.2.0",
+    "react-hot-toast": "^2.4.0",
+    "react-icons": "^4.8.0",
+    "react-jdenticon": "^1.0.0",
+    "react-redux": "^8.0.5",
+    "redux-persist-webextension-storage": "^1.0.2",
+    "secp256k1": "^4.0.3",
+    "stream-browserify": "^3.0.0",
+    "url": "^0.11.0",
+    "webextension-polyfill": "^0.10.0",
+    "wouter": "^2.9.0"
+  },
+  "devDependencies": {
+    "@plasmohq/prettier-plugin-sort-imports": "3.5.4",
+    "@types/chrome": "0.0.200",
+    "@types/node": "18.11.7",
+    "@types/react": "18.0.24",
+    "@types/react-dom": "18.0.8",
+    "@typescript-eslint/eslint-plugin": "^5.59.0",
+    "eslint": "^8.38.0",
+    "eslint-config-standard-with-typescript": "^34.0.1",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-n": "^15.7.0",
+    "eslint-plugin-promise": "^6.1.1",
+    "eslint-plugin-react": "^7.32.2",
+    "plasmo": "0.70.1",
+    "prettier": "2.7.1",
+    "tailwindcss": "^3.2.4",
+    "typescript": "4.8.4"
+  },
+  "manifest": {
+    "host_permissions": [
+      "https://*/*"
+    ],
+    "permissions": [
+      "alarms",
+      "contextMenus",
+      "tabs",
+      "declarativeNetRequest",
+      "webRequest",
+      "webRequestBlocking",
+      "scripting"
+    ],
+    "default_locale": "en"
+  },
+  "alias": {
+    "@ledgerhq/devices": "@ledgerhq/devices/lib-es"
+  }
+}

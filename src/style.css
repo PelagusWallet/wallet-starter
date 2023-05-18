@@ -1,0 +1,217 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Bai+Jamjuree|Bai+Jamjuree:bold");
+@import url("https://fonts.googleapis.com/css?family=Bai+Jamjuree:bold");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --QUAIRED: #e20101;
+  --PUREBLACK: #070d0d;
+  --ALMOSTBLACK: #202020;
+  --DARKGREY: #393939;
+  --MIDGREY: #646464;
+  --LIGHTGREY: #a1a1a1;
+  --OFFWHITE: #e2e2e2;
+  --PUREWHITE: #ffffff;
+  --QUAIORANGE: #ee4c22;
+  --SAFFRON: #fe9b40;
+  --QUAIYELLOW: #ffc35a;
+  --QUAIAPRICOT: #fec888;
+  --DEEPTEAL: #0f4841;
+  --QUAITEAL: #2c827d;
+  --PELAGUSBLUE: #014164;
+  --EMBARKBLUE: #016789;
+  --LAGOSBLUE: #015375;
+  --LIGHTBLUE: #017c9f;
+}
+
+body {
+  min-width: 375px;
+  /* background: linear-gradient(
+    359.98deg,
+    #014062 -51.66%,
+    #000511 106.18%
+  ) !important; */
+  background-color: #000000;
+  min-height: 600px;
+}
+
+.bg-container::before {
+  transform: rotate(135deg);
+}
+
+.bg-container {
+  /* background: transparent;
+  overflow: hidden; */
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 0px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #888;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #014062;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #016789;
+}
+
+.shard-data-div-active {
+  /* background: linear-gradient(
+    270deg,
+    rgba(0, 181, 238, 0.3) -12.26%,
+    rgba(0, 209, 255, 0.3) 123.21%
+  ); */
+}
+
+.active-button-bg {
+  background: linear-gradient(
+    270deg,
+    #00b5e9 -12.26%,
+    rgba(0, 209, 255, 0) 123.21%
+  );
+  box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.25);
+}
+
+.pelagus-gradient-bg-full {
+  background: linear-gradient(
+    270deg,
+    #195f72 -12.26%,
+    rgba(0, 209, 255, 100) 123.21%
+  );
+  box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.25);
+}
+
+.shard-data-height {
+  /* transition: height 0.4s linear; */
+}
+
+.fadeOut {
+  opacity: 0;
+  /* transition: width 0.1s 0.1s, height 0.1s 0.1s, opacity 0.1s; */
+  width: 100%;
+  height: 100%;
+}
+
+.fadeIn {
+  opacity: 1;
+  /* transition: width 0.1s, height 0.1s, opacity 0.1s 0.1s; */
+  width: 100%;
+  height: 100%;
+}
+
+@layer components {
+  .home-button-outer {
+    @apply font-quai relative inline-flex items-center justify-center py-1 mx-1 overflow-hidden text-sm font-medium bg-zinc-950 text-blue-400 hover:bg-white/20 rounded-md group-hover:to-quai-deep-teal dark:text-white focus:ring-0 focus:outline-none;
+  }
+
+  .home-button-inner {
+    @apply w-full relative px-5 py-0.5 transition-all ease-in duration-75 bg-transparent rounded-md group-hover:bg-opacity-0;
+  }
+
+  .send-form-input {
+    @apply shadow appearance-none bg-white rounded w-full py-2 px-3 text-white  leading-tight focus:outline-none focus:border-quai-black focus:ring-1 focus:ring-quai-black;
+  }
+
+  .footer-button {
+    @apply flex justify-center w-1/4 py-4 text-zinc-300 font-medium text-xs leading-tight uppercase hover:bg-white/20 focus:bg-quai-off-white focus:outline-none focus:ring-0 active:bg-quai-off-white;
+  }
+
+  .footer-bg {
+    @apply bg-zinc-950 backdrop-blur-md backdrop-opacity-50;
+  }
+
+}
+
+@keyframes slide-in-top {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slide-out-top {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+}
+
+/* CSSTransition styles */
+.tab-enter {
+  opacity: 0;
+  /* transform: translateY(-10px); */
+}
+.tab-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  /* transition: opacity 300ms, transform 300ms; */
+}
+.tab-exit {
+  opacity: 1;
+}
+.tab-exit-active {
+  opacity: 0;
+  /* transform: translateY(-10px); */
+  /* transition: opacity 300ms, transform 300ms; */
+}
+
+
+/* Congratulations styles */
+/* Congratulations.css */
+.congratulations-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  color: #ffffff;
+}
+
+.congratulations-title {
+  font-size: 48px;
+  font-weight: bold;
+  margin-bottom: 16px;
+}
+
+.congratulations-subtitle {
+  font-size: 24px;
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.congratulations-continue-btn {
+  border: none;
+  padding: 16px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 10px 2px;
+  cursor: pointer;
+  border-radius: 8px;
+  transition-duration: 0.4s;
+}
+
+.congratulations-continue-btn:hover {
+  color: white;
+}

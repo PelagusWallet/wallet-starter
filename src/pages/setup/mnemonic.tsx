@@ -7,6 +7,9 @@ function MnemonicSetup({ mnemonic, onCopiedMnemonic }) {
 
   function copiedMnemonic() {
     navigator.clipboard.writeText(mnemonic)
+  }
+
+  function continueMnemonic() {
     onCopiedMnemonic()
   }
 
@@ -31,6 +34,13 @@ function MnemonicSetup({ mnemonic, onCopiedMnemonic }) {
           onClick={() => copiedMnemonic()}
           className="flex justify-center rounded-md border border-white bg-transparent py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-gray-700 focus:outline-none focus:ring-2 focus:quai-deep-teal focus:ring-offset-2">
           Copy Secure Phrase
+        </button>
+      </div>
+      <div className="flex justify-center pt-10">
+        <button
+          onClick={() => continueMnemonic()}
+          className="flex justify-center rounded-md border border-white bg-transparent py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-gray-700 focus:outline-none focus:ring-2 focus:quai-deep-teal focus:ring-offset-2">
+          Continue
         </button>
       </div>
     </main>

@@ -18,7 +18,7 @@ const steps = [
   },
   {
     id: "03",
-    name: "Verify Secure Phrase",
+    name: "Locate Extension",
     href: "#",
     status: "upcoming",
     page: 2

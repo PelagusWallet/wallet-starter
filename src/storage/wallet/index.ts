@@ -404,6 +404,8 @@ export async function signAndSendTransaction(transaction: TransactionRequest) {
     transaction.gasLimit = 21000
   }
 
+  const feeData = await provider.getFeeData()
+
   const rawTransaction = {
     to: transaction.to,
     value: BigInt(Number(transaction.value)),
@@ -412,7 +414,19 @@ export async function signAndSendTransaction(transaction: TransactionRequest) {
     maxFeePerGas: BigInt(transaction.maxFeePerGas),
     maxPriorityFeePerGas: BigInt(transaction.maxPriorityFeePerGas),
     gasLimit: BigInt(transaction.gasLimit),
-    type: 0
+    type: 0,
+    externalGasLimit: null,
+    externalGasPrice: null,
+    externalGasTip: null
+  }
+
+  if (fromShard !== toShard) {
+    rawTransaction.externalGasLimit = BigInt(100000)
+    rawTransaction.externalGasPrice = BigInt(Number(feeData.maxFeePerGas) * 2)
+    rawTransaction.externalGasTip = BigInt(
+      Number(feeData.maxPriorityFeePerGas) * 2
+    )
+    rawTransaction.type = 2
   }
 
   const tx = await signingWallet.sendTransaction(rawTransaction)

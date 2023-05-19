@@ -3,6 +3,7 @@ import {
   ArrowsRightLeftIcon,
   PlusIcon
 } from "@heroicons/react/24/solid"
+import { FaFaucet } from "react-icons/fa"
 import { useLocation } from "wouter"
 
 import "../../style.css"
@@ -10,15 +11,22 @@ import "../../style.css"
 export default function FunctionButtonGroup() {
   // router
   const [, setLocation] = useLocation()
+
+  const openFaucet = () => {
+    window.open(process.env.PLASMO_PUBLIC_FAUCET_LINK, "_blank")
+  }
+
   return (
     <>
       <div
         className="w-full inline-flex rounded-md justify-center pl-3 pr-3 h-content"
         role="group">
-        <button className="flex home-button-outer group w-1/3">
+        <button
+          onClick={() => openFaucet()}
+          className="flex home-button-outer group w-1/3">
           <div className="flex flex-col items-center m-auto">
-            <PlusIcon className="h-6 w-6 text-blue-400" />
-            <span className="home-button-inner">Buy</span>
+            <FaFaucet className="h-6 w-6 text-blue-400" />
+            <span className="home-button-inner">Faucet</span>
           </div>
         </button>
         <button

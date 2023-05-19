@@ -46,12 +46,12 @@ export default function SettingsList() {
     <>
       <div className="min-h-full">
         <Disclosure as="nav" className="bg-transparent">
-          <div className="mt-3 space-y-1 px-2">
+          <div className="mt-3 space-y-1 px-3">
             {userNavigation.map((item) => {
               const Icon = item.icon
               return (
                 <div
-                  className="cursor-pointer border-b-1 w-full flex flex-row border-white bg-zinc-950 px-2 py-1 rounded-md"
+                  className="cursor-pointer border-b-1 w-full flex flex-row border-white bg-zinc-950 px-4 py-2 rounded-md"
                   onClick={() => handleClick(item)}
                   key={item.name}>
                   <Icon className="h-6 w-6 text-blue-400 my-auto" />

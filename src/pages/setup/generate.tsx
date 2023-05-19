@@ -17,6 +17,8 @@ import "../../style.css"
 
 import { setActiveNetwork } from "~storage/network"
 
+import PinExtension from "./pin"
+
 function Generate() {
   const [password, setPassword] = useState("")
   const [secretRecoveryPhrase, setSecretRecoveryPhrase] = useState("")
@@ -30,13 +32,17 @@ function Generate() {
     setPage((v) => v + 1)
   }
 
-  async function handleMnemonicCopied() {
+  function handleMnemonicCopied() {
     setPage((v) => v + 1)
   }
 
   async function handleMnemonicComplete() {
     createWallet(password, secretRecoveryPhrase)
-    setActiveNetwork(DEFAULT_NETWORKS[0].name)
+    await setActiveNetwork(DEFAULT_NETWORKS[0].name)
+    setLocation("/complete")
+  }
+
+  function handlePinnedExtension() {
     setLocation("/complete")
   }
 
@@ -88,12 +94,13 @@ function Generate() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}>
-              <MnemonicVerify
+              {/* <MnemonicVerify
                 mnemonic={secretRecoveryPhrase}
                 onCompleteMnemonic={(e) => {
                   handleMnemonicComplete()
                 }}
-              />
+              /> */}
+              <PinExtension onContinue={(e) => handlePinnedExtension()} />
             </motion.div>
           )}
         </AnimatePresence>

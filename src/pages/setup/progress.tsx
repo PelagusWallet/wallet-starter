@@ -1,31 +1,7 @@
 import { CheckIcon } from "@heroicons/react/24/solid"
 import { useEffect } from "react"
 
-const steps = [
-  {
-    id: "01",
-    name: "Create Password",
-    href: "welcome.html/generate",
-    status: "current",
-    page: 0
-  },
-  {
-    id: "02",
-    name: "Copy Secure Phrase",
-    href: "#",
-    status: "upcoming",
-    page: 1
-  },
-  {
-    id: "03",
-    name: "Locate Extension",
-    href: "#",
-    status: "upcoming",
-    page: 2
-  }
-]
-
-export default function ProgressBar({ page, setPage }) {
+export default function ProgressBar({ page, setPage, steps }) {
   useEffect(() => {
     console.log("page", page)
   }, [])

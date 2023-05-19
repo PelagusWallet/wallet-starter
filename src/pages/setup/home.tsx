@@ -50,6 +50,7 @@ function Home() {
                 <div>
                   <button
                     disabled={!isChecked}
+                    onClick={() => setLocation("/import")}
                     className="flex w-full justify-center rounded-md border border-white bg-transparent py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-quai-grey focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
                     Import Exisiting Wallet
                   </button>

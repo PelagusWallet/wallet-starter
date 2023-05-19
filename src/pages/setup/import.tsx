@@ -18,21 +18,22 @@ import "../../style.css"
 import LanguageSelect from "~components/setup/languageSelect"
 import { setActiveNetwork } from "~storage/network"
 
+import InputMnemonic from "./inputMnemonic"
 import PinExtension from "./pin"
 
 const steps = [
   {
     id: "01",
-    name: "Create Password",
-    href: "welcome.html/generate",
-    status: "current",
+    name: "Import Secure Phrase",
+    href: "#",
+    status: "upcoming",
     page: 0
   },
   {
     id: "02",
-    name: "Copy Secure Phrase",
-    href: "#",
-    status: "upcoming",
+    name: "Create Password",
+    href: "welcome.html/generate",
+    status: "current",
     page: 1
   },
   {
@@ -44,7 +45,7 @@ const steps = [
   }
 ]
 
-function Generate() {
+function ImportMnemonic() {
   const [password, setPassword] = useState("")
   const [secretRecoveryPhrase, setSecretRecoveryPhrase] = useState("")
   const [page, setPage] = useState(0)
@@ -52,21 +53,14 @@ function Generate() {
 
   async function handlePasswordComplete(e) {
     setPassword(e)
-    let mnemonic = await generateRandomMnemonic()
-    setSecretRecoveryPhrase(mnemonic)
-    setPage((v) => v + 1)
-  }
-
-  async function handleMnemonicCopied() {
     setPage((v) => v + 1)
     await createWallet(password, secretRecoveryPhrase)
     await setActiveNetwork(DEFAULT_NETWORKS[0].name)
   }
 
-  async function handleMnemonicComplete() {
-    createWallet(password, secretRecoveryPhrase)
-    await setActiveNetwork(DEFAULT_NETWORKS[0].name)
-    setLocation("/complete")
+  function mnemonicSubmitted(mnemonic: string) {
+    setSecretRecoveryPhrase(mnemonic)
+    setPage((v) => v + 1)
   }
 
   function handlePinnedExtension() {
@@ -92,6 +86,19 @@ function Generate() {
         <AnimatePresence exitBeforeEnter>
           {page == 0 && (
             <motion.div
+              key="mnemonicSetup"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}>
+              <InputMnemonic
+                onMnemonicSubmitted={(mnemonic) => {
+                  mnemonicSubmitted(mnemonic)
+                }}
+              />
+            </motion.div>
+          )}
+          {page == 1 && (
+            <motion.div
               key="passwordSetup"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -99,20 +106,6 @@ function Generate() {
               <PasswordSetup
                 onPasswordSubmit={(e) => {
                   handlePasswordComplete(e)
-                }}
-              />
-            </motion.div>
-          )}
-          {page == 1 && secretRecoveryPhrase && (
-            <motion.div
-              key="mnemonicSetup"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}>
-              <MnemonicSetup
-                mnemonic={secretRecoveryPhrase}
-                onCopiedMnemonic={(e) => {
-                  handleMnemonicCopied()
                 }}
               />
             </motion.div>
@@ -138,4 +131,4 @@ function Generate() {
   )
 }
 
-export default Generate
+export default ImportMnemonic

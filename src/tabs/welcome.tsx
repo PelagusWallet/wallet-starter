@@ -5,6 +5,7 @@ import LanguageSelect from "~components/setup/languageSelect"
 import Complete from "~pages/setup/complete"
 import Generate from "~pages/setup/generate"
 import Home from "~pages/setup/home"
+import ImportMnemonic from "~pages/setup/import"
 import LedgerSetup from "~pages/setup/ledger"
 import IntroScreen from "~pages/setup/welcome"
 import { useHashLocation } from "~utils/router"
@@ -22,6 +23,7 @@ export default function Welcome() {
           <Route path="/language" component={motionify(LanguageSelect)} />
           <Route path="/" component={motionify(Home)} />
           <Route path="/generate" component={motionify(Generate)} />
+          <Route path="/import" component={motionify(ImportMnemonic)} />
           <Route path="/ledger" component={motionify(LedgerSetup)} />
           <Route path="/complete" component={motionify(Complete)} />
         </Switch>

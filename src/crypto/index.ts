@@ -7,7 +7,7 @@ const encryptor = require("@metamask/browser-passworder")
 // Options:
 const defaultHDPath = `m/44'/994'/0'/0`
 
-export async function generateRandomMnemonic() { 
+export async function generateRandomMnemonic() {
   let mnemonic = bip39.generateMnemonic()
   return mnemonic
 }

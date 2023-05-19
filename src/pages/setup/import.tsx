@@ -54,7 +54,7 @@ function ImportMnemonic() {
   async function handlePasswordComplete(e) {
     setPassword(e)
     setPage((v) => v + 1)
-    await createWallet(password, secretRecoveryPhrase)
+    await createWallet(e, secretRecoveryPhrase)
     await setActiveNetwork(DEFAULT_NETWORKS[0].name)
   }
 

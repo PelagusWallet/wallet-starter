@@ -5,14 +5,17 @@ import { useLocation } from "wouter"
 
 import "../../style.css"
 
+import LanguageSelect from "~components/setup/languageSelect"
+
 function Home() {
   const [, setLocation] = useLocation()
   const [isChecked, setIsChecked] = useState(false)
 
   return (
     <div className="font-quai flex h-screen">
+      <LanguageSelect />
       <div className="flex flex-1 flex-col w-full justify-center py-12 px-4 sm:px-6 lg:flex-none lg:px-20 xl:px-24 h-1000">
-        <div className="mx-auto w-1/2 w-max-256  rounded-md border border-white p-20">
+        <div className="mx-auto rounded-md border border-white p-20  max-w-3xl">
           <div className="flex justify-center w-full">
             <img className="h-12 w-auto" src={pelagusLogo} alt="Pelagus" />
           </div>

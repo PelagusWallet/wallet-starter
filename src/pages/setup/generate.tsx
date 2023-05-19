@@ -15,6 +15,7 @@ import MnemonicVerify from "./verify"
 
 import "../../style.css"
 
+import LanguageSelect from "~components/setup/languageSelect"
 import { setActiveNetwork } from "~storage/network"
 
 import PinExtension from "./pin"
@@ -56,6 +57,8 @@ function Generate() {
 
   return (
     <div className="w-full max-h-screen h-screen font-quai flex flex-col items-center justify-center max-w-3xl shadow-lg rounded-lg mx-auto">
+      <LanguageSelect />
+
       <div className="w-full">
         <ProgressBar page={page} setPage={attemptSetPage} />
       </div>

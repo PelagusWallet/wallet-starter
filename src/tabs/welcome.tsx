@@ -1,10 +1,10 @@
 import { AnimatePresence, motion } from "framer-motion"
 import { Route, Router, Switch } from "wouter"
 
+import LanguageSelect from "~components/setup/languageSelect"
 import Complete from "~pages/setup/complete"
 import Generate from "~pages/setup/generate"
 import Home from "~pages/setup/home"
-import LanguageSelect from "~pages/setup/languageSelect"
 import LedgerSetup from "~pages/setup/ledger"
 import IntroScreen from "~pages/setup/welcome"
 import { useHashLocation } from "~utils/router"
@@ -18,9 +18,9 @@ export default function Welcome() {
     <div className="max-h-screen">
       <Router hook={useHashLocation}>
         <Switch location={location}>
-          <Route path="/" component={motionify(IntroScreen)} />
+          <Route path="/intro" component={motionify(IntroScreen)} />
           <Route path="/language" component={motionify(LanguageSelect)} />
-          <Route path="/setup" component={motionify(Home)} />
+          <Route path="/" component={motionify(Home)} />
           <Route path="/generate" component={motionify(Generate)} />
           <Route path="/ledger" component={motionify(LedgerSetup)} />
           <Route path="/complete" component={motionify(Complete)} />

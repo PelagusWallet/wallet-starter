@@ -52,9 +52,10 @@ function AddCustomToken() {
         id: randomID,
         symbol: symbol,
         decimals: Number(decimals),
-        shardData: tokenShards
+        shardData: tokenShards,
+        type: "custom"
       }
-      addToken(token)
+      await addToken(token)
       setLocation("/")
     } catch (e) {
       console.log(e)

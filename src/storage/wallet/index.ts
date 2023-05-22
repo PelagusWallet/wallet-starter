@@ -9,11 +9,11 @@ import { Storage } from "@plasmohq/storage"
 import { SecureStorage } from "@plasmohq/storage/secure"
 
 import { getActiveNetwork } from "~/storage/network"
+import { setupDefaultTokens } from "~/storage/token"
 import { QUAI_CONTEXTS, QuaiContext } from "~background/services/network/chains"
 import { decryptHDKey, deriveAddress, getWalletFromMnemonic } from "~crypto"
 
 import { WALLET_GENERATED } from "./constants"
-import { checkPassword } from "./password"
 import { watchKeyRemoval } from "./password"
 
 const encryptor = require("@metamask/browser-passworder")
@@ -83,7 +83,11 @@ export const useSetUp = () =>
         window.top.close()
       }
 
+      // Add default tokens to storage
+
       watchKeyRemoval()
+
+      setupDefaultTokens()
     })()
   }, [])
 

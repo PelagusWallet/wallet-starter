@@ -118,7 +118,8 @@ export default class NetworkController {
     })
     const allTokens = await getTokens()
     this.tokens = allTokens.filter(
-      (token) => token.network === this.activeNetwork.name
+      (token) =>
+        token.network === this.activeNetwork.name || token.type === "native"
     )
   }
 
@@ -145,32 +146,68 @@ export default class NetworkController {
     }
   }
 
+  async nativeAddressData(address: Address) {
+    let shard = getShardFromAddress(address.address)[0].shard
+    let provider = this.getProviderForAddress(address.address)
+    let balance = "0"
+    let nonce = 0
+    if (provider) {
+      try {
+        let res = await provider.getBalance(address.address)
+        balance = quais.utils.formatEther(res)
+        nonce = await provider.getTransactionCount(address.address)
+      } catch (e) {
+        console.log(e)
+      }
+    }
+
+    return {
+      ...address,
+      balance: Number(balance),
+      shard: shard,
+      chainID: this.activeNetwork.chainID,
+      nonce: nonce
+    }
+  }
+
+  async tokenAddressData(address: Address, token: TokenNetworkData) {
+    let shard = getShardFromAddress(address.address)[0].shard
+
+    let chainData = this.activeNetwork.chains.find((chain) => {
+      return chain.shard === shard
+    })
+
+    let explorerEndpoint = chainData?.blockExplorerUrl
+
+    // let tokenData = await fetch(
+    //   `${explorerEndpoint}/api?module=account&action=tokenbalance&contractaddress=${tokenShardData.address}&address=${address.address}`
+    // )
+
+    // let tokenDataJSON = await tokenData.json()
+    // // Return if the request was successful
+    // if (tokenDataJSON.status === "1") {
+    //   addressTokenData.push({
+    //     id: token.id,
+    //     contractAddressHash: tokenShardData.address,
+    //     balance: Number(tokenDataJSON.result)
+    //   })
+    // }
+
+    return {
+      ...address,
+      balance: 100,
+      shard: shard,
+      chainID: this.activeNetwork.chainID
+    }
+  }
+
   // This function fetches the balances for all addresses in the wallet
   async getAddressData(addresses: Address[]): Promise<AddressWithData[]> {
     await this.updateController()
     const addressDataPromises = addresses.map(async (address) => {
       try {
-        let shard = getShardFromAddress(address.address)[0].shard
-        let provider = this.getProviderForAddress(address.address)
-        let balance = "0"
-        let nonce = 0
-        if (provider) {
-          try {
-            let res = await provider.getBalance(address.address)
-            balance = quais.utils.formatEther(res)
-            nonce = await provider.getTransactionCount(address.address)
-          } catch (e) {
-            console.log(e)
-          }
-        }
-
-        return {
-          ...address,
-          balance: Number(balance),
-          shard: shard,
-          chainID: this.activeNetwork.chainID,
-          nonce: nonce
-        }
+        let nativeAddressData = await this.nativeAddressData(address)
+        return nativeAddressData
       } catch (e) {
         console.log(e)
       }
@@ -287,33 +324,13 @@ export default class NetworkController {
     const tokenBalancesPromises = this.tokens.map(async (token) => {
       const addressDataPromises = addresses.map(async (address) => {
         try {
-          let shard = getShardFromAddress(address.address)[0].shard
-
-          let chainData = this.activeNetwork.chains.find((chain) => {
-            return chain.shard === shard
-          })
-
-          let explorerEndpoint = chainData?.blockExplorerUrl
-
-          // let tokenData = await fetch(
-          //   `${explorerEndpoint}/api?module=account&action=tokenbalance&contractaddress=${tokenShardData.address}&address=${address.address}`
-          // )
-
-          // let tokenDataJSON = await tokenData.json()
-          // // Return if the request was successful
-          // if (tokenDataJSON.status === "1") {
-          //   addressTokenData.push({
-          //     id: token.id,
-          //     contractAddressHash: tokenShardData.address,
-          //     balance: Number(tokenDataJSON.result)
-          //   })
-          // }
-
-          return {
-            ...address,
-            balance: 100,
-            shard: shard,
-            chainID: this.activeNetwork.chainID
+          if (token.type === "native") {
+            let nativeAddressData = await this.nativeAddressData(address)
+            return nativeAddressData
+          }
+          if (token.type === "custom") {
+            let tokenAddressData = await this.tokenAddressData(address, token)
+            return tokenAddressData
           }
         } catch (e) {
           console.log(e)

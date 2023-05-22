@@ -10,6 +10,7 @@ import type { Network } from "~background/services/network/chains"
 import { updateActivityData } from "~slices/activity-data"
 import { updateAddressData } from "~slices/address-data"
 import { updateTokenBalanceData } from "~slices/token-balance-data"
+import type { TokenNetworkData } from "~storage/token"
 import type { StoredWallet } from "~storage/wallet"
 import { useAppDispatch } from "~store"
 
@@ -29,6 +30,11 @@ function Fetcher() {
     instance: storage
   })
 
+  const [tokens] = useStorage<TokenNetworkData[]>({
+    key: "tokens",
+    instance: storage
+  })
+
   useEffect(() => {
     if (!activeWallet) return
     fetchAddressData().catch((err) => console.error(err))
@@ -36,7 +42,7 @@ function Fetcher() {
     return () => {
       clearInterval(intervalId) // Clean up the interval when the component unmounts
     }
-  }, [activeWallet, activeNetwork])
+  }, [activeWallet, activeNetwork, tokens])
 
   async function fetchAddressData() {
     // Get addresses off of activeWallet derivations and match activeNetwork
@@ -66,6 +72,8 @@ function Fetcher() {
         addresses: addresses
       }
     })
+
+    console.log("tokens in fetcher", getTokenDataResponse.tokenBalanceData)
 
     console.log("activeNetwork in fetcher", activeNetwork)
     console.log("setting address data", addressDataResponse.addressData)

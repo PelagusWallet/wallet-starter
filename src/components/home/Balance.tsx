@@ -4,16 +4,20 @@ import { useEffect, useState } from "react"
 
 import { sendToBackground } from "@plasmohq/messaging"
 
-import type { AddressWithData } from "~background/services/network/controller"
+import type { TokenNetworkAddressData } from "~background/services/network/controller"
 import { useAppSelector } from "~store"
 
 export default function Balance() {
   const [balance, setBalance] = useState(null)
-  const addressData = useAppSelector(
-    (state) => state.addressData.addressesWithData as AddressWithData[]
+
+  const tokenBalanceData = useAppSelector(
+    (state) => state.tokenData.tokenBalances as TokenNetworkAddressData[]
   )
 
   async function getTotalBalance() {
+    let addressData = tokenBalanceData.find(
+      (tokenData) => tokenData.type === "native"
+    ).addresses
     if (addressData.length == 0) return
     let balance = addressData.reduce((acc, curr) => {
       return acc + curr.balance
@@ -25,7 +29,7 @@ export default function Balance() {
 
   useEffect(() => {
     getTotalBalance()
-  }, [addressData])
+  }, [tokenBalanceData])
 
   return (
     <>

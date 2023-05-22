@@ -19,16 +19,11 @@ const storage = new Storage({ area: "local" })
 
 export default function AssetsList() {
   const [location, setLocation] = useLocation()
-  const [tokenData, setTokenData] = useState<TokenNetworkData[]>([])
+  const [filteredTokenData, setTokenData] = useState<TokenNetworkData[]>([])
 
-  const addressData = useAppSelector(
-    (state) => state.addressData.addressesWithData as AddressWithData[]
+  const tokenBalanceData = useAppSelector(
+    (state) => state.tokenData.tokenBalances as TokenNetworkAddressData[]
   )
-
-  const [tokens] = useStorage<TokenNetworkData[]>({
-    key: "tokens",
-    instance: storage
-  })
 
   const [activeNetwork] = useStorage({
     key: "active_network",
@@ -36,32 +31,22 @@ export default function AssetsList() {
   })
 
   useEffect(() => {
+    console.log("tokenBalanceData", tokenBalanceData)
     if (!activeNetwork) return
 
-    let allTokenData = tokens || []
-    let quaiData = {
-      name: "QUAI",
-      symbol: "QUAI",
-      decimals: 18,
-      type: "native",
-      network: activeNetwork.name,
-      chainID: activeNetwork.chainID
-    } as TokenNetworkData
-    allTokenData.unshift(quaiData)
+    let allTokenData = tokenBalanceData || []
 
     // get tokens for active network
     allTokenData = allTokenData.filter(
-      (token) => token.network === activeNetwork.name
+      (token) => token.network === activeNetwork.name || token.type === "native"
     )
 
     setTokenData(allTokenData)
-  }, [tokens, activeNetwork])
-
-  useEffect(() => {}, [addressData])
+  }, [tokenBalanceData, activeNetwork])
 
   return (
     <div className="flex flex-col justify-between h-full">
-      {tokenData.map((token) => (
+      {filteredTokenData.map((token) => (
         <AssetItem key={token.symbol} token={token} />
       ))}
       <div className="w-full flex items-center justify-center">

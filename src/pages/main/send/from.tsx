@@ -39,8 +39,8 @@ export default function SendFrom({ activeWallet }) {
   }, [])
 
   return (
-    <div className=" overflow-hidden">
-      <div className="px-4">
+    <div className="overflow-hidden">
+      <div className="mt-2 px-4">
         <button onClick={() => setLocation("/")} className="text-gray-400">
           <ChevronLeftIcon
             className="h-6 w-6 quai-dark-grey"

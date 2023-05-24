@@ -1,4 +1,3 @@
-import { ChevronLeftIcon } from "@heroicons/react/24/outline"
 import { BsPersonVcard } from "react-icons/bs"
 
 import { Storage } from "@plasmohq/storage"

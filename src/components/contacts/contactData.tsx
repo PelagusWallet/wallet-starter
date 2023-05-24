@@ -48,11 +48,7 @@ export default function ContactData({ contact, selectable, onContactSelect }) {
   }, [contact, activeNetwork])
 
   return (
-    <div
-      className={
-        "shard-data-height rounded-md relative secondary-bg-container transition-[height] ease-in-out duration-500 max-height " +
-        (active ? "" : "bg-transparent")
-      }>
+    <div className="shard-data-height rounded-md relative secondary-bg-container transition-[height] ease-in-out duration-500 max-height ">
       <div
         className={
           "w-full h-full absolute rounded-md " +

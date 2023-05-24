@@ -38,7 +38,7 @@ export default function AccountData({ activeWallet }) {
   // data component
   return (
     <div className="">
-      <div className="px-4">
+      <div className="mt-2 px-4">
         <button onClick={() => setLocation("/")} className="text-gray-400">
           <ChevronLeftIcon
             className="h-6 w-6 quai-dark-grey"

@@ -40,7 +40,7 @@ export default function SendTo() {
   }
 
   return (
-    <div className=" px-4">
+    <div className=" px-4 pt-2">
       <div>
         <button onClick={() => setLocation("/send")} className="text-gray-400">
           <ChevronLeftIcon

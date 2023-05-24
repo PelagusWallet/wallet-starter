@@ -40,11 +40,11 @@ function PermissionRequest() {
   }
 
   if (permissionRequested) {
-    return <div className="text-white">Permission request processed.</div>
+    return <div>Permission request processed.</div>
   }
 
   return (
-    <div className=" p-4 rounded-md">
+    <div className="p-4 rounded-md">
       <p className="text-lg font-bold mb-4">
         Do you want to allow permissions for the following URL?
       </p>

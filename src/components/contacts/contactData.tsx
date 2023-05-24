@@ -62,14 +62,14 @@ export default function ContactData({ contact, selectable, onContactSelect }) {
         <div className="flex flex-row justify-between">
           <div className="text-lg font-thin">{contact.name}</div>
           <PencilIcon
-            className="h-5 w-5 text-gray-400 cursor-pointer z-20"
+            className="h-5 w-5 cursor-pointer z-20"
             onClick={() => setShowEditContactModal(true)}
           />
         </div>
         <div className="flex flex-row justify-between">
           {selectable && (
             <div
-              className="text-[14px] font-thin text-gray-400"
+              className="text-[14px] font-thin"
               onClick={() => autoSelectContactAddress(contact)}>
               Auto Select
             </div>

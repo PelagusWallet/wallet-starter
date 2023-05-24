@@ -211,7 +211,7 @@ function NetworkData({
               {network.name}
               {editable && (
                 <PencilIcon
-                  className="h-5 w-5 m-auto ml-2 text-gray-400 cursor-pointer z-20"
+                  className="h-5 w-5 m-auto ml-2 cursor-pointer z-20"
                   onClick={(e) => setEditing(!editing)}
                 />
               )}

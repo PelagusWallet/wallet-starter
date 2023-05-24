@@ -73,7 +73,7 @@ function AddCustomToken() {
         </button>
         <div className="flex flex-col">
           <div className="mx-2 pb-6 flex flex-col">
-            <label className="text-white">Name</label>
+            <label>Name</label>
             <input
               className="text-lg p-2 rounded-md secondary-bg-container border focus:border-0 focus:ring-white"
               onChange={handleTokenNameChange}
@@ -82,7 +82,7 @@ function AddCustomToken() {
           </div>
           <div className="mx-2 pb-6 flex flex-row">
             <div className="w-1/2 mr-1 flex flex-col">
-              <label className="text-white">Symbol</label>
+              <label>Symbol</label>
               <input
                 className="text-lg w-full p-2 rounded-md secondary-bg-container border focus:border-0 focus:ring-white"
                 onChange={(e) => setSymbol(e.target.value)}
@@ -90,7 +90,7 @@ function AddCustomToken() {
               />
             </div>
             <div className="relative w-1/2 ml-1 flex flex-col">
-              <label className="text-white">Decimals</label>
+              <label>Decimals</label>
               <input
                 className="text-lg w-full p-2 rounded-md secondary-bg-container border focus:border-0 focus:ring-white"
                 onChange={(e) => setDecimals(e.target.value)}

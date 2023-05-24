@@ -11,7 +11,7 @@ export default function Home() {
   // router
   return (
     <>
-      <div className="min-h-full">
+      <div className="min-h-full pt-4">
         <Balance />
         <FunctionButtonGroup />
         <AssetsOrActivity />

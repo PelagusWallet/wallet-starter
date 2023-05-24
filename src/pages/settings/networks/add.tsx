@@ -69,7 +69,7 @@ function AddCustomNetwork() {
         </button>
         <div className="flex flex-col">
           <div className="mx-2 pb-6 flex flex-col">
-            <label className="text-white">Name</label>
+            <label>Name</label>
             <input
               className="text-lg p-2 rounded-md secondary-bg-container border focus:border-0 focus:ring-white"
               onChange={handleNetworkNameChange}
@@ -78,7 +78,7 @@ function AddCustomNetwork() {
           </div>
           <div className="mx-2 pb-6 flex flex-row">
             <div className="w-1/2 mr-1 flex flex-col">
-              <label className="text-white">Chain Code</label>
+              <label>Chain Code</label>
               <input
                 className="text-lg w-full p-2 rounded-md secondary-bg-container border focus:border-0 focus:ring-white"
                 onChange={(e) => setChainCode(e.target.value)}
@@ -86,7 +86,7 @@ function AddCustomNetwork() {
               />
             </div>
             <div className="relative w-1/2 ml-1 flex flex-col">
-              <label className="text-white">Chain ID</label>
+              <label>Chain ID</label>
               <input
                 className="text-lg w-full p-2 rounded-md secondary-bg-container border focus:border-0 focus:ring-white"
                 onChange={(e) => setChainID(e.target.value)}

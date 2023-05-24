@@ -3,11 +3,10 @@ import { AnimatePresence, motion } from "framer-motion"
 import _ from "lodash"
 import React from "react"
 import toast from "react-hot-toast"
-
-import { sendToBackground } from "@plasmohq/messaging"
+import { VscCopy, VscOpenPreview } from "react-icons/vsc"
 
 import type { AddressWithData } from "~background/services/network/controller"
-import type { Address } from "~storage/wallet"
+import { type Address, getShardFromAddress } from "~storage/wallet"
 import { addAdddressByShard } from "~storage/wallet"
 import { useAppSelector } from "~store"
 
@@ -15,10 +14,23 @@ import "../../style.css"
 
 import { useEffect, useRef, useState } from "react"
 
+import { Storage } from "@plasmohq/storage"
+import { useStorage } from "@plasmohq/storage/hook"
+
+import { getExplorerURLForShard } from "~background/services/network/chains"
+import { Network } from "~background/services/network/chains"
+
 function ShardData({ wallet, addressGroup }) {
   const [active, setActive] = useState(() => false)
   const [totalShardBalance, setTotalShardBalance] = useState(0)
   const [renderKey, setRenderKey] = useState(0)
+
+  const [activeNetwork] = useStorage<Network>({
+    key: "active_network",
+    instance: new Storage({
+      area: "local"
+    })
+  })
 
   const addressData = useAppSelector(
     (state) => state.addressData.addressesWithData as AddressWithData[]
@@ -37,32 +49,19 @@ function ShardData({ wallet, addressGroup }) {
     setTotalShardBalance(parseFloat(Number(total).toFixed(4)))
   }
 
-  async function addAccountByShardAction(
-    wallet: any,
-    path: string,
-    existingShardAddresses: Address[],
-    shard: string
-  ) {
-    let index = 0
-    if (existingShardAddresses.length > 0) {
-      index = existingShardAddresses[existingShardAddresses.length - 1].index
-    }
-    index += 1
-
-    const resp = await sendToBackground({
-      name: "wallet/generate-address",
-      body: {
-        wallet: wallet,
-        path: path,
-        index: index,
-        shard: shard
-      }
-    })
-    console.log("resp", resp)
-  }
-
   function formatBalance(balance) {
     return parseFloat(Number(balance).toFixed(4))
+  }
+
+  // Support Quaiscan by default
+  function linkToExplorer(address: Address): string {
+    const shard = getShardFromAddress(address.address)[0].shard
+    if (shard == undefined) {
+      return ""
+    }
+    const explorerURL = getExplorerURLForShard(activeNetwork, shard)
+    const url = explorerURL + "/address/" + address.address
+    window.open(url, "_blank")
   }
 
   function copyAddress(address: Address) {
@@ -78,72 +77,33 @@ function ShardData({ wallet, addressGroup }) {
           "w-full h-full absolute rounded-md " +
           (active ? "fadeIn shard-data-div-active" : "fadeOut")
         }></div>
-      <div className="p-2 opacity-100 flex-col">
+      <div className="py-1 px-2.5 opacity-100 flex-col">
         <div className="flex flex-row justify-between">
           <div className="text-lg font-thin">{addressGroup.name}</div>
-          <button
-            onClick={() =>
-              addAccountByShardAction(
-                wallet,
-                "m/44'/994'/0'/0",
-                addressGroup.addresses,
-                addressGroup.shard
-              )
-            }
-            className="z-50	text-white">
-            <PlusCircleIcon
-              className="h-6 w-6 quai-dark-grey"
-              aria-hidden="true"
-            />
-          </button>
-        </div>
-        <div className="flex flex-row justify-between">
-          <div className="text-[14px] font-thin">
-            {"Balance: " + totalShardBalance}
-          </div>
-          <div
-            onClick={() => setActive(!active)}
-            key={renderKey}
-            className="z-20	cursor-pointer text-[14px] font-thin">
-            {addressGroup?.addresses.length + " Total Addresses"}
+          <div className="flex flex-row">
+            <VscCopy
+              onClick={() => copyAddress(addressGroup.addresses[0])}
+              className="w-4 h-4 m-1 z-10 cursor-pointer"></VscCopy>
+            <VscOpenPreview
+              onClick={() => linkToExplorer(addressGroup.addresses[0])}
+              className="w-4 h-4 m-1 z-10 cursor-pointer"></VscOpenPreview>
           </div>
         </div>
 
-        <AnimatePresence initial={false}>
-          {active && (
-            <motion.section
-              key="content"
-              initial="collapsed"
-              animate="open"
-              exit="collapsed"
-              variants={{
-                open: { opacity: 1, height: "auto" },
-                collapsed: { opacity: 0, height: 0 }
-              }}
-              transition={{ duration: 0.8, ease: [0.04, 0.62, 0.23, 0.98] }}
-              className="overflow-hidden">
-              {addressGroup?.addresses.map((address, i) => (
-                <div
-                  key={i}
-                  className="my-1 w-full flex flex-row justify-between">
-                  <div className="w-4/6 flex flex-row justify-between border rounded-sm">
-                    <div className="m-1">
-                      {address.address.substring(0, 8) + "..."}
-                    </div>
-                    <div
-                      onClick={() => copyAddress(address)}
-                      className="m-1 z-10 cursor-pointer">
-                      Copy to Clipboard
-                    </div>
-                  </div>
-                  <div className="w-2/6 m-1 float-right text-[14px] font-thin text-right">
-                    {formatBalance(address.balance) + " QUAI"}
-                  </div>
-                </div>
-              ))}
-            </motion.section>
-          )}
-        </AnimatePresence>
+        {addressGroup?.addresses.map((address, i) => (
+          <div key={i} className="w-full flex flex-row justify-between">
+            <div className="w-4/6 flex flex-row justify-between rounded-sm text-[14px]">
+              <div className="m-1">
+                {address.address.substring(0, 6) +
+                  "..." +
+                  address.address.substring(38, 42)}
+              </div>
+            </div>
+            <div className="w-2/6 m-1 float-right text-[14px] font-thin text-right">
+              {formatBalance(address.balance) + " QUAI"}
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   )

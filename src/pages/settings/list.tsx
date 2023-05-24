@@ -9,6 +9,7 @@ import {
   ShieldCheckIcon,
   UserIcon
 } from "@heroicons/react/24/outline"
+import { FaDiscord, FaTwitter } from "react-icons/fa"
 import { useLocation } from "wouter"
 
 import Footer from "~components/navigation/Footer"
@@ -17,17 +18,69 @@ import { signOut } from "~storage/wallet/password"
 import "../../style.css"
 
 const userNavigation = [
-  { name: "General", href: "/general", icon: UserIcon },
+  {
+    name: "General",
+    href: "/general",
+    icon: UserIcon,
+    iconColor: "text-blue-500",
+    bgColor: "bg-blue-200 dark:bg-blue-700"
+  },
   {
     name: "Switch Networks",
     href: "/network",
-    icon: AdjustmentsHorizontalIcon
+    icon: AdjustmentsHorizontalIcon,
+    iconColor: "text-red-500",
+    bgColor: "bg-red-200 dark:bg-red-700"
   },
-  { name: "Advanced", href: "/advanced", icon: CogIcon },
-  { name: "Security and Privacy", href: "/security", icon: ShieldCheckIcon },
-  { name: "Submit A Ticket", href: "#", icon: ChatBubbleBottomCenterIcon },
-  { name: "About", href: "/about", icon: InformationCircleIcon },
-  { name: "Sign out", href: "#", icon: ArrowLeftOnRectangleIcon }
+  {
+    name: "Advanced",
+    href: "/advanced",
+    icon: CogIcon,
+    iconColor: "text-green-500",
+    bgColor: "bg-green-200 dark:bg-green-700"
+  },
+  {
+    name: "Security and Privacy",
+    href: "/security",
+    icon: ShieldCheckIcon,
+    iconColor: "text-yellow-500",
+    bgColor: "bg-yellow-200 dark:bg-yellow-700"
+  },
+  {
+    name: "Submit A Ticket",
+    href: "#",
+    icon: ChatBubbleBottomCenterIcon,
+    iconColor: "text-purple-500",
+    bgColor: "bg-purple-200 dark:bg-purple-700"
+  },
+  {
+    name: "About",
+    href: "/about",
+    icon: InformationCircleIcon,
+    iconColor: "text-indigo-500",
+    bgColor: "bg-indigo-200 dark:bg-indigo-700"
+  },
+  {
+    name: "Sign out",
+    href: "#",
+    icon: ArrowLeftOnRectangleIcon,
+    iconColor: "text-gray-500",
+    bgColor: "bg-gray-200 dark:bg-gray-700"
+  },
+  {
+    name: "Follow on Twitter",
+    href: "https://twitter.com/your_username",
+    icon: FaTwitter,
+    iconColor: "text-blue-600 dark:text-blue-400",
+    bgColor: "bg-blue-100 dark:bg-blue-600"
+  },
+  {
+    name: "Join Discord",
+    href: "https://discord.com/invite/your_invite_code",
+    icon: FaDiscord,
+    iconColor: "text-indigo-400",
+    bgColor: "bg-indigo-100 dark:bg-indigo-600"
+  }
 ]
 
 export default function SettingsList() {
@@ -45,19 +98,23 @@ export default function SettingsList() {
   return (
     <>
       <div className="min-h-full">
-        <Disclosure as="nav" className="bg-transparent">
-          <div className="mt-3 space-y-1 px-3">
+        <Disclosure as="nav">
+          <div className="mt-3 space-y-1 px-3 pb-20">
             {userNavigation.map((item) => {
               const Icon = item.icon
               return (
                 <div
-                  className="cursor-pointer border-b-1 w-full flex flex-row border-white bg-zinc-950 px-4 py-2 rounded-md"
+                  className="cursor-pointer secondary-bg-container border-b-1 w-full flex flex-row px-4 py-2 rounded-md"
                   onClick={() => handleClick(item)}
                   key={item.name}>
-                  <Icon className="h-6 w-6 text-blue-400 my-auto" />
+                  <div
+                    className={`flex items-center justify-center ${item.bgColor} rounded-full h-9 w-9 my-auto`}>
+                    <Icon className={`h-6 w-6 ${item.iconColor}`} />
+                  </div>
+
                   <Disclosure.Button
                     as="a"
-                    className="block font-quai rounded-md px-3 py-2 text-base font-medium text-blue-400">
+                    className="block font-quai rounded-md px-3 py-2 text-base font-medium">
                     {item.name}
                   </Disclosure.Button>
                 </div>

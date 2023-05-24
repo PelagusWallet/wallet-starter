@@ -33,7 +33,7 @@ function TokenPage() {
   }, [activeToken])
 
   return (
-    <div className="font-quai">
+    <div className="">
       <div className="p-6">
         <button onClick={() => setLocation("/")} className="text-gray-400">
           <ChevronLeftIcon
@@ -41,7 +41,7 @@ function TokenPage() {
             aria-hidden="true"
           />
         </button>
-        <div className="flex flex-col items-center justify-center text-white cursor-default">
+        <div className="flex flex-col items-center justify-center cursor-default">
           <div className="text-3xl">{tokenData?.totalBalance}</div>
           <div className="text-lg"> {tokenData?.name}</div>
         </div>

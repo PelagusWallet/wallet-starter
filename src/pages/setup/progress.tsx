@@ -24,7 +24,7 @@ export default function ProgressBar({ page, setPage, steps }) {
                       aria-hidden="true"
                     />
                   </span>
-                  <span className="ml-4 text-sm font-medium text-gray-200">
+                  <span className="ml-4 text-sm font-medium text-black dark:text-white">
                     {step.name}
                   </span>
                 </span>
@@ -33,12 +33,10 @@ export default function ProgressBar({ page, setPage, steps }) {
               <a
                 className="flex items-center px-6 py-4 text-sm font-medium"
                 aria-current="step">
-                <span className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full border-2 border-white">
-                  <span className="text-white">{step.id}</span>
+                <span className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full border-2 border-black dark:border-white">
+                  <span className="dark:text-white text-black">{step.id}</span>
                 </span>
-                <span className="ml-4 text-sm font-medium text-white">
-                  {step.name}
-                </span>
+                <span className="ml-4 text-sm font-medium">{step.name}</span>
               </a>
             ) : (
               <a className="group flex items-center">

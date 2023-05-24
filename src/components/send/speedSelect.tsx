@@ -54,8 +54,8 @@ export default function SpeedSelect({ selected, handleSelect }) {
   }
 
   return (
-    <div className="text-white mt-2">
-      <div className="p-2 rounded-md bg-zinc-950">
+    <div className="mt-2">
+      <div className="p-2 rounded-md secondary-bg-container">
         <div className="flex flex-row justify-start">
           <BoltIcon className="h-6 w-6 mr-2 self-center" />
           <dl className="flex flex-row overflow-hidden relative">
@@ -63,7 +63,7 @@ export default function SpeedSelect({ selected, handleSelect }) {
               <div
                 ref={(el) => (itemsRef.current[index] = el)}
                 key={item.name}
-                className="text-white cursor-pointer w-full px-1 mx-1"
+                className="cursor-pointer w-full px-1 mx-1"
                 onClick={() => selectItem(item)}>
                 <dt className="font-normal">{item.name}</dt>
                 <dd className="mt-0.5 flex items-baseline justify-evenly">
@@ -87,7 +87,7 @@ export default function SpeedSelect({ selected, handleSelect }) {
               </div>
             ))}
             <motion.div
-              className="absolute bottom-0 border-b border-blue-400"
+              className="absolute bottom-0 border-b border-blue-600 dark:border-blue-400"
               style={borderStyle}
               animate={controls}
               transition={{ type: "spring", stiffness: 300, damping: 30 }}

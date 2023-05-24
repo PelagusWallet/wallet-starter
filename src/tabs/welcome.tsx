@@ -1,7 +1,10 @@
 import { AnimatePresence, motion } from "framer-motion"
+import { useEffect } from "react"
 import { Route, Router, Switch } from "wouter"
 
-import LanguageSelect from "~components/setup/languageSelect"
+import { Storage } from "@plasmohq/storage"
+import { useStorage } from "@plasmohq/storage/hook"
+
 import Complete from "~pages/setup/complete"
 import Generate from "~pages/setup/generate"
 import Home from "~pages/setup/home"
@@ -15,12 +18,27 @@ import "../style.css"
 export default function Welcome() {
   const [location, setLocation] = useHashLocation()
 
+  const [darkMode] = useStorage<boolean>({
+    key: "dark_mode",
+    instance: new Storage({
+      area: "local"
+    })
+  })
+
+  useEffect(() => {
+    if (darkMode) {
+      document.documentElement.classList.add("dark")
+    } else {
+      document.documentElement.classList.remove("dark")
+    }
+    window.localStorage.setItem("darkMode", "false")
+  }, [darkMode])
+
   return (
-    <div className="max-h-screen">
+    <div className="max-h-screen bg-container">
       <Router hook={useHashLocation}>
         <Switch location={location}>
           <Route path="/intro" component={motionify(IntroScreen)} />
-          <Route path="/language" component={motionify(LanguageSelect)} />
           <Route path="/" component={motionify(Home)} />
           <Route path="/generate" component={motionify(Generate)} />
           <Route path="/import" component={motionify(ImportMnemonic)} />

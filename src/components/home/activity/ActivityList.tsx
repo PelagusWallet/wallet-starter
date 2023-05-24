@@ -57,14 +57,14 @@ export default function ActivityList() {
   }
 
   return (
-    <div className="text-white font-quai p-4 rounded-lg shadow-lg space-y-4 pb-20">
+    <div className=" p-4 space-y-4 pb-20">
       {activityData?.map((activity, index) => {
         if (activity.status === "pending") {
           return (
             <div
               onClick={() => linkToExplorer(activity.shard, activity.hash)}
               key={index}
-              className="w-full cursor-pointer bg-zinc-950 py-2 px-4 rounded-lg shadow-inner space-y-2">
+              className="w-full cursor-pointer secondary-bg-container py-2 px-4 rounded-lg shadow-inner space-y-2">
               <div className="flex flex-row space-x-4">
                 <div className="flex my-auto">
                   <Spinner />
@@ -100,22 +100,22 @@ export default function ActivityList() {
           <div
             key={index}
             onClick={() => linkToExplorer(activity.shard, activity.hash)}
-            className="w-full cursor-pointer bg-zinc-950 py-2 px-4 rounded-lg shadow-inner space-y-2">
+            className="w-full cursor-pointer secondary-bg-container py-2 px-4 rounded-lg shadow-inner space-y-2">
             <div className="flex flex-row space-x-4">
               <div className="flex my-auto">
                 {(() => {
                   switch (activity.type) {
                     case "send":
                       return (
-                        <IoPaperPlaneOutline className="text-blue-400 w-7 h-7" />
+                        <IoPaperPlaneOutline className="text-blue-600 dark:text-blue-400 w-7 h-7" />
                       )
                     case "transfer":
                       return (
-                        <HiOutlineArrowPathRoundedSquare className="text-blue-400 w-7 h-7" />
+                        <HiOutlineArrowPathRoundedSquare className="text-blue-600 dark:text-blue-400 w-7 h-7" />
                       )
                     case "receive":
                       return (
-                        <IoCheckmarkCircleOutline className="text-blue-400 w-7 h-7" />
+                        <IoCheckmarkCircleOutline className="text-blue-600 dark:text-blue-400 w-7 h-7" />
                       )
                     default:
                       return null

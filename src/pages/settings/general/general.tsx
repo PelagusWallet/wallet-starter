@@ -8,12 +8,22 @@ import { useAppSelector } from "~store"
 
 import "../../../style.css"
 
+import { Storage } from "@plasmohq/storage"
+import { useStorage } from "@plasmohq/storage/hook"
+
 export default function GeneralSettings() {
   const [, setLocation] = useLocation()
 
   const addressData = useAppSelector(
     (state) => state.addressData.addressesWithData as AddressWithData[]
   )
+
+  const [darkMode, setDarkMode] = useStorage<boolean>({
+    key: "dark_mode",
+    instance: new Storage({
+      area: "local"
+    })
+  })
 
   function groupByShard(addresses: AddressWithData[]) {
     let groups = addresses.reduce((groups, address) => {
@@ -78,8 +88,15 @@ export default function GeneralSettings() {
               onClick={() => {
                 generateAndCopyAddresses()
               }} // Add your onClick function here
-              className="border-2 border-white text-white rounded-full py-2 px-4 hover:text-white transition duration-200">
+              className="btn-class">
               Copy Mining Configuration
+            </button>
+          </div>
+          <div className="w-full flex justify-center pt-4">
+            <button
+              onClick={() => setDarkMode(!darkMode)}
+              className="btn-class">
+              Toggle Dark Mode
             </button>
           </div>
         </Disclosure>

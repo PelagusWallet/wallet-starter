@@ -33,19 +33,19 @@ const InputMnemonic: React.FC<InputMnemonicProps> = ({
 
   return (
     <main className="bg-transparent w-full pt-4 pb-4">
-      <label className="flex justify-center text-sm font-medium text-white mb-4">
+      <label className="flex justify-center text-sm font-medium mb-4">
         Enter your mnemonic phrase:
       </label>
       <div className="flex justify-center mx-4">
         <div className="grid grid-cols-4 gap-4 w-max">
           {mnemonic.map((word, index) => (
             <div key={index}>
-              <div className="text-white font-quai">Word {index + 1}</div>
+              <div className="">Word {index + 1}</div>
               <input
                 type="text"
                 value={word}
                 onChange={(event) => handleInputChange(index, event)}
-                className="inline-flex justify-center rounded-md border border-white bg-transparent py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-zinc-950 w-full focus:border-none focus:ring-white"
+                className="inline-flex justify-center rounded-md border border-white bg-transparent py-2 px-4 text-sm font-medium shadow-sm hover:bg-zinc-950 w-full focus:border-none focus:ring-white"
               />
             </div>
           ))}
@@ -54,7 +54,7 @@ const InputMnemonic: React.FC<InputMnemonicProps> = ({
       <div className="flex justify-center pt-10">
         <button
           onClick={handleSubmit}
-          className="flex justify-center rounded-md border border-white bg-transparent py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2">
+          className="flex justify-center rounded-md border border-white bg-transparent py-2 px-4 text-sm font-medium shadow-sm hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2">
           Continue
         </button>
       </div>

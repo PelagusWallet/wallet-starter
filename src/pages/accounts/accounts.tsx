@@ -73,7 +73,7 @@ export default function Accounts() {
   }
 
   return (
-    <div className="max-h-screen font-quai">
+    <div className="max-h-screen ">
       <ul role="list" className="pl-3 pr-3">
         {wallets.map((item, i) => (
           <li
@@ -90,14 +90,14 @@ export default function Accounts() {
               </div>
             </div>
             <div className="flex-col mx-2">
-              <h1 className="text-white text-xl">{item.nickname}</h1>
-              <h1 className="text-white text-xl font-thin">
+              <h1 className="text-xl">{item.nickname}</h1>
+              <h1 className="text-xl font-thin">
                 {walletBalances[item.pubkey] ? walletBalances[item.pubkey] : 0}
               </h1>
             </div>
             <div className="flex-col flex ml-auto justify-end text-end">
               <div className="font-thin text-quai-off-white">{item.type}</div>
-              <div className="font-thin text-md text-white">
+              <div className="font-thin text-md">
                 {getAddressCount(item)} Total Addresses
               </div>
             </div>
@@ -105,13 +105,13 @@ export default function Accounts() {
         ))}
       </ul>
       <div className="fixed bottom-12 mb-5 px-6 w-full">
-        <div className="cursor-pointer first-line:my-1 text-md font-thin text-white">
+        <div className="cursor-pointer first-line:my-1 text-md font-thin">
           Generate New Wallet
         </div>
-        <div className="cursor-pointer my-1 text-md font-thin text-white">
+        <div className="cursor-pointer my-1 text-md font-thin">
           Add New Wallet
         </div>
-        <div className="cursor-pointer my-1 text-md font-thin text-white">
+        <div className="cursor-pointer my-1 text-md font-thin">
           Connect Hardware Wallet
         </div>
         <button className="w-full bg-white rounded-lg py-4 text-lg">

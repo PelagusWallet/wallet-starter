@@ -71,7 +71,7 @@ function AddCustomNetwork() {
           <div className="mx-2 pb-6 flex flex-col">
             <label className="text-white">Name</label>
             <input
-              className="text-lg text-white p-2 rounded-md bg-zinc-950 border focus:border-0 focus:ring-white"
+              className="text-lg p-2 rounded-md secondary-bg-container border focus:border-0 focus:ring-white"
               onChange={handleNetworkNameChange}
               value={networkName}
             />
@@ -80,7 +80,7 @@ function AddCustomNetwork() {
             <div className="w-1/2 mr-1 flex flex-col">
               <label className="text-white">Chain Code</label>
               <input
-                className="text-lg w-full text-white p-2 rounded-md bg-zinc-950 border focus:border-0 focus:ring-white"
+                className="text-lg w-full p-2 rounded-md secondary-bg-container border focus:border-0 focus:ring-white"
                 onChange={(e) => setChainCode(e.target.value)}
                 value={chainCode}
               />
@@ -88,7 +88,7 @@ function AddCustomNetwork() {
             <div className="relative w-1/2 ml-1 flex flex-col">
               <label className="text-white">Chain ID</label>
               <input
-                className="text-lg w-full text-white p-2 rounded-md bg-zinc-950 border focus:border-0 focus:ring-white"
+                className="text-lg w-full p-2 rounded-md secondary-bg-container border focus:border-0 focus:ring-white"
                 onChange={(e) => setChainID(e.target.value)}
                 value={chainID}
               />
@@ -97,12 +97,12 @@ function AddCustomNetwork() {
           {endpoints.map((endpointAndShard, index) => {
             return (
               <div key={index} className="pt-1 mx-2 flex flex-row pb-2">
-                <div className="w-1/4 text-[14px] text-blue-400 text-center p-1 rounded-md bg-zinc-950">
+                <div className="w-1/4 text-[14px] text-blue-600 dark:text-blue-400 text-center p-1 rounded-md secondary-bg-container">
                   {endpointAndShard.shard}
                 </div>
                 <div className="w-3/4 cols-span-4 ml-2">
                   <input
-                    className="w-full h-full text-md text-white p-2 rounded-md bg-zinc-950 border focus:border-0 focus:ring-white"
+                    className="w-full h-full text-md p-2 rounded-md secondary-bg-container border focus:border-0 focus:ring-white"
                     onChange={(e) => handleEndpointChange(e, index)}
                     value={endpointAndShard.rpc}
                   />
@@ -113,7 +113,7 @@ function AddCustomNetwork() {
         </div>
         <div className="w-full flex justify-center mb-20">
           <button
-            className="text-blue-400 font-semibold text-sm px-6 py-3 rounded bg-zinc-950"
+            className="text-blue-600 dark:text-blue-400 font-semibold text-sm px-6 py-3 rounded secondary-bg-container"
             type="button"
             onClick={() => handleAddNetwork()}>
             Save Custom Network

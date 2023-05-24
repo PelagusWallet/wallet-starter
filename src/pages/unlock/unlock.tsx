@@ -16,23 +16,23 @@ export default function Unlock() {
   }
 
   return (
-    <div className="font-quai flex flex-col h-screen p-6 m-auto">
+    <div className=" flex flex-col h-screen p-6 m-auto">
       <div className="m-auto">
         <img className="h-auto w-full mb-10" src={pelagusLogo} alt="Pelagus" />
-        <label className="text-white mt-10">Password</label>
+        <label className="mt-10">Password</label>
         <input
           type="password"
-          className="block mt-1 w-full bg-transparent rounded-md shadow-sm text-white text-[13px] border focus:ring-white focus:border-0 sm:text-md"
+          className="block mt-1 w-full bg-transparent rounded-md shadow-sm text-[13px] border focus:ring-white focus:border-0 sm:text-md"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
         <button
           onClick={() => handleUnlock()}
-          className="mt-2 w-full bg-zinc-950 text-blue-400 font-thin text-sm px-6 py-3 rounded"
+          className="mt-2 w-full secondary-bg-container text-blue-600 dark:text-blue-400 font-thin text-sm px-6 py-3 rounded"
           type="button">
           Unlock
         </button>
-        <div className="text-white mt-6 font-semibold text-md cursor-pointer flex justify-center">
+        <div className="mt-6 font-semibold text-md cursor-pointer flex justify-center">
           Forgot password?
         </div>
       </div>

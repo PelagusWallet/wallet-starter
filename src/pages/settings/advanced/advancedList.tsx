@@ -40,13 +40,13 @@ export default function AdvancedList() {
               const Icon = item.icon
               return (
                 <div
-                  className="cursor-pointer border-b-1 w-full flex flex-row border-white bg-zinc-950 px-2 py-1 rounded-md"
+                  className="cursor-pointer border-b-1 w-full flex flex-row border-white secondary-bg-container px-2 py-1 rounded-md"
                   onClick={() => handleClick(item)}
                   key={item.name}>
-                  <Icon className="h-6 w-6 text-blue-400 my-auto" />
+                  <Icon className="h-6 w-6 text-blue-600 dark:text-blue-400 my-auto" />
                   <Disclosure.Button
                     as="a"
-                    className="block font-quai rounded-md px-3 py-2 text-base font-medium text-blue-400">
+                    className="block  rounded-md px-3 py-2 text-base font-medium text-blue-600 dark:text-blue-400">
                     {item.name}
                   </Disclosure.Button>
                 </div>

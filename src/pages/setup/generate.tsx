@@ -15,7 +15,7 @@ import MnemonicVerify from "./verify"
 
 import "../../style.css"
 
-import LanguageSelect from "~components/setup/languageSelect"
+import SetupHeaderBar from "~components/setup/setupHeaderBar"
 import { setActiveNetwork } from "~storage/network"
 
 import PinExtension from "./pin"
@@ -82,13 +82,13 @@ function Generate() {
   useEffect(() => {}, [page])
 
   return (
-    <div className="w-full max-h-screen h-screen font-quai flex flex-col items-center justify-center max-w-3xl shadow-lg rounded-lg mx-auto">
-      <LanguageSelect />
+    <div className="w-full max-h-screen h-screen  flex flex-col items-center justify-center max-w-3xl rounded-lg mx-auto">
+      <SetupHeaderBar />
 
       <div className="w-full">
         <ProgressBar page={page} setPage={attemptSetPage} steps={steps} />
       </div>
-      <div className="w-full border border-white rounded-b-md py-20">
+      <div className="secondary-bg-container w-full rounded-b-md py-20 shadow-lg dark:border dark:border-white">
         <AnimatePresence exitBeforeEnter>
           {page == 0 && (
             <motion.div

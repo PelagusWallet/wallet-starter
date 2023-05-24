@@ -6,7 +6,7 @@ function Step({ stepNumber, imageSrc, children, imgWidth }) {
     <div className="w-full step-container flex items-center my-4">
       <div className="flex flex-col justify-center space-y-4">
         <div className="flex flex-row space-x-4">
-          <div className="step-number-container bg-blue-400 text-white text-lg rounded-full w-6 h-6 flex items-center justify-center">
+          <div className="step-number-container bg-blue-400 text-lg rounded-full w-6 h-6 flex items-center justify-center">
             <span className="step-number">{stepNumber}</span>
           </div>
           <div className="text-center my-auto justify-center text-lg">

@@ -37,7 +37,7 @@ export default function AccountData({ activeWallet }) {
   // TODO Refactor to only pass the group addresses down to shard
   // data component
   return (
-    <div className="font-quai">
+    <div className="">
       <div className="px-4">
         <button onClick={() => setLocation("/")} className="text-gray-400">
           <ChevronLeftIcon
@@ -46,10 +46,10 @@ export default function AccountData({ activeWallet }) {
           />
         </button>
         <div className="flex flex-row items-baseline justify-between">
-          <div className="text-white text-lg cursor-default">
+          <div className="text-lg cursor-default">
             {activeWallet?.nickname + " Breakdown"}
           </div>
-          <div className="cursor-pointer text-white text-md">Learn More</div>
+          <div className="cursor-pointer text-md">Learn More</div>
         </div>
         <ul role="list" className="space-y-3">
           {activePathAddressGroups?.map((group, i) => (

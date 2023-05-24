@@ -62,7 +62,7 @@ export interface StoredWallet {
 /**
  * Hook that opens a new tab if Pelagus has not been set up yet
  */
-export const useSetUp = () =>
+export const useSetUp = (darkMode) =>
   useEffect(() => {
     ;(async () => {
       // inject jdenticon color
@@ -71,7 +71,7 @@ export const useSetUp = () =>
           color: [1, 1],
           grayscale: [1, 1]
         },
-        backColor: "#0000"
+        backColor: darkMode ? "#ffffff" : "#000000"
       }
 
       const setup = await storage.get("is_setup")

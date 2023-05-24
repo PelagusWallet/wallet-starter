@@ -24,11 +24,11 @@ function LedgerSetup() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-10">
         <div className="mx-auto max-w-3xl shadow-lg rounded-lg ">
           <button
-            className="flex w-full justify-center rounded-md border border-white bg-transparent py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-quai-deep-teal focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+            className="flex w-full justify-center rounded-md border border-white bg-transparent py-2 px-4 text-sm font-medium shadow-sm hover:bg-quai-deep-teal focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
             onClick={() => onGetLedgerEthereumAddress()}>
             Get Ledger Ethereum Address
           </button>
-          <div className="text-white text-center">{address}</div>
+          <div className="text-center">{address}</div>
         </div>
       </div>
     </main>

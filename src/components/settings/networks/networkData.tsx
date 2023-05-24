@@ -39,7 +39,7 @@ function NetworkData({
   let selectButton
   if (selected) {
     selectButton = (
-      <div className="cursor-default flex items-center justify-center h-8 w-8 bg-zinc-950 rounded-full text-blue-400">
+      <div className="cursor-default flex items-center justify-center h-8 w-8 secondary-bg-container rounded-full text-blue-600 dark:text-blue-400">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -58,7 +58,7 @@ function NetworkData({
   } else {
     selectButton = (
       <div
-        className="cursor-pointer flex items-center justify-center h-8 w-8 border border-blue-400 rounded-full text-blue-400"
+        className="cursor-pointer flex items-center justify-center h-8 w-8 border border-blue-600 dark:border-blue-400 rounded-full text-blue-600 dark:text-blue-400"
         onClick={(e) => handleNetworkSelect(e, network)}></div>
     )
   }
@@ -86,7 +86,7 @@ function NetworkData({
   return (
     <div
       className={
-        "shard-data-height rounded-md relative bg-zinc-950 transition-[height] ease-in-out duration-500 max-height " +
+        "shard-data-height rounded-md relative secondary-bg-container transition-[height] ease-in-out duration-500 max-height " +
         (active ? "" : "")
       }
       onClick={() => attemptSetActive()}>
@@ -95,7 +95,7 @@ function NetworkData({
           "w-full h-full rounded-md " +
           (active ? "fadeIn shard-data-div-active absolute" : "fadeOut")
         }></div>
-      <div className="p-2 opacity-100 flex-col z-60 font-quai text-white">
+      <div className="p-2 opacity-100 flex-col z-60 ">
         {editing ? (
           <div className="w-full z-20">
             <div className="flex flex-row justify-between items-center">
@@ -114,7 +114,7 @@ function NetworkData({
                 <input
                   type="text"
                   id="name"
-                  className="text-md p-2 rounded-md  bg-zinc-950"
+                  className="text-md p-2 rounded-md secondary-bg-container"
                   value={updatedNetwork.name}
                   onChange={(event) =>
                     setUpdatedNetwork({
@@ -129,7 +129,7 @@ function NetworkData({
                     <input
                       type="number"
                       id="chainCode"
-                      className="text-md p-2 rounded-md  bg-zinc-950 mr-1"
+                      className="text-md p-2 rounded-md secondary-bg-container mr-1"
                       value={updatedNetwork.chainCode}
                       onChange={(event) =>
                         setUpdatedNetwork({
@@ -144,7 +144,7 @@ function NetworkData({
                     <input
                       type="number"
                       id="chainID"
-                      className="text-md p-2 rounded-md  bg-zinc-950 ml-1"
+                      className="text-md p-2 rounded-md secondary-bg-container ml-1"
                       value={updatedNetwork.chainID}
                       onChange={(event) =>
                         setUpdatedNetwork({
@@ -163,7 +163,7 @@ function NetworkData({
                     <label htmlFor={`chain-rpc-${i}`}>RPC:</label>
                     <input
                       type="text"
-                      className="text-sm p-1 rounded-md  bg-zinc-950"
+                      className="text-sm p-1 rounded-md secondary-bg-container"
                       id={`chain-rpc-${i}`}
                       value={chain.rpc}
                       onChange={(event) =>
@@ -182,7 +182,7 @@ function NetworkData({
                       type="text"
                       id={`chain-block-explorer-${i}`}
                       value={chain.blockExplorerUrl}
-                      className="text-sm p-1 rounded-md  bg-zinc-950"
+                      className="text-sm p-1 rounded-md secondary-bg-container"
                       onChange={(event) =>
                         setUpdatedNetwork({
                           ...updatedNetwork,
@@ -233,7 +233,7 @@ function NetworkData({
               collapsed: { opacity: 0, height: 0 }
             }}
             transition={{ duration: 0.8, ease: [0.04, 0.62, 0.23, 0.98] }}
-            className="overflow-hidden p-2 text-white font-quai">
+            className="overflow-hidden p-2 ">
             <div className="flex flex-row justify-evenly">
               <div>Chain code: {network.chainCode}</div>
               <div>Chain ID: {network.chainID}</div>
@@ -242,11 +242,9 @@ function NetworkData({
               <div
                 key={i}
                 className="my-1 w-full flex flex-col justify-between">
-                <div className="text-white w-full">{chain.name}</div>
-                <div className="text-white w-full">
-                  {chain.rpc ? chain.rpc : "None"}
-                </div>
-                <div className="text-white w-full">
+                <div className="w-full">{chain.name}</div>
+                <div className="w-full">{chain.rpc ? chain.rpc : "None"}</div>
+                <div className="w-full">
                   {chain.blockExplorerUrl ? chain.blockExplorerUrl : "None"}
                 </div>
               </div>

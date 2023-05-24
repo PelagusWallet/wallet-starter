@@ -39,7 +39,7 @@ export default function SendFrom({ activeWallet }) {
   }, [])
 
   return (
-    <div className="font-quai overflow-hidden">
+    <div className=" overflow-hidden">
       <div className="px-4">
         <button onClick={() => setLocation("/")} className="text-gray-400">
           <ChevronLeftIcon
@@ -49,11 +49,11 @@ export default function SendFrom({ activeWallet }) {
         </button>
         <div className="flex flex-row justify-between items-baseline">
           {activeWallet ? (
-            <div className="text-white text-lg">
+            <div className="text-lg">
               {"Select From " + activeWallet?.nickname}
             </div>
           ) : null}
-          <div className="cursor-pointer text-white text-md">Learn More</div>
+          <div className="cursor-pointer text-md">Learn More</div>
         </div>
         <ul role="list" className="space-y-3">
           {activePathAddressGroups?.map((addressGroup, i) => (

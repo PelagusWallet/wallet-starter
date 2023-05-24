@@ -10,7 +10,7 @@ import "../../style.css"
 function PinExtension({ onContinue }) {
   return (
     <div>
-      <div className="font-quai text-white flex justify-center">
+      <div className=" flex justify-center">
         <div>
           <Step stepNumber={1} imageSrc={complete1} imgWidth={225}>
             <p>Open the extensions icon in your browser.</p>
@@ -21,9 +21,7 @@ function PinExtension({ onContinue }) {
         </div>
       </div>
       <div className="flex justify-center pt-10">
-        <button
-          onClick={() => onContinue()}
-          className="flex justify-center rounded-md border border-white bg-transparent py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-gray-700 focus:outline-none focus:ring-2 focus:quai-deep-teal focus:ring-offset-2">
+        <button onClick={() => onContinue()} className="btn-class">
           Continue
         </button>
       </div>

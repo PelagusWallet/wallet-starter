@@ -73,7 +73,7 @@ const App = () => {
           initial={{ y: 0, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: 0, opacity: 0 }}
-          className="text-center flex flex-col font-quai"
+          className="text-center flex flex-col "
           transition={{ duration: 1.4, ease: "easeInOut" }}
           style={{ color: "white" }}>
           <h1 className="text-[64px]">{greetings[index].greeting}</h1>

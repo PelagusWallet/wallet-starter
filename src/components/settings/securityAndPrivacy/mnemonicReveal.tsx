@@ -36,7 +36,7 @@ export default function MnemonicReveal({ password, onClose }) {
   }
 
   return (
-    <div className="bg-zinc-500 p-10 rounded shadow-lg text-white font-quai">
+    <div className="bg-zinc-500 p-10 rounded shadow-lg ">
       <div className="pb-2">{activeWallet?.nickname}</div>
       <div className="pb-2">
         Mnemonics are the keys to your digital wallet and should be stored
@@ -46,12 +46,12 @@ export default function MnemonicReveal({ password, onClose }) {
       <div className="pb-5 font-bold text-lg">{mnemonic}</div>
       <div className="w-full flex justify-center space-x-4">
         <button
-          className="rounded bg-zinc-950 text-blue-400 p-3"
+          className="rounded secondary-bg-container text-blue-600 dark:text-blue-400 p-3"
           onClick={() => onClose(false)}>
           Close
         </button>
         <button
-          className="rounded bg-zinc-950 text-blue-400 p-3"
+          className="rounded secondary-bg-container text-blue-600 dark:text-blue-400 p-3"
           onClick={() => onCopy()}>
           Copy
         </button>

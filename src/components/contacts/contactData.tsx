@@ -50,7 +50,7 @@ export default function ContactData({ contact, selectable, onContactSelect }) {
   return (
     <div
       className={
-        "shard-data-height rounded-md relative bg-zinc-950 transition-[height] ease-in-out duration-500 max-height " +
+        "shard-data-height rounded-md relative secondary-bg-container transition-[height] ease-in-out duration-500 max-height " +
         (active ? "" : "bg-transparent")
       }>
       <div
@@ -60,7 +60,7 @@ export default function ContactData({ contact, selectable, onContactSelect }) {
         }></div>
       <div className="p-2 opacity-100 flex-col">
         <div className="flex flex-row justify-between">
-          <div className="text-lg font-thin text-white">{contact.name}</div>
+          <div className="text-lg font-thin">{contact.name}</div>
           <PencilIcon
             className="h-5 w-5 text-gray-400 cursor-pointer z-20"
             onClick={() => setShowEditContactModal(true)}
@@ -76,7 +76,7 @@ export default function ContactData({ contact, selectable, onContactSelect }) {
           )}
           <div
             onClick={() => setActive(!active)}
-            className="z-20	cursor-pointer text-[14px] font-thin text-white">
+            className="z-20	cursor-pointer text-[14px] font-thin">
             {contactAddresses?.length + " Total Addresses"}
           </div>
         </div>
@@ -99,9 +99,7 @@ export default function ContactData({ contact, selectable, onContactSelect }) {
                   key={i}
                   className="my-1 w-full flex flex-row justify-between">
                   <div className="w-full flex flex-row justify-between border rounded-sm">
-                    <div className="m-1 text-white w-full">
-                      {address.address}
-                    </div>
+                    <div className="m-1 w-full">{address.address}</div>
                     {selectable && (
                       <div
                         onClick={() => onContactSelect(address.address)}

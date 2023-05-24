@@ -31,8 +31,8 @@ export default function MenuBar({ activeWallet }) {
   }
 
   return (
-    <div className="fixed top-0 w-full bg-black-800 z-50 bg-black">
-      <div className="font-quai min-h-full">
+    <div className=" secondary-bg-container fixed top-0 w-full z-50">
+      <div className=" min-h-full">
         <Disclosure as="nav" className="bg-transparent">
           <div className="mx-auto max-w-7xl px-4 py-1 sm:px-6 lg:px-8">
             <div className="flex items-center justify-between">
@@ -49,14 +49,14 @@ export default function MenuBar({ activeWallet }) {
               </div>
               <Disclosure.Button
                 onClick={() => networkButtonClick()}
-                className="shadow shadow-white w-1/3 rounded-full border border-.5 border-white inline-flex items-center justify-center text-white hover:bg-zinc-950 ease-in-out focus:outline-none p-1">
+                className="secondary-bg-container btn-hover w-1/3 rounded-full border border-.5 border-white inline-flex items-center justify-center ease-in-out focus:outline-none p-1">
                 <div className="w-full flex flex-row items-center justify-center px-1">
                   <div className="text-center">{activeNetwork?.name}</div>
                   <ChevronDownIcon className="w-3 h-3" />
                 </div>
               </Disclosure.Button>
               <div
-                className="p-1 my-1 mr-1 border-2 rounded-full border-blue-400 cursor-pointer shadow shadow-blue-400"
+                className="p-1 my-1 mr-1 border-2 rounded-full border-blue-600 dark:border-blue-400 cursor-pointer shadow shadow-blue-400 overflow-hidden"
                 onClick={() =>
                   setLocation("/accounts?/" + activeWallet.pubkey)
                 }>

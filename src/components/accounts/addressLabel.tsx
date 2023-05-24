@@ -5,19 +5,19 @@ import { getShardFromAddress } from "~storage/wallet"
 import "../../style.css"
 
 const shardColors = {
-  prime: "bg-stone-200 text-white",
-  cyprus: "bg-green-700 text-white",
-  "cyprus-1": "bg-green-600 text-white",
-  "cyprus-2": "bg-green-500 text-white",
-  "cyprus-3": "bg-green-400 text-white",
-  paxos: "bg-red-700 text-white",
-  "paxos-1": "bg-red-600 text-white",
-  "paxos-2": "bg-red-500 text-white",
-  "paxos-3": "bg-red-400 text-white",
-  hydra: "bg-blue-700 text-white",
-  "hydra-1": "bg-blue-600 text-white",
-  "hydra-2": "bg-blue-500 text-white",
-  "hydra-3": "bg-blue-400 text-white"
+  prime: "bg-stone-200",
+  cyprus: "bg-green-700 ",
+  "cyprus-1": "bg-green-600 ",
+  "cyprus-2": "bg-green-500 ",
+  "cyprus-3": "bg-green-400 ",
+  paxos: "bg-red-700 ",
+  "paxos-1": "bg-red-600 ",
+  "paxos-2": "bg-red-500 ",
+  "paxos-3": "bg-red-400 ",
+  hydra: "bg-blue-700 ",
+  "hydra-1": "bg-blue-600 ",
+  "hydra-2": "bg-blue-500 ",
+  "hydra-3": "bg-blue-400 "
 }
 
 export default function AddressLabel({ address }) {

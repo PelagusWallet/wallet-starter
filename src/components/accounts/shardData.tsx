@@ -72,11 +72,7 @@ function ShardData({ wallet, addressGroup }) {
   }
 
   return (
-    <div
-      className={
-        "shard-data-height rounded-md relative transition-[height] ease-in-out duration-800 max-height bg-zinc-950 " +
-        (active ? "" : "bg-transparent")
-      }>
+    <div className="shard-data-height rounded-md relative transition-[height] ease-in-out duration-800 max-heigh secondary-bg-container">
       <div
         className={
           "w-full h-full absolute rounded-md " +
@@ -84,9 +80,7 @@ function ShardData({ wallet, addressGroup }) {
         }></div>
       <div className="p-2 opacity-100 flex-col">
         <div className="flex flex-row justify-between">
-          <div className="text-lg font-thin text-white">
-            {addressGroup.name}
-          </div>
+          <div className="text-lg font-thin">{addressGroup.name}</div>
           <button
             onClick={() =>
               addAccountByShardAction(
@@ -104,13 +98,13 @@ function ShardData({ wallet, addressGroup }) {
           </button>
         </div>
         <div className="flex flex-row justify-between">
-          <div className="text-[14px] font-thin text-gray-400">
+          <div className="text-[14px] font-thin">
             {"Balance: " + totalShardBalance}
           </div>
           <div
             onClick={() => setActive(!active)}
             key={renderKey}
-            className="z-20	cursor-pointer text-[14px] font-thin text-white">
+            className="z-20	cursor-pointer text-[14px] font-thin">
             {addressGroup?.addresses.length + " Total Addresses"}
           </div>
         </div>
@@ -133,16 +127,16 @@ function ShardData({ wallet, addressGroup }) {
                   key={i}
                   className="my-1 w-full flex flex-row justify-between">
                   <div className="w-4/6 flex flex-row justify-between border rounded-sm">
-                    <div className="m-1 text-white">
+                    <div className="m-1">
                       {address.address.substring(0, 8) + "..."}
                     </div>
                     <div
                       onClick={() => copyAddress(address)}
-                      className="m-1 z-10 text-gray-400 cursor-pointer">
+                      className="m-1 z-10 cursor-pointer">
                       Copy to Clipboard
                     </div>
                   </div>
-                  <div className="w-2/6 m-1 float-right text-white text-[14px] font-thin text-right">
+                  <div className="w-2/6 m-1 float-right text-[14px] font-thin text-right">
                     {formatBalance(address.balance) + " QUAI"}
                   </div>
                 </div>

@@ -34,17 +34,15 @@ export default function Balance() {
   return (
     <>
       <header
-        className="font-quai cursor-default py-8 h-50 my-auto mx-4 rounded-md mb-4 px-4 backdrop-blur-md"
+        className=" cursor-default py-8 h-50 my-auto mx-4 rounded-md mb-4 px-4 backdrop-blur-md"
         style={{
           background: "linear-gradient(45deg, #3b82f6, #f59e0b, #ef4444)"
         }}>
-        <p className="text-bold text-[18px] text-white">My balance</p>
+        <p className="text-bold text-[18px]">My balance</p>
         {balance == null ? (
-          <h1 className="text-3xl tracking-tight text-white"> </h1>
+          <h1 className="text-3xl tracking-tight"> </h1>
         ) : (
-          <h1 className="text-3xl font-bold tracking-tight text-white">
-            {balance} QUAI
-          </h1>
+          <h1 className="text-3xl font-bold tracking-tight">{balance} QUAI</h1>
         )}
       </header>
     </>

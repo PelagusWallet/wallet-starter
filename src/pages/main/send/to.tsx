@@ -40,7 +40,7 @@ export default function SendTo() {
   }
 
   return (
-    <div className="font-quai px-4">
+    <div className=" px-4">
       <div>
         <button onClick={() => setLocation("/send")} className="text-gray-400">
           <ChevronLeftIcon
@@ -49,7 +49,7 @@ export default function SendTo() {
           />
         </button>
       </div>
-      <div className="text-white text-lg">Send to</div>
+      <div className="text-lg">Send to</div>
       <div className="relative flex items-center">
         <input
           type="text"
@@ -57,7 +57,7 @@ export default function SendTo() {
           id="sendTo"
           onChange={handleSendToChange}
           value={sendTo}
-          className="block w-full border rounded-md shadow-sm text-white text-[13px] bg-zinc-950 focus:border-0 focus:ring-white sm:text-md"
+          className="block w-full border rounded-md shadow-sm text-[13px] secondary-bg-container focus:border-0 focus:ring-white sm:text-md"
         />
       </div>
       <ContactList
@@ -68,7 +68,7 @@ export default function SendTo() {
       />
       <div className="w-full absolute bottom-10 flex justify-center">
         <button
-          className="active-button-bgfont-thin text-sm px-6 py-3 rounded bg-zinc-950 text-blue-400"
+          className="active-button-bgfont-thin text-sm px-6 py-3 rounded secondary-bg-container text-blue-600 dark:text-blue-400"
           type="button"
           onClick={() => confirmSendTo()}>
           Continue

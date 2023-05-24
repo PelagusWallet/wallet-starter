@@ -3,6 +3,7 @@ import { useEffect, useState } from "react"
 import { useLocation } from "wouter"
 
 import { Storage } from "@plasmohq/storage"
+import { useStorage } from "@plasmohq/storage/hook"
 
 import type {
   AddressWithData,
@@ -23,6 +24,13 @@ export default function AssetItem({ token: token }) {
   const tokenBalanceData = useAppSelector(
     (state) => state.tokenData.tokenBalances as TokenNetworkAddressData[]
   )
+
+  const [darkMode] = useStorage<boolean>({
+    key: "dark_mode",
+    instance: new Storage({
+      area: "local"
+    })
+  })
 
   const dispatch = useAppDispatch()
 
@@ -56,18 +64,21 @@ export default function AssetItem({ token: token }) {
   }
 
   return (
-    <div className="mt-2 px-2">
+    <div className="mt-3 px-2">
       <div className="flex flex-row justify-between">
         <div className="flex flex-row">
-          <div className="flex rounded-full bg-black w-8 h-8"></div>
-          <div className="text-white font-quai m-auto text-lg">
+          <div
+            className={`flex rounded-full w-8 h-8 mr-2 ${
+              darkMode ? `bg-white` : `bg-black`
+            }  `}></div>
+          <div className="m-auto text-lg">
             {balance} {token.name}
           </div>
         </div>
         {token.type == "native" ? null : (
           <ChevronRightIcon
             onClick={navigateToTokenPage}
-            className="h-6 w-6 text-white cursor-pointer"
+            className="h-6 w-6cursor-pointer"
           />
         )}
       </div>

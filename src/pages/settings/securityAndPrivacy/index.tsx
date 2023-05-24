@@ -44,7 +44,7 @@ export default function SecurityAndPrivacy() {
           <div className="w-full items-center flex justify-center flex-col">
             <input
               type="password"
-              className="w-1/2 bg-zinc-950 rounded-md px-2 py-1 text-white font-quai text-lg mb-3 focus:border-0 focus:ring-white"
+              className="w-1/2 secondary-bg-container rounded-md px-2 py-1  text-lg mb-3 focus:border-0 focus:ring-white"
               placeholder="Enter password"
               onChange={handlePasswordChange}
             />
@@ -54,7 +54,7 @@ export default function SecurityAndPrivacy() {
                 onClick={() => {
                   validatePassword()
                 }} // Add your onClick function here
-                className="border-2 border-red-500 text-red-500 rounded-full py-2 px-4 hover:bg-red-500 hover:text-white transition duration-200">
+                className="border-2 border-red-500 text-red-500 rounded-full py-2 px-4 hover:bg-red-500 hover:transition duration-200">
                 Reveal secret phrase
               </button>
             </div>

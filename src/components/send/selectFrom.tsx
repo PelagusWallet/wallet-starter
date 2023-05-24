@@ -27,7 +27,7 @@ export default function SelectSendFrom({ addressGroup }) {
   return (
     <div
       className={
-        "cursor-pointer shard-data-height rounded-md relative bg-zinc-950 transition-[height] ease-in-out duration-500 max-height " +
+        "cursor-pointer shard-data-height rounded-md relative secondary-bg-container transition-[height] ease-in-out duration-500 max-height " +
         (active ? "" : "bg-transparent")
       }
       onClick={() => setActive(!active)}>
@@ -38,9 +38,7 @@ export default function SelectSendFrom({ addressGroup }) {
         }></div>
       <div className="p-2 opacity-100 flex-col">
         <div className="flex flex-row justify-between">
-          <div className="text-lg font-thin text-white">
-            {addressGroup.name}
-          </div>
+          <div className="text-lg font-thin">{addressGroup.name}</div>
         </div>
         <div className="flex flex-row justify-between">
           <div className="text-[14px] font-thin text-gray-400">
@@ -48,7 +46,7 @@ export default function SelectSendFrom({ addressGroup }) {
           </div>
           <div
             onClick={() => setActive(!active)}
-            className="z-20	cursor-pointer text-[14px] font-thin text-white">
+            className="z-20	cursor-pointer text-[14px] font-thin">
             {addressGroup?.addresses.length + " Total Addresses"}
           </div>
         </div>
@@ -73,7 +71,7 @@ export default function SelectSendFrom({ addressGroup }) {
                   <div
                     onClick={() => setLocation("/send?/" + address.address)}
                     className="w-4/6 flex flex-row justify-between border rounded-sm">
-                    <div className="m-1 text-white">
+                    <div className="m-1">
                       {address.address.substring(0, 8) + "..."}
                     </div>
                     <div
@@ -82,7 +80,7 @@ export default function SelectSendFrom({ addressGroup }) {
                       Select
                     </div>
                   </div>
-                  <div className="w-2/6 m-1 float-right text-white text-[14px] font-thin text-right">
+                  <div className="w-2/6 m-1 float-right text-[14px] font-thin text-right">
                     {formatBalance(address.balance) + " QUAI"}
                   </div>
                 </div>

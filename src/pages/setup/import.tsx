@@ -15,7 +15,7 @@ import MnemonicVerify from "./verify"
 
 import "../../style.css"
 
-import LanguageSelect from "~components/setup/languageSelect"
+import SetupHeaderBar from "~components/setup/setupHeaderBar"
 import { setActiveNetwork } from "~storage/network"
 
 import InputMnemonic from "./inputMnemonic"
@@ -76,8 +76,8 @@ function ImportMnemonic() {
   useEffect(() => {}, [page])
 
   return (
-    <div className="w-full max-h-screen h-screen font-quai flex flex-col items-center justify-center max-w-3xl shadow-lg rounded-lg mx-auto">
-      <LanguageSelect />
+    <div className="w-full max-h-screen h-screen  flex flex-col items-center justify-center max-w-3xl shadow-lg rounded-lg mx-auto">
+      <SetupHeaderBar />
 
       <div className="w-full">
         <ProgressBar page={page} setPage={attemptSetPage} steps={steps} />

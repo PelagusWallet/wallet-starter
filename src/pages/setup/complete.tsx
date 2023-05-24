@@ -8,7 +8,7 @@ import "../../style.css"
 function Complete() {
   return (
     <div>
-      <div className="font-quai congratulations-container">
+      <div className="congratulations-container">
         <Confetti
           numberOfPieces={800}
           recycle={false}
@@ -25,7 +25,7 @@ function Complete() {
           <div
             className="cursor-pointer flex flex-col items-center border border-zinc-600 rounded-md p-4"
             style={{ width: "200px" }}>
-            <FaTwitter className="text-blue-400 h-14 w-14" />
+            <FaTwitter className="text-blue-400 dark:text-blue-400 h-14 w-14" />
             <span
               className="mt-2 text-lg font-bold"
               style={{ width: "100%", textAlign: "center" }}>

@@ -30,7 +30,7 @@ function DomainPermissions() {
   }
 
   return (
-    <div className="text-white font-quai">
+    <div className="">
       <div className="mt-3 space-y-1 px-2">
         <button
           onClick={() => setLocation("/settings/advanced")}
@@ -45,9 +45,7 @@ function DomainPermissions() {
         <div className="w-full text-center">No approved domains</div>
       )}
       {approvedDomains?.map(({ url, approvedMethods, date }) => (
-        <div
-          key={url}
-          className="bg-gray-800 text-white font-quai p-4 rounded-md mb-2 mx-2">
+        <div key={url} className="bg-gray-800  p-4 rounded-md mb-2 mx-2">
           <h2 className="text-2xl font-bold mb-2">{url}</h2>
           <p className="italic mb-2">
             Date granted: {new Date(date.toString()).toLocaleDateString()}
@@ -61,7 +59,7 @@ function DomainPermissions() {
 
           <div className="flex justify-end">
             <button
-              className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+              className="bg-red-500 hover:bg-red-700 font-bold py-2 px-4 rounded"
               onClick={() => onRevoke(url)}>
               Revoke permissions
             </button>

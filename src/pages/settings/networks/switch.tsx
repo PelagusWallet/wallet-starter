@@ -60,11 +60,9 @@ function SwitchNetworks({ activeNetwork }) {
       </div>
       <div className="p-6">
         <div className="flex flex-row justify-between items-baseline">
-          <div className="cursor-default text-lg font-thin text-white">
-            Networks
-          </div>
+          <div className="cursor-default text-lg font-thin">Networks</div>
           <div
-            className="cursor-pointer text-md font-thin text-white align-text-bottom"
+            className="cursor-pointer text-md font-thin align-text-bottom"
             onClick={() => setLocation("/settings/network/add")}>
             +Add Custom Network
           </div>

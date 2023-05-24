@@ -36,9 +36,9 @@ export default function LanguageSelect() {
   }, [])
 
   return (
-    <div className="fixed top-10 right-20 text-white" ref={dropdownRef}>
+    <div className="fixed top-10 right-20" ref={dropdownRef}>
       <div
-        className="flex flex-row relative text-white w-full p-3 mx-2 text-center text-lg font-quai bg-transparent border rounded-md border-gray-200 cursor-pointer"
+        className="flex flex-row relative w-full p-3 mx-2 text-center text-lg  bg-transparent border rounded-md border-gray-200 cursor-pointer"
         onClick={() => setDropdownOpen(!dropdownOpen)}>
         {selectedLanguage}
         <div className="m-auto">

@@ -43,7 +43,11 @@ module.exports = {
         'xl': '25px',
         '2xl': '30px',
         '3xl': '35px',
-      }
+      },
+      transitionDuration: {
+        '0': '0ms',
+        '2000': '2000ms', // add 2000ms transition
+      },
     }
   },
   variants: { extend: { typography: ["dark"] } },

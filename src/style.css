@@ -27,24 +27,8 @@
   --LIGHTBLUE: #017c9f;
 }
 
-body {
-  min-width: 375px;
-  /* background: linear-gradient(
-    359.98deg,
-    #014062 -51.66%,
-    #000511 106.18%
-  ) !important; */
-  background-color: #000000;
-  min-height: 600px;
-}
-
 .bg-container::before {
   transform: rotate(135deg);
-}
-
-.bg-container {
-  /* background: transparent;
-  overflow: hidden; */
 }
 
 /* width */
@@ -111,27 +95,56 @@ body {
   height: 100%;
 }
 
+.bodyDimensions {
+  min-width: 375px;
+  /* background: linear-gradient(
+    359.98deg,
+    #014062 -51.66%,
+  #000511 106.18%
+  ) !important; */
+  min-height: 600px;
+}
+
 @layer components {
+  .bg-container {
+    @apply font-quai text-black dark:text-white dark:bg-black bg-zinc-50 bodyDimensions
+  }
+
+  .secondary-bg-container {
+    @apply bg-white dark:bg-zinc-950 shadow-sm
+  }
+
   .home-button-outer {
-    @apply font-quai relative inline-flex items-center justify-center py-1 mx-1 overflow-hidden text-sm font-medium bg-zinc-950 text-blue-400 hover:bg-white/20 rounded-md group-hover:to-quai-deep-teal dark:text-white focus:ring-0 focus:outline-none;
+    @apply  secondary-bg-container relative inline-flex items-center justify-center py-1 mx-1 overflow-hidden text-sm font-medium text-blue-600 dark:text-blue-400 hover:bg-white/20 rounded-md group-hover:to-quai-deep-teal dark:focus:ring-0 focus:outline-none;
   }
 
   .home-button-inner {
-    @apply w-full relative px-5 py-0.5 transition-all ease-in duration-75 bg-transparent rounded-md group-hover:bg-opacity-0;
+    @apply w-full relative px-5 py-0.5 bg-transparent rounded-md group-hover:bg-opacity-0;
   }
 
   .send-form-input {
-    @apply shadow appearance-none bg-white rounded w-full py-2 px-3 text-white  leading-tight focus:outline-none focus:border-quai-black focus:ring-1 focus:ring-quai-black;
+    @apply shadow appearance-none bg-white rounded w-full py-2 px-3  leading-tight focus:outline-none focus:border-quai-black focus:ring-1 focus:ring-quai-black;
   }
 
   .footer-button {
-    @apply flex justify-center w-1/4 py-4 text-zinc-300 font-medium text-xs leading-tight uppercase hover:bg-white/20 focus:bg-quai-off-white focus:outline-none focus:ring-0 active:bg-quai-off-white;
+    @apply flex justify-center w-1/4 py-4 text-black dark:text-zinc-300 font-medium text-xs leading-tight uppercase hover:bg-zinc-200 dark:hover:bg-white/20 focus:bg-quai-off-white focus:outline-none focus:ring-0 active:bg-quai-off-white;
   }
 
   .footer-bg {
-    @apply bg-zinc-950 backdrop-blur-md backdrop-opacity-50;
+    @apply secondary-bg-container backdrop-blur-md backdrop-opacity-50;
   }
 
+  .btn-hover {
+    @apply hover:bg-zinc-950 hover:text-white dark:hover:bg-zinc-200 dark:hover:text-black cursor-pointer
+  }
+
+  .btn-class {
+    @apply border btn-hover rounded-md shadow-sm flex justify-center py-2 px-4 text-sm font-medium dark:bg-zinc-950
+  }
+
+  .input-class {
+    @apply bg-transparent w-full rounded-md border-black dark:border-white pr-12 shadow-sm px-2 py-1 focus:outline-none focus:ring-0 active:border-none active:ring-0 active:ring-offset-0
+  }
 }
 
 @keyframes slide-in-top {
@@ -184,7 +197,6 @@ body {
   align-items: center;
   justify-content: center;
   height: 100vh;
-  color: #ffffff;
 }
 
 .congratulations-title {
@@ -213,5 +225,4 @@ body {
 }
 
 .congratulations-continue-btn:hover {
-  color: white;
 }

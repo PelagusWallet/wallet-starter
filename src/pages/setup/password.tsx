@@ -1,5 +1,6 @@
 import "../../style.css"
 
+import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/solid"
 import { useState } from "react"
 
 function PasswordSetup({ onPasswordSubmit }) {
@@ -31,11 +32,9 @@ function PasswordSetup({ onPasswordSubmit }) {
   }
 
   return (
-    <main className="font-quai flex bg-transparent">
+    <main className=" flex bg-transparent">
       <div className="mx-auto max-w-md mt-0">
-        <label
-          htmlFor="password"
-          className="block text-sm font-medium text-white">
+        <label htmlFor="password" className="block text-sm font-medium">
           Enter a password to generate a secure phrase.
         </label>
         <div className="relative mt-2 flex items-center">
@@ -45,14 +44,16 @@ function PasswordSetup({ onPasswordSubmit }) {
             id="password"
             onChange={handlePasswordChange}
             value={password}
-            className="block w-full rounded-md border-gray-300 pr-12 shadow-sm px-2 py-1  focus:border-gray-700 focus:ring-gray-700 sm:text-md"
+            className="input-class"
           />
           <div
             onClick={() => setShowPassword(!showPassword)}
             className="absolute inset-y-0 right-0 flex py-1.5 pr-1.5">
-            <kbd className="inline-flex items-center rounded border border-gray-200 px-2 font-sans text-sm font-medium text-gray-700">
-              {showPassword ? "hide" : "show"}
-            </kbd>
+            {showPassword ? (
+              <EyeSlashIcon className="cursor-pointer inline-flex items-center px-2 font-sans text-sm font-medium"></EyeSlashIcon>
+            ) : (
+              <EyeIcon className="cursor-pointer inline-flex items-center px-2 font-sans text-sm font-medium"></EyeIcon>
+            )}
           </div>
         </div>
         <div className="relative mt-1 flex items-center">
@@ -62,13 +63,11 @@ function PasswordSetup({ onPasswordSubmit }) {
             id="passwordConfirm"
             onChange={handlePasswordConfirmChange}
             value={passwordConfirm}
-            className="block w-full rounded-md border-gray-300 pr-12 shadow-sm px-2 py-1  focus:border-gray-700 focus:ring-gray-700 sm:text-md"
+            className="input-class"
           />
         </div>
         <div className="flex justify-center mt-10">
-          <button
-            onClick={() => submitPassword()}
-            className="flex justify-center rounded-md border border-white bg-transparent py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-700 focus:ring-offset-2">
+          <button onClick={() => submitPassword()} className="btn-class">
             Submit Password
           </button>
         </div>

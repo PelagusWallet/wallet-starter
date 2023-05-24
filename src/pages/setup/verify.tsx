@@ -64,7 +64,7 @@ function MnemonicVerify({ mnemonic, onCompleteMnemonic }) {
 
   return (
     <main className="bg-transparent w-full pt-10 pb-10">
-      <label className="flex justify-center text-sm font-medium text-white mb-4">
+      <label className="flex justify-center text-sm font-medium mb-4">
         Just to be sure you copied your secure phrase correctly, please enter
         the following words.
       </label>
@@ -103,7 +103,7 @@ function MnemonicVerify({ mnemonic, onCompleteMnemonic }) {
       <div className="flex justify-center pt-10 pb-10">
         <button
           onClick={() => completeMnemonic()}
-          className="flex justify-center rounded-md border border-white bg-transparent py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-200 focus:ring-offset-2">
+          className="flex justify-center rounded-md border border-white bg-transparent py-2 px-4 text-sm font-medium shadow-sm hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-200 focus:ring-offset-2">
           Verify Secure Phrase
         </button>
       </div>

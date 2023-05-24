@@ -62,8 +62,24 @@ function IndexPopup() {
     instance: storage
   })
 
+  const [darkMode] = useStorage<boolean>({
+    key: "dark_mode",
+    instance: storage
+  })
+
+  useEffect(() => {
+    console.log("darkMode", darkMode)
+    if (darkMode) {
+      console.log("add dark")
+      document.documentElement.classList.add("dark")
+    } else {
+      console.log("remove dark")
+      document.documentElement.classList.remove("dark")
+    }
+  }, [darkMode])
+
   // Check user wallet accounts, load if first visit.
-  useSetUp()
+  useSetUp(darkMode)
 
   useEffect(() => {
     if (!activeWallet) return
@@ -78,7 +94,7 @@ function IndexPopup() {
             <Fetcher />
             <Router hook={useHashLocation}>
               <MenuBar activeWallet={activeWallet} />
-              <div className="pt-20"></div>
+              <div className="pt-[66px]"></div>
               <Route path="/" component={() => <Home />} />
               <Route path="/send">
                 <SendFrom activeWallet={activeWallet} />

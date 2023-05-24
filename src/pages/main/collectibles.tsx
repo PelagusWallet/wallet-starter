@@ -10,9 +10,9 @@ export default function Collectibles() {
   return (
     <>
       <div className="h-full w-full">
-        <h1 className="text-md font-bold tracking-tight text-quai-off-white text-center my-auto">
+        <div className="text-md font-bold tracking-tight text-center m-auto mt-[140px]">
           Nothing to see here.
-        </h1>
+        </div>
       </div>
       <Footer />
     </>

@@ -9,7 +9,7 @@ export default async function handleRequest(body: any) {
   console.log("handleRequest", body)
   if (body.method === "wallet_requestPermissions") {
     requestPermissions(url, body.requestedMethods)
-    return { code: 200, message: "Hello from the background script!" }
+    return { code: 200, message: "Permissions Granted", permissions: body.requestedMethods }
   }
 
   let hasPermissions = await checkPermissions(url, body.method)

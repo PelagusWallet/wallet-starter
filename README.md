@@ -91,7 +91,7 @@ function requestPermissions() {
   quai
     .request({
       method: "wallet_requestPermissions",
-      params: [{ quai_requestAccounts: {} }]
+      requestedMethods: ["quai_requestAccounts"]
     })
     .then((permissions) => {
       const accountsPermission = permissions.find(

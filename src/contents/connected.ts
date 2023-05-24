@@ -4,7 +4,7 @@ import { relayMessage, sendToBackground } from "@plasmohq/messaging"
 import { relay } from "@plasmohq/messaging/relay"
 
 export const config: PlasmoCSConfig = {
-  matches: ["<all_urls>"]
+  matches: ["<all_urls>", "http://localhost:*/*"]
 }
 
 relay(

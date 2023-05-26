@@ -36,10 +36,7 @@ export default function ContactData({ contact, selectable, onContactSelect }) {
   }
 
   useEffect(() => {
-    console.log("contact", contact)
-    console.log("activeNetwork", activeNetwork)
     if (contact && activeNetwork) {
-      console.log("contact.networkAddresses", contact.networkAddresses)
       const networkAddresses = contact.networkAddresses?.filter(
         (item) => item.chainID === Number(activeNetwork.chainCode)
       )

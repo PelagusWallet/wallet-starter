@@ -39,7 +39,6 @@ export async function setActiveNetwork(networkName: string) {
   await sendToBackground({
     name: "network/update-controller"
   })
-  console.log("GO UPDATE CONTROLLER", activeNetwork)
 }
 
 export async function addCustomNetwork(network: Network) {

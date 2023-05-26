@@ -72,12 +72,6 @@ function Fetcher() {
         addresses: addresses
       }
     })
-
-    console.log("tokens in fetcher", getTokenDataResponse.tokenBalanceData)
-
-    console.log("activeNetwork in fetcher", activeNetwork)
-    console.log("setting address data", addressDataResponse.addressData)
-    console.log("setting activity data", acitivityDataResponse.activityData)
     dispatch(updateAddressData(addressDataResponse.addressData))
     dispatch(updateActivityData(acitivityDataResponse.activityData))
     dispatch(updateTokenBalanceData(getTokenDataResponse.tokenBalanceData))

@@ -31,7 +31,6 @@ export default function AssetsList() {
   })
 
   useEffect(() => {
-    console.log("tokenBalanceData", tokenBalanceData)
     if (!activeNetwork) return
 
     let allTokenData = tokenBalanceData || []

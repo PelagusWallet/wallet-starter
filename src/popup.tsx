@@ -68,12 +68,9 @@ function IndexPopup() {
   })
 
   useEffect(() => {
-    console.log("darkMode", darkMode)
     if (darkMode) {
-      console.log("add dark")
       document.documentElement.classList.add("dark")
     } else {
-      console.log("remove dark")
       document.documentElement.classList.remove("dark")
     }
   }, [darkMode])

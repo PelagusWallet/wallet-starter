@@ -67,7 +67,6 @@ function SendTransaction() {
   useEffect(() => {
     const getNetwork = async () => {
       const resp = await getActiveNetwork()
-      console.log("resp", resp)
       setActiveNetwork(resp)
     }
     getNetwork().catch((err) => console.error(err))

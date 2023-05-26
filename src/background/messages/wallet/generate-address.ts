@@ -3,7 +3,6 @@ import type { PlasmoMessaging } from "@plasmohq/messaging"
 import { addAdddressByShard } from "~storage/wallet"
 
 const handler: PlasmoMessaging.MessageHandler = async (req, res) => {
-  console.log("generate-address.ts", req.body)
   let addressData = await addAdddressByShard(
     req.body.wallet,
     req.body.path,

@@ -22,7 +22,6 @@ function TokenPage() {
   )
 
   useEffect(() => {
-    console.log("IN TOKEN PAGE", activeToken)
     if (!activeToken) return
     let storedTokenData = tokenBalanceData.find(
       (tokenData) => tokenData.id === activeToken.id

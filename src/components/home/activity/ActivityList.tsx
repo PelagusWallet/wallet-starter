@@ -26,9 +26,7 @@ export default function ActivityList() {
     instance: storage
   })
 
-  useEffect(() => {
-    console.log("activityData", activityData)
-  }, [activityData])
+  useEffect(() => {}, [activityData])
 
   function formatAddress(address: string): string {
     if (address == undefined) {

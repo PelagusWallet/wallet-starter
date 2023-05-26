@@ -2,10 +2,6 @@ import { CheckIcon } from "@heroicons/react/24/solid"
 import { useEffect } from "react"
 
 export default function ProgressBar({ page, setPage, steps }) {
-  useEffect(() => {
-    console.log("page", page)
-  }, [])
-
   return (
     <nav aria-label="Progress">
       <ol

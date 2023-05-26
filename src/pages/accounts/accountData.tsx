@@ -31,7 +31,6 @@ export default function AccountData({ activeWallet }) {
 
   useEffect(() => {
     sortAddresses()
-    console.log("sorting addresses", addressData)
   }, [addressData])
 
   // TODO Refactor to only pass the group addresses down to shard

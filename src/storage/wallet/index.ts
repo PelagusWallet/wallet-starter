@@ -27,6 +27,7 @@ export class Address {
   index: number
   path: string
   address: string
+  shard: string
 }
 
 /**
@@ -194,7 +195,8 @@ export async function addWallet(wallet: any, mnemonic: any, password: string) {
     const addressList: Address = {
       index: address.index,
       address: address.address,
-      path: hdPath + "/" + address.index.toString()
+      path: hdPath + "/" + address.index.toString(),
+      shard: shard.shard
     }
 
     addresses.push(addressList)

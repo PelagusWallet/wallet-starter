@@ -188,7 +188,7 @@ await window.quai.request({
 
 # Contributing
 
-Visit the contributing file for information on how to hack on Pelagus.'**[CONTRIBUTING](./github/CONTRIBUTING.md)**' file.
+Visit the contributing file for information on how to hack on Pelagus.'**[CONTRIBUTING](.github/CONTRIBUTING.md)**' file.
 
 ## 🎉 Was the extension helpful? Help us raise these numbers up
 

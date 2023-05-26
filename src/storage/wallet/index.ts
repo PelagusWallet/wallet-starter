@@ -168,7 +168,7 @@ export async function createWallet(password: string, mnemonic: string) {
   await storage.set("is_setup", true)
   await storage.set("signed_in", true)
 
-  return mnemonic
+  return hdWallet
 }
 
 /**

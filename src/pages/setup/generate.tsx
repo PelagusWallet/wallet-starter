@@ -4,9 +4,10 @@ import { AnimatePresence, motion } from "framer-motion"
 import { useEffect, useState } from "react"
 import { useLocation } from "wouter"
 
+import { sendToBackground } from "@plasmohq/messaging"
+
 import { DEFAULT_NETWORKS } from "~background/services/network/chains"
 import { generateRandomMnemonic } from "~crypto"
-import { createWallet } from "~storage/wallet"
 
 import MnemonicSetup from "./mnemonic"
 import PasswordSetup from "./password"
@@ -59,12 +60,25 @@ function Generate() {
 
   async function handleMnemonicCopied() {
     setPage((v) => v + 1)
-    await createWallet(password, secretRecoveryPhrase)
+
+    await sendToBackground({
+      name: "wallet/create-wallet",
+      body: {
+        password: password,
+        mnemonic: secretRecoveryPhrase
+      }
+    })
     await setActiveNetwork(DEFAULT_NETWORKS[0].name)
   }
 
   async function handleMnemonicComplete() {
-    createWallet(password, secretRecoveryPhrase)
+    await sendToBackground({
+      name: "wallet/create-wallet",
+      body: {
+        password: password,
+        mnemonic: secretRecoveryPhrase
+      }
+    })
     await setActiveNetwork(DEFAULT_NETWORKS[0].name)
     setLocation("/complete")
   }

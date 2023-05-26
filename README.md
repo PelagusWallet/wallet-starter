@@ -26,47 +26,30 @@ The parameters and return value vary by RPC method. In practice, if a method has
 
 If the request fails, the promise rejects with an error.
 
-# API Methods
+# Unrestricted API Methods
 
-## quai_sendTransaction
+## wallet_getPermissions
 
-This method is used to send a transaction.
-
-### Parameters
-
-A single transaction object is accepted as a parameter.
+Gets permissions for the site.
 
 ### Returns
 
-This method returns a promise that resolves to a transaction hash hexadecimal string upon success.
+An array of the caller's permission objects.
 
 ### Example
 
 ```js
-params: [
-  {
-    from: "0xb60e8dd61c5d32be8058bb8eb970870f07233155",
-    to: "0xd46e8dd67c5d32be8058bb8eb970870f07244567",
-    gas: "0x76c0", // 30400
-    maxFeePerGas: "0x9184e72a000", // 10000000000000
-    maxPriorityFeePerGas: "0x9184e72a000", // 10000000000000
-    value: "0x9184e72a", // 2441406250
-    data: "0xd46e8dd67c5d32be8d46e8dd67c5d32be8058bb8eb970870f072445675058bb8eb970870f072445675"
-  }
-]
+document.getElementById("getPermissionsButton", getPermissions)
 
-window.quai
-  .request({
-    method: "quai_sendTransaction",
-    params
-  })
-  .then((result) => {
-    // The result varies by RPC method.
-    // For example, this method returns a transaction hash hexadecimal string upon success.
-  })
-  .catch((error) => {
-    // If the request fails, the Promise rejects with an error.
-  })
+function getPermissions() {
+  quai
+    .request({
+      method: "wallet_getPermissions"
+    })
+    .then((permissions) => {
+      console.log(permissions)
+    })
+}
 ```
 
 ## wallet_requestPermissions
@@ -109,6 +92,49 @@ function requestPermissions() {
       }
     })
 }
+```
+
+# Restricted API Methods
+
+## quai_sendTransaction
+
+This method is used to send a transaction.
+
+### Parameters
+
+A single transaction object is accepted as a parameter.
+
+### Returns
+
+This method returns a promise that resolves to a transaction hash hexadecimal string upon success.
+
+### Example
+
+```js
+params: [
+  {
+    from: "0xb60e8dd61c5d32be8058bb8eb970870f07233155",
+    to: "0xd46e8dd67c5d32be8058bb8eb970870f07244567",
+    gas: "0x76c0", // 30400
+    maxFeePerGas: "0x9184e72a000", // 10000000000000
+    maxPriorityFeePerGas: "0x9184e72a000", // 10000000000000
+    value: "0x9184e72a", // 2441406250
+    data: "0xd46e8dd67c5d32be8d46e8dd67c5d32be8058bb8eb970870f072445675058bb8eb970870f072445675"
+  }
+]
+
+window.quai
+  .request({
+    method: "quai_sendTransaction",
+    params
+  })
+  .then((result) => {
+    // The result varies by RPC method.
+    // For example, this method returns a transaction hash hexadecimal string upon success.
+  })
+  .catch((error) => {
+    // If the request fails, the Promise rejects with an error.
+  })
 ```
 
 ## quai_requestAccounts

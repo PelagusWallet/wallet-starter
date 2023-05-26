@@ -97,3 +97,17 @@ export async function revokePermissions(url: string) {
   approvedDomains.splice(approvedDomainIndex, 1)
   await storage.set("approved_domains", approvedDomains)
 }
+
+export async function getPermissions(url: string) {
+  const approvedDomains = await storage.get<ApprovedDomain[]>(
+    "approved_domains"
+  )
+  if (approvedDomains === undefined) {
+    return []
+  }
+  const approvedDomain = approvedDomains.find((domain) => domain.url === url)
+  if (approvedDomain === undefined) {
+    return []
+  }
+  return approvedDomain.approvedMethods
+}

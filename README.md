@@ -221,3 +221,26 @@ This should create a production bundle for your extension, ready to be zipped an
 The easiest way to deploy your Plasmo extension is to use the built-in [bpp](https://bpp.browser.market) GitHub action. Prior to using this action however, make sure to build your extension and upload the first version to the store to establish the basic credentials. Then, simply follow [this setup instruction](https://docs.plasmo.com/workflows/submit) and you should be on your way for automated submission!
 
 [General Disclaimer](https://docs.quai.network/disclaimers/quai-network-wallet-terms-of-use)
+
+## 🎉 Was the extension helpful? Help us raise these numbers up
+
+[![GitHub followers](https://img.shields.io/github/followers/dominant-strategies.svg?style=social)](https://github.com/alanorwick)
+[![GitHub stars](https://img.shields.io/github/stars/dominant-strategies/pelagus-extension.svg?style=social)](https://github.com/dominant-strategies/pelagus-extension/stargazers)
+[![GitHub watchers](https://img.shields.io/github/watchers/dominant-strategies/pelagus-extension.svg?style=social)](https://github.com/dominant-strategies/pelagus-extension/watchers)
+[![GitHub forks](https://img.shields.io/github/forks/dominant-strategies/pelagus-extension.svg?style=social)](https://github.com/dominant-strategies/pelagus-extension/network/members)
+
+<!-- MODIFY THIS LINK TO YOUR MAIN DONATING SITE IF YOU ARE NOT IN THE GITHUB SPONSORS PROGRAM -->
+
+[![Sponsor](https://img.shields.io/static/v1?label=Sponsor&message=%E2%9D%A4&logo=github-sponsors&color=red&style=social)](https://github.com/sponsors/alanorwick)
+
+Enjoy! 🥳
+
+## ⚖️📝 **License and Changelog**
+
+See the license in the '**[LICENSE](LICENSE.md)**' file.
+
+Watch the changes in the '**[CHANGELOG.md](CHANGELOG.md)**' file.
+
+---
+
+_Made with a lot of ❤️❤️ by **[@dominant-strategies](https://github.com/dominant-strategies)**_

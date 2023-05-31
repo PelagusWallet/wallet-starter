@@ -45,6 +45,7 @@ function Fetcher() {
   }, [activeWallet, activeNetwork, tokens])
 
   async function fetchData(addresses: Address[]) {
+    console.log("tokens here", tokens)
     try {
       let balanceDataPromise = sendToBackground({
         name: "get-balance-data",

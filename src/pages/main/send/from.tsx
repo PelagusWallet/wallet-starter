@@ -6,7 +6,7 @@ import { useStorage } from "@plasmohq/storage/hook"
 
 import { getActiveWallet, getWallets } from "~storage/wallet"
 import type {
-  PathAddresses,
+  Address,
   QuaiContextAddresses,
   StoredWallet
 } from "~storage/wallet"
@@ -14,29 +14,15 @@ import { groupByPrefix } from "~storage/wallet"
 
 import "../../../style.css"
 
-import { useEffect, useState } from "react"
+import { useState } from "react"
 
-import type { AddressWithData } from "~background/services/network/controller"
 import SelectSendFrom from "~components/send/selectFrom"
-import { useAppSelector } from "~store"
 
 export default function SendFrom({ activeWallet }) {
   // router
   const [, setLocation] = useLocation()
   const [activePathAddressGroups, setActivePathAddressGroups] =
     useState<QuaiContextAddresses[]>()
-
-  const addressData = useAppSelector(
-    (state) => state.addressData.addressesWithData as AddressWithData[]
-  )
-  const sortAddresses = async () => {
-    let groups = groupByPrefix(addressData)
-    setActivePathAddressGroups(groups)
-  }
-
-  useEffect(() => {
-    sortAddresses()
-  }, [])
 
   return (
     <div className="overflow-hidden">
@@ -55,11 +41,7 @@ export default function SendFrom({ activeWallet }) {
           ) : null}
           <div className="cursor-pointer text-md">Learn More</div>
         </div>
-        <ul role="list" className="space-y-3">
-          {activePathAddressGroups?.map((addressGroup, i) => (
-            <SelectSendFrom key={i} addressGroup={addressGroup} />
-          ))}
-        </ul>
+        <SelectSendFrom />
       </div>
     </div>
   )

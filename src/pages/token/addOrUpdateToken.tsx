@@ -2,21 +2,28 @@ import "../../style.css"
 
 import { ChevronLeftIcon } from "@heroicons/react/24/outline"
 import { useEffect, useState } from "react"
+import { useDispatch } from "react-redux"
 import { useLocation } from "wouter"
 
 import { QUAI_CONTEXTS } from "~background/services/network/chains"
 import Footer from "~components/navigation/Footer"
+import { updateCustomToken } from "~slices/update-token"
 import { getActiveNetwork } from "~storage/network"
-import { addToken } from "~storage/token"
+import { addOrUpdateToken } from "~storage/token"
 import type { TokenNetworkData, TokenShardData } from "~storage/token"
+import { useAppSelector } from "~store"
 
-function AddCustomToken() {
+function AddOrUpdateCustomToken() {
   const [, setLocation] = useLocation()
   const [tokenName, setTokenName] = useState("")
   const [symbol, setSymbol] = useState("")
   const [decimals, setDecimals] = useState("")
-
+  const [randomID, setRandomID] = useState(Math.floor(Math.random() * 1000000))
   const [tokenShards, setTokenShards] = useState<TokenShardData[]>([])
+
+  const updateToken = useAppSelector(
+    (state) => state.updateToken.customToken as TokenNetworkData
+  )
 
   useEffect(() => {
     const newTokenShards = [...tokenShards]
@@ -24,12 +31,31 @@ function AddCustomToken() {
       let addressAndShard = {
         name: context.name,
         shard: context.shard,
-        symbol: ""
+        symbol: "",
+        address: "" // Add this line
       } as TokenShardData
       newTokenShards.push(addressAndShard)
     })
     setTokenShards(newTokenShards)
   }, [])
+
+  useEffect(() => {
+    if (!updateToken) return
+    setTokenName(updateToken.name)
+    setSymbol(updateToken.symbol)
+    setDecimals(updateToken.decimals.toString())
+    setTokenShards(JSON.parse(JSON.stringify(updateToken.shardData))) // Deep copy
+    setRandomID(updateToken.id)
+  }, [updateToken])
+
+  const dispatch = useDispatch() // get the dispatch function
+
+  useEffect(() => {
+    // This will be executed when the component is unmounted
+    return () => {
+      dispatch(updateCustomToken(null)) // Dispatch your action here
+    }
+  }, [dispatch]) // Add dispatch to dependency array to avoid warning
 
   const handleTokenNameChange = (event) => {
     setTokenName(event.target.value)
@@ -43,7 +69,6 @@ function AddCustomToken() {
 
   const handleAddToken = async () => {
     try {
-      let randomID = Math.floor(Math.random() * 1000)
       let activeNetwork = await getActiveNetwork()
       let token: TokenNetworkData = {
         network: activeNetwork.name,
@@ -55,7 +80,7 @@ function AddCustomToken() {
         shardData: tokenShards,
         type: "custom"
       }
-      await addToken(token)
+      await addOrUpdateToken(token)
       setLocation("/")
     } catch (e) {
       console.log(e)
@@ -129,4 +154,4 @@ function AddCustomToken() {
   )
 }
 
-export default AddCustomToken
+export default AddOrUpdateCustomToken

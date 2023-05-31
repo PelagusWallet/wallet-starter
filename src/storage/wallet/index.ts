@@ -12,6 +12,9 @@ import { getActiveNetwork } from "~/storage/network"
 import { setupDefaultTokens } from "~/storage/token"
 import { QUAI_CONTEXTS, QuaiContext } from "~background/services/network/chains"
 import { decryptHDKey, deriveAddress, getWalletFromMnemonic } from "~crypto"
+import { updateActiveToken } from "~slices/active-token"
+import { DEFAULT_TOKENS } from "~storage/token"
+import { useAppDispatch } from "~store"
 
 import { WALLET_GENERATED } from "./constants"
 import { watchKeyRemoval } from "./password"
@@ -84,11 +87,12 @@ export const useSetUp = (darkMode) =>
         window.top.close()
       }
 
-      // Add default tokens to storage
-
       watchKeyRemoval()
+      const dispatch = useAppDispatch()
 
+      // Add default tokens to storage and set active token
       setupDefaultTokens()
+      dispatch(updateActiveToken(DEFAULT_TOKENS[0]))
     })()
   }, [])
 
@@ -368,6 +372,33 @@ export interface TransactionRequest {
   type?: number
 }
 
+async function getSigningWallet(from: string) {
+  const wallet = await getActiveWallet()
+  const activeNetwork = await getActiveNetwork()
+  const activeDerivations = wallet.derivations?.find(
+    (item) => item.chainCode === Number(activeNetwork.chainCode)
+  )
+  const activeAddress = activeDerivations?.addresses?.find(
+    (item) => item.address === from
+  )
+  const password = await storage.get("decryption_key")
+  const keyfile = await getKeyfileForWallet(wallet.pubkey)
+
+  const hdKey = await decryptHDKey(password, keyfile.keyfile)
+
+  let addressNode = hdKey.derive(activeAddress.path)
+  let privKey = addressNode.privateKey
+
+  let fromShard = getShardFromAddress(from)
+  let fromChain = activeNetwork.chains.find(
+    (item) => item.shard === fromShard[0].shard
+  )
+
+  const provider = new quais.providers.JsonRpcProvider(fromChain.rpc)
+  const signingWallet = new quais.Wallet(privKey, provider)
+  return signingWallet
+}
+
 export async function signAndSendTransaction(transaction: TransactionRequest) {
   const wallet = await getActiveWallet()
   const activeNetwork = await getActiveNetwork()
@@ -436,6 +467,29 @@ export async function signAndSendTransaction(transaction: TransactionRequest) {
   }
 
   const tx = await signingWallet.sendTransaction(rawTransaction)
+  return tx
+}
+
+export async function sendTokenTransfer(transaction) {
+  const signingWallet = await getSigningWallet(transaction.from)
+
+  if (transaction.abi === undefined) {
+    transaction.abi = [
+      // transfer
+      "function transfer(address recipient, uint256 amount) public returns (bool)"
+    ]
+  }
+  const myContract = new quais.Contract(
+    transaction.contractAddress,
+    transaction.abi,
+    signingWallet
+  )
+
+  // If your contract requires constructor args, you can specify them here
+  const tx = await myContract.transfer(transaction.to, transaction.value, {
+    gasLimit: 1000000
+  })
+
   return tx
 }
 

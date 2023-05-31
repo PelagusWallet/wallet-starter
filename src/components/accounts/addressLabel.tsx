@@ -31,13 +31,12 @@ export default function AddressLabel({ address }) {
     }
   }, [address])
   return (
-    <div className="flex flex-row justify-end space-x-1">
-      <div
-        className={
-          shardColors[shard] + " inline-block w-3 h-3 rounded-full my-auto"
-        }
-      />
-      <span>{shard}</span>
+    <div
+      className={
+        shardColors[shard] +
+        " rounded-full my-auto flex flex-row justify-center space-x-1 px-2 min-w-[70px] text-center"
+      }>
+      <span className="my-auto">{shard}</span>
     </div>
   )
 }

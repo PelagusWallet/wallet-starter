@@ -1,14 +1,17 @@
+import { PlusCircleIcon } from "@heroicons/react/24/outline"
+import { AnimatePresence, motion } from "framer-motion"
 import _ from "lodash"
 import React from "react"
 import toast from "react-hot-toast"
 import { VscCopy, VscOpenPreview } from "react-icons/vsc"
 
-import type { TokenNetworkAddressData } from "~background/services/network/controller"
+import type {
+  AddressWithData,
+  TokenNetworkAddressData
+} from "~background/services/network/controller"
 import { type Address, getShardFromAddress } from "~storage/wallet"
 import { addAdddressByShard } from "~storage/wallet"
 import { useAppSelector } from "~store"
-
-import AddressLabel from "./addressLabel"
 
 import "../../style.css"
 
@@ -19,12 +22,10 @@ import { useStorage } from "@plasmohq/storage/hook"
 
 import { getExplorerURLForShard } from "~background/services/network/chains"
 import { Network } from "~background/services/network/chains"
+import AddressLabel from "~components/accounts/addressLabel"
+import type { TokenNetworkData } from "~storage/token"
 
-function ShardData({ wallet, addressGroup }) {
-  const [active, setActive] = useState(() => false)
-  const [totalShardBalance, setTotalShardBalance] = useState(0)
-  const [renderKey, setRenderKey] = useState(0)
-
+function TokenData({ address }) {
   const [activeNetwork] = useStorage<Network>({
     key: "active_network",
     instance: new Storage({
@@ -32,29 +33,16 @@ function ShardData({ wallet, addressGroup }) {
     })
   })
 
-  const balanceData = useAppSelector(
-    (state) => state.balanceData.balanceData as TokenNetworkAddressData[]
+  const activeToken = useAppSelector(
+    (state) => state.activeToken.activeToken as TokenNetworkData
   )
 
-  useEffect(() => {
-    setRenderKey(renderKey + 1)
-  }, [balanceData])
-
-  function getAddressBalance(lookupAddress: string) {
-    let addressData = balanceData.find(
-      (token) => token.type === "native"
-    ).addresses
-
-    if (addressData?.length == 0) return
-
-    let balance = addressData?.find(
-      (address) => address.address == lookupAddress
-    )?.balance
-
-    return formatBalance(balance)
-  }
-
-  function formatBalance(balance) {
+  const formatBalance = (balance: number) => {
+    // format large balance with e notation
+    if (balance > 100000000) {
+      return balance.toExponential(2)
+    }
+    // format small balance with 4 decimal places
     return parseFloat(Number(balance).toFixed(4))
   }
 
@@ -77,48 +65,42 @@ function ShardData({ wallet, addressGroup }) {
 
   return (
     <div className="shard-data-height rounded-md relative transition-[height] ease-in-out duration-800 max-heigh secondary-bg-container">
-      <div
-        className={
-          "w-full h-full absolute rounded-md " +
-          (active ? "fadeIn shard-data-div-active" : "fadeOut")
-        }></div>
+      <div className="w-full h-full absolute rounded-md"></div>
       <div className="py-1 px-2.5 opacity-100 flex-col">
         <div className="flex flex-row justify-between">
-          <AddressLabel address={addressGroup?.addresses[0].address} />
+          <AddressLabel address={address.address} />
           <div className="flex flex-row">
             <span className="tooltip">
               <VscCopy
-                onClick={() => copyAddress(addressGroup.addresses[0])}
+                onClick={() => copyAddress(address)}
                 className="w-4 h-4 m-1 z-10 cursor-pointer"></VscCopy>
               <span className="tooltiptext">Copy address to clipboard</span>
             </span>
 
             <span className="tooltip">
               <VscOpenPreview
-                onClick={() => linkToExplorer(addressGroup.addresses[0])}
+                onClick={() => linkToExplorer(address)}
                 className="w-4 h-4 m-1 z-10 cursor-pointer"></VscOpenPreview>
               <span className="tooltiptext">View address on explorer</span>
             </span>
           </div>
         </div>
 
-        {addressGroup?.addresses.map((address, i) => (
-          <div key={i} className="w-full flex flex-row justify-between">
-            <div className="w-4/6 flex flex-row justify-between rounded-sm text-[14px]">
-              <div className="m-1">
-                {address.address.substring(0, 6) +
-                  "..." +
-                  address.address.substring(38, 42)}
-              </div>
-            </div>
-            <div className="w-2/6 m-1 float-right text-[14px] font-thin text-right">
-              {getAddressBalance(address.address) + " QUAI"}
+        <div className="w-full flex flex-row justify-between">
+          <div className="w-4/6 flex flex-row justify-between rounded-sm text-[14px]">
+            <div className="m-1">
+              {address.address.substring(0, 6) +
+                "..." +
+                address.address.substring(38, 42)}
             </div>
           </div>
-        ))}
+          <div className="w-3/6 m-1 float-right text-[14px] font-thin text-right">
+            {formatBalance(address.balance) + " " + activeToken.symbol}
+          </div>
+        </div>
       </div>
     </div>
   )
 }
 
-export default ShardData
+export default TokenData

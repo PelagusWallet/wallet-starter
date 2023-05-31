@@ -230,7 +230,7 @@ export const DEFAULT_QUAI_LOCAL = {
       name: "Cyprus One",
       shard: "cyprus-1",
       rpc: "http://localhost:8610",
-      blockExplorerUrl: "https://dev.cyprus1.quaiscan.io"
+      blockExplorerUrl: "http://localhost:4002"
     },
     {
       name: "Cyprus Two",

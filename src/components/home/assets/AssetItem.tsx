@@ -93,7 +93,7 @@ export default function AssetItem({ token: token }) {
         </div>
         <ChevronRightIcon
           onClick={navigateToTokenPage}
-          className="h-6 w-6cursor-pointer"
+          className="h-6 w-6 cursor-pointer"
         />
       </div>
     </div>

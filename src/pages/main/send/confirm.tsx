@@ -14,7 +14,8 @@ import { Storage } from "@plasmohq/storage"
 import { useStorage } from "@plasmohq/storage/hook"
 
 import type { Network } from "~background/services/network/chains"
-import { getShardFromAddress, signAndSendTransaction } from "~storage/wallet"
+import type { TokenNetworkAddressData } from "~background/services/network/controller"
+import { getShardFromAddress } from "~storage/wallet"
 
 import "../../../style.css"
 
@@ -24,6 +25,8 @@ import { useEffect, useState } from "react"
 import { getExplorerURLForShard } from "~background/services/network/chains"
 import AddressLabel from "~components/accounts/addressLabel"
 import SpeedSelect from "~components/send/speedSelect"
+import { TokenNetworkData } from "~storage/token"
+import { useAppSelector } from "~store"
 
 export default function SendConfirm() {
   // router
@@ -32,7 +35,7 @@ export default function SendConfirm() {
   const [fromAddress, setFromAddress] = useState<string>()
   const [toAddress, setToAddress] = useState<string>()
   const [fromBalanace, setFromBalance] = useState<number>()
-  const [toBalance, setToBalance] = useState<number>()
+  const [quaiBalance, setQuaiBalance] = useState<number>(0)
   const [amount, setAmount] = useState<string>("0.0")
   const [speed, setSpeed] = useState<string>(".01")
 
@@ -43,6 +46,14 @@ export default function SendConfirm() {
     })
   })
 
+  const activeToken = useAppSelector(
+    (state) => state.activeToken.activeToken as TokenNetworkData
+  )
+
+  const balanceData = useAppSelector(
+    (state) => state.balanceData.balanceData as TokenNetworkAddressData[]
+  )
+
   useEffect(() => {
     // @ts-ignore: Object is possibly 'null'.
     setFromAddress(params!.fromAddress)
@@ -50,41 +61,30 @@ export default function SendConfirm() {
     setToAddress(params!.toAddress)
   }, [])
 
-  // Get latest balance directly from provider instead of using local storage
-  async function getFromBalance() {
-    const resp = await sendToBackground({
-      name: "get-balance",
-      body: {
-        address: fromAddress
-      }
-    })
-
-    if (resp.balance) {
-      setFromBalance(Number(parseFloat(Number(resp.balance).toFixed(4))))
-    }
-  }
-
-  // Get latest balance directly from provider instead of using local storage
-  async function getToBalance() {
-    const resp = await sendToBackground({
-      name: "get-balance",
-      body: {
-        address: toAddress
-      }
-    })
-
-    if (resp.balance) {
-      setToBalance(Number(parseFloat(Number(resp.balance).toFixed(4))))
-    }
-  }
-
   useEffect(() => {
-    if (fromAddress != undefined) {
-      getFromBalance()
+    if (fromAddress == undefined) return
+    if (!activeToken) return
+
+    let quaiTokenData = balanceData.find(
+      (tokenData) => tokenData.type === "native"
+    )
+    let quaiAddressData = quaiTokenData?.addresses.find(
+      (address) => address.address === fromAddress
+    )
+    if (quaiAddressData) {
+      setQuaiBalance(quaiAddressData.balance)
     }
-    // if (toAddress != undefined) {
-    //   getToBalance()
-    // }
+
+    let storedTokenData = balanceData.find(
+      (tokenData) => tokenData.id === activeToken.id
+    )
+
+    let storedTokenAddress = storedTokenData?.addresses.find(
+      (address) => address.address === fromAddress
+    )
+    if (storedTokenAddress) {
+      setFromBalance(storedTokenAddress.balance)
+    }
   }, [fromAddress, toAddress])
 
   function removeNonNumericDecimal(input: string): string {
@@ -131,12 +131,37 @@ export default function SendConfirm() {
   async function confirmSend() {
     var signedTx
     try {
-      signedTx = await signAndSendTransaction({
-        from: fromAddress,
-        to: toAddress,
-        value: quais.utils.parseUnits(amount, "ether").toString(),
-        gasLimit: 21000
-      })
+      let result
+      if (activeToken.type == "native") {
+        result = await sendToBackground({
+          name: "wallet/send-transaction",
+          body: {
+            from: fromAddress,
+            to: toAddress,
+            value: quais.utils.parseUnits(amount, "ether").toString(),
+            gasLimit: 21000
+          }
+        })
+      } else {
+        let shard = getShardFromAddress(fromAddress)[0]
+        let TokenShardData = activeToken.shardData?.find(
+          (address) => address.shard == shard.shard
+        )
+        result = await sendToBackground({
+          name: "wallet/send-transaction",
+          body: {
+            from: fromAddress,
+            to: toAddress,
+            value: amount,
+            gasLimit: 5000000,
+            contractAddress: TokenShardData?.address
+          }
+        })
+      }
+      if (result.error) {
+        console.log("error", result.error)
+        throw new Error(result.error)
+      }
     } catch (error: any) {
       toast.custom((t) => (
         <div
@@ -149,7 +174,7 @@ export default function SendConfirm() {
               <div className="ml-3 flex-1">
                 <p className="text-sm font-medium">Transaction Failed</p>
                 <div className="flex flex-row">
-                  <p className="mt-1 text-sm underline">{error.reason}</p>
+                  <p className="mt-1 text-sm underline">{error.message}</p>
                   <QuestionMarkCircleIcon className="h-5 w-5 text-blue-600 dark:text-blue-400 m-auto" />
                 </div>
               </div>
@@ -245,25 +270,38 @@ export default function SendConfirm() {
             value={amount}
             className="block w-full bg-transparent text-3xl border-none sm:text-md text-center active:border-none focus:ring-0"
           />
-          <div className="text-lg">QUAI</div>
-          <div>Your Balance: {fromBalanace}</div>
+          <div className="text-lg">{activeToken.name}</div>
+
+          {activeToken.type == "native" ? (
+            <div>
+              {" "}
+              <div>QUAI Balance: {quaiBalance}</div>
+            </div>
+          ) : (
+            <div className="flex flex-col justify-center text-center">
+              <div>
+                {activeToken.symbol} Balance: {fromBalanace}
+              </div>
+              <div>QUAI Balance: {quaiBalance}</div>
+            </div>
+          )}
         </div>
 
         <SpeedSelect selected={speed} handleSelect={handleSpeedChange} />
 
         <div className="mb-0">
-          <div className="mt-10 flex flex-row justify-between text-lg">
-            <div>Total Transaction Cost</div>
-            <div className="ml-auto">
-              {parseFloat(amount) + parseFloat(speed)} QUAI
-            </div>
-          </div>
-          <div className="w-full mt-1 flex justify-center">
+          <div className="mt-10 w-full flex justify-center">
             <button
-              className="w-full text-blue-600 dark:text-blue-400 text-sm px-6 py-3 rounded secondary-bg-container"
+              className="w-full text-blue-600 dark:text-blue-400 text-lg px-6 py-3 rounded secondary-bg-container"
               type="button"
-              onClick={() => confirmSend()}>
-              Send Transaction
+              onClick={() => confirmSend()}
+              style={{ lineHeight: "1" }}>
+              <div>
+                Send {amount} ${activeToken.symbol}
+              </div>
+              <div className="text-[10px] mt-0">
+                +{parseFloat(speed)} QUAI Network Fee
+              </div>
             </button>
           </div>
         </div>

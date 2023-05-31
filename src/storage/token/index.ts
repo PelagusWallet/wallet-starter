@@ -22,7 +22,7 @@ export class TokenShardData {
   type?: string
 }
 
-const DEFAULT_TOKENS = [
+export const DEFAULT_TOKENS = [
   {
     name: "Quai",
     symbol: "QUAI",
@@ -32,9 +32,18 @@ const DEFAULT_TOKENS = [
   }
 ]
 
-export async function addToken(token: TokenNetworkData) {
+export async function addOrUpdateToken(token: TokenNetworkData) {
   let tokens = await getTokens()
-  tokens.push(token)
+
+  // replace if id exists
+  const index = tokens.findIndex((t) => t.id === token.id)
+  if (index !== -1) {
+    tokens[index] = token
+  } else {
+    // add if id does not exist
+    tokens.push(token)
+  }
+
   await storage.set("tokens", tokens)
 }
 

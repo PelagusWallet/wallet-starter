@@ -8,6 +8,7 @@ import activeTokenSlice from "~slices/active-token"
 import activityDataSlice from "~slices/activity-data"
 import addressDataSlice from "~slices/address-data"
 import balanceDataSlice from "~slices/balance-data"
+import updateTokenSlice from "~slices/update-token"
 
 // Here you can add all your reducers
 const combinedReducers = combineReducers({
@@ -15,6 +16,7 @@ const combinedReducers = combineReducers({
   addressData: addressDataSlice,
   activityData: activityDataSlice,
   activeToken: activeTokenSlice,
+  updateToken: updateTokenSlice,
   balanceData: balanceDataSlice
 })
 

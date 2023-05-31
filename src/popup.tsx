@@ -37,7 +37,7 @@ import SettingsList from "~pages/settings/list"
 import AddCustomNetwork from "~pages/settings/networks/add"
 import SwitchNetworks from "~pages/settings/networks/switch"
 import SecurityAndPrivacy from "~pages/settings/securityAndPrivacy"
-import AddCustomToken from "~pages/token/addToken"
+import AddOrUpdateCustomToken from "~pages/token/addOrUpdateToken"
 import TokenPage from "~pages/token/token"
 import type { StoredWallet } from "~storage/wallet"
 
@@ -128,7 +128,7 @@ function IndexPopup() {
               </Route>
 
               <Route path="/token" component={TokenPage} />
-              <Route path="/token/add" component={AddCustomToken} />
+              <Route path="/token/add" component={AddOrUpdateCustomToken} />
             </Router>
           </div>
         )}

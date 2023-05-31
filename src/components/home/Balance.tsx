@@ -10,15 +10,15 @@ import { useAppSelector } from "~store"
 export default function Balance() {
   const [balance, setBalance] = useState(null)
 
-  const tokenBalanceData = useAppSelector(
-    (state) => state.tokenData.tokenBalances as TokenNetworkAddressData[]
+  const balanceData = useAppSelector(
+    (state) => state.balanceData.balanceData as TokenNetworkAddressData[]
   )
 
   async function getTotalBalance() {
-    let addressData = tokenBalanceData.find(
-      (tokenData) => tokenData.type === "native"
+    let addressData = balanceData.find(
+      (token) => token.type === "native"
     ).addresses
-    if (addressData.length == 0) return
+    if (addressData?.length == 0) return
     let balance = addressData.reduce((acc, curr) => {
       return acc + curr.balance
     }, 0)
@@ -29,7 +29,7 @@ export default function Balance() {
 
   useEffect(() => {
     getTotalBalance()
-  }, [tokenBalanceData])
+  }, [balanceData])
 
   return (
     <>

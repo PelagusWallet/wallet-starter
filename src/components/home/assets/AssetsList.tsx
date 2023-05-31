@@ -19,10 +19,12 @@ const storage = new Storage({ area: "local" })
 
 export default function AssetsList() {
   const [location, setLocation] = useLocation()
-  const [filteredTokenData, setTokenData] = useState<TokenNetworkData[]>([])
+  const [filteredBalanceData, setFilteredBalance] = useState<
+    TokenNetworkData[]
+  >([])
 
-  const tokenBalanceData = useAppSelector(
-    (state) => state.tokenData.tokenBalances as TokenNetworkAddressData[]
+  const balanceData = useAppSelector(
+    (state) => state.balanceData.balanceData as TokenNetworkAddressData[]
   )
 
   const [activeNetwork] = useStorage({
@@ -33,19 +35,19 @@ export default function AssetsList() {
   useEffect(() => {
     if (!activeNetwork) return
 
-    let allTokenData = tokenBalanceData || []
+    let allBalanceData = balanceData || []
 
     // get tokens for active network
-    allTokenData = allTokenData.filter(
+    allBalanceData = allBalanceData.filter(
       (token) => token.network === activeNetwork.name || token.type === "native"
     )
 
-    setTokenData(allTokenData)
-  }, [tokenBalanceData, activeNetwork])
+    setFilteredBalance(allBalanceData)
+  }, [balanceData, activeNetwork])
 
   return (
     <div className="flex flex-col justify-between h-full">
-      {filteredTokenData.map((token) => (
+      {filteredBalanceData.map((token) => (
         <AssetItem key={token.symbol} token={token} />
       ))}
       <div className="w-full flex items-center justify-center">

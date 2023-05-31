@@ -3,17 +3,19 @@ import { useDispatch, useSelector } from "react-redux"
 import type { TypedUseSelectorHook } from "react-redux"
 import { syncStorage } from "redux-persist-webextension-storage"
 
+import activeAddresses from "~slices/active-addresses"
 import activeTokenSlice from "~slices/active-token"
 import activityDataSlice from "~slices/activity-data"
 import addressDataSlice from "~slices/address-data"
-import tokenDataSlice from "~slices/token-balance-data"
+import balanceDataSlice from "~slices/balance-data"
 
 // Here you can add all your reducers
 const combinedReducers = combineReducers({
+  activeAddresses: activeAddresses,
   addressData: addressDataSlice,
   activityData: activityDataSlice,
   activeToken: activeTokenSlice,
-  tokenData: tokenDataSlice
+  balanceData: balanceDataSlice
 })
 
 const persistConfig = {

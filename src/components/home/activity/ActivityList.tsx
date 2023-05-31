@@ -28,13 +28,6 @@ export default function ActivityList() {
 
   useEffect(() => {}, [activityData])
 
-  function formatAddress(address: string): string {
-    if (address == undefined) {
-      return ""
-    }
-    return address.slice(0, 6) + "..." + address.slice(-4)
-  }
-
   // Support Quaiscan by default
   function linkToExplorer(shard: string, txHash: string): string {
     if (shard == undefined || txHash == undefined) {
@@ -51,7 +44,14 @@ export default function ActivityList() {
   }
 
   function formatValue(value: string) {
-    return quais.utils.formatEther(value)
+    let balance = Number(quais.utils.formatEther(value))
+
+    // format large balance with e notation
+    if (balance > 100000000) {
+      return balance.toExponential(2)
+    }
+    // format small balance with 4 decimal places
+    return parseFloat(Number(balance).toFixed(4))
   }
 
   return (
@@ -137,9 +137,13 @@ export default function ActivityList() {
                       }
                     })()}
                   </div>
-                  <div className="font-semibold">
-                    {formatValue(activity.value)}
-                  </div>
+                  {activity.tokenSymbol ? (
+                    <div className="font-semibold">
+                      {activity.value} {activity.tokenSymbol}
+                    </div>
+                  ) : (
+                    <div>{formatValue(activity.value)}</div>
+                  )}
                 </div>
                 <div className="flex justify-between">
                   <div>Confirmations</div>

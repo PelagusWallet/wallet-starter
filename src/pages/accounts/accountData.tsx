@@ -1,14 +1,13 @@
 import { ChevronLeftIcon } from "@heroicons/react/24/outline"
 import { useLocation, useRoute } from "wouter"
 
-import type { QuaiContextAddresses } from "~storage/wallet"
+import type { Address, QuaiContextAddresses } from "~storage/wallet"
 import { groupByPrefix } from "~storage/wallet"
 
 import "../../style.css"
 
 import { useEffect, useState } from "react"
 
-import type { AddressWithData } from "~background/services/network/controller"
 import { useAppSelector } from "~store"
 
 import ShardData from "../../components/accounts/shardData"
@@ -20,21 +19,19 @@ export default function AccountData({ activeWallet }) {
     useState<QuaiContextAddresses[]>()
   const [match, params] = useRoute("/accounts?/:account")
 
-  const addressData = useAppSelector(
-    (state) => state.addressData.addressesWithData as AddressWithData[]
+  const activeAddresses = useAppSelector(
+    (state) => state.activeAddresses.activeAddresses as Address[]
   )
 
   const sortAddresses = async () => {
-    let groups = groupByPrefix(addressData)
+    let groups = groupByPrefix(activeAddresses)
     setActivePathAddressGroups(groups)
   }
 
   useEffect(() => {
     sortAddresses()
-  }, [addressData])
+  }, [activeAddresses])
 
-  // TODO Refactor to only pass the group addresses down to shard
-  // data component
   return (
     <div className="">
       <div className="mt-2 px-4">

@@ -65,7 +65,10 @@ export async function setupDefaultTokens() {
     // remove duplicate tokens
     tokens = tokens.filter(
       (token, index, self) =>
-        index === self.findIndex((t) => t.symbol === token.symbol)
+        index ===
+        self.findIndex(
+          (t) => t.symbol === token.symbol && t.chainID === token.chainID
+        )
     )
 
     await storage.set("tokens", tokens)

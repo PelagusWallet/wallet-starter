@@ -460,7 +460,6 @@ export async function getAddress(address: string) {
   return requestedAddress
 }
 
-// TODO: Unit test this method
 export async function personalSignFromAddress(address: string, msg: string) {
   const wallet = await getActiveWallet()
   const activeNetwork = await getActiveNetwork()

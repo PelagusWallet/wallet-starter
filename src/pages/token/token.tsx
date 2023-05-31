@@ -18,7 +18,7 @@ function TokenPage() {
   )
 
   const tokenBalanceData = useAppSelector(
-    (state) => state.tokenData.tokenBalances as TokenNetworkAddressData[]
+    (state) => state.balanceData.balanceData as TokenNetworkAddressData[]
   )
 
   useEffect(() => {

@@ -1,5 +1,6 @@
 import { ChevronRightIcon } from "@heroicons/react/24/outline"
 import { useEffect, useState } from "react"
+import quaiIcon from "url:/assets/quai-icon.png"
 import { useLocation } from "wouter"
 
 import { Storage } from "@plasmohq/storage"
@@ -21,8 +22,8 @@ export default function AssetItem({ token: token }) {
     (state) => state.addressData.addressesWithData as AddressWithData[]
   )
 
-  const tokenBalanceData = useAppSelector(
-    (state) => state.tokenData.tokenBalances as TokenNetworkAddressData[]
+  const balanceData = useAppSelector(
+    (state) => state.balanceData.balanceData as TokenNetworkAddressData[]
   )
 
   const [darkMode] = useStorage<boolean>({
@@ -36,9 +37,9 @@ export default function AssetItem({ token: token }) {
 
   useEffect(() => {
     if (token.type == "native") {
-      setBalance(getNativeTotalBalance())
+      getNativeTotalBalance()
     } else {
-      let storedTokenData = tokenBalanceData.find(
+      let storedTokenData = balanceData.find(
         (tokenData) => tokenData.id === token.id
       )
       if (storedTokenData) {
@@ -47,15 +48,17 @@ export default function AssetItem({ token: token }) {
     }
   }, [addressData])
 
-  function getNativeTotalBalance() {
-    if (addressData.length == 0) return
-    return parseFloat(
-      Number(
-        addressData?.reduce((accumulator, object) => {
-          return accumulator + object.balance
-        }, 0)
-      ).toFixed(4)
-    )
+  async function getNativeTotalBalance() {
+    let addressData = balanceData.find(
+      (token) => token.type === "native"
+    ).addresses
+    if (addressData?.length == 0) return
+    let balance = addressData.reduce((acc, curr) => {
+      return acc + curr.balance
+    }, 0)
+
+    balance = parseFloat(Number(balance).toFixed(4))
+    setBalance(balance)
   }
 
   const navigateToTokenPage = () => {
@@ -63,24 +66,35 @@ export default function AssetItem({ token: token }) {
     setLocation(`/token`)
   }
 
+  const formatBalance = (balance: number) => {
+    // format large balance with e notation
+    if (balance > 100000000) {
+      return balance.toExponential(2)
+    }
+    // format small balance with 4 decimal places
+    return parseFloat(Number(balance).toFixed(4))
+  }
+
   return (
     <div className="mt-3 px-2">
       <div className="flex flex-row justify-between">
         <div className="flex flex-row">
-          <div
-            className={`flex rounded-full w-8 h-8 mr-2 ${
-              darkMode ? `bg-white` : `bg-black`
-            }  `}></div>
+          {token.type == "native" ? (
+            <img className="w-8 h-8 mr-2" src={quaiIcon} alt="quai-icon" />
+          ) : (
+            <div
+              className={`flex rounded-full w-8 h-8 mr-2 ${
+                darkMode ? `bg-white` : `bg-black`
+              }  `}></div>
+          )}
           <div className="m-auto text-lg">
-            {balance} {token.name}
+            {formatBalance(balance)} {token.name}
           </div>
         </div>
-        {token.type == "native" ? null : (
-          <ChevronRightIcon
-            onClick={navigateToTokenPage}
-            className="h-6 w-6cursor-pointer"
-          />
-        )}
+        <ChevronRightIcon
+          onClick={navigateToTokenPage}
+          className="h-6 w-6cursor-pointer"
+        />
       </div>
     </div>
   )

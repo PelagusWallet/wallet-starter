@@ -20,7 +20,6 @@ import type { Network } from "./chains"
 export class AddressWithData extends Address {
   balance: number
   chainID: number
-  shard: string
   nonce?: number
 }
 
@@ -62,6 +61,9 @@ export class RPCTransactionResult {
   txreceipt_status: string
   value: string
   type: string
+  tokenName?: string
+  tokenSymbol?: string
+  tokenDecimal?: string
 }
 
 export default class NetworkController {
@@ -171,6 +173,19 @@ export default class NetworkController {
   }
 
   async tokenAddressData(address: Address, token: TokenNetworkData) {
+    let tokenShardData = token.shardData.find((shardData) => {
+      return shardData.shard === getShardFromAddress(address.address)[0].shard
+    })
+
+    if (tokenShardData.address === undefined) {
+      return {
+        ...address,
+        balance: 0,
+        shard: getShardFromAddress(address.address)[0].shard,
+        chainID: this.activeNetwork.chainID
+      }
+    }
+
     let shard = getShardFromAddress(address.address)[0].shard
 
     let chainData = this.activeNetwork.chains.find((chain) => {
@@ -179,23 +194,28 @@ export default class NetworkController {
 
     let explorerEndpoint = chainData?.blockExplorerUrl
 
-    // let tokenData = await fetch(
-    //   `${explorerEndpoint}/api?module=account&action=tokenbalance&contractaddress=${tokenShardData.address}&address=${address.address}`
-    // )
+    let tokenData
+    try {
+      let url = `${explorerEndpoint}/api?module=account&action=tokenbalance&contractaddress=${tokenShardData.address}&address=${address.address}`
+      let response = await fetch(url)
 
-    // let tokenDataJSON = await tokenData.json()
-    // // Return if the request was successful
-    // if (tokenDataJSON.status === "1") {
-    //   addressTokenData.push({
-    //     id: token.id,
-    //     contractAddressHash: tokenShardData.address,
-    //     balance: Number(tokenDataJSON.result)
-    //   })
-    // }
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`)
+      }
+
+      tokenData = await response.json() // read the response as JSON
+    } catch (e) {
+      console.log(e)
+    }
+    let balance = 0
+    // Return if the request was successful
+    if (tokenData.status === "1") {
+      balance = Number(tokenData.result)
+    }
 
     return {
       ...address,
-      balance: 100,
+      balance: balance,
       shard: shard,
       chainID: this.activeNetwork.chainID
     }
@@ -264,6 +284,24 @@ export default class NetworkController {
             accountActivity = accountActivity.concat(confirmedDataJSON.result)
           }
 
+          let tokenTxData = await fetch(
+            `${explorerEndpoint}/api?module=account&action=tokentx&address=${address.address}`
+          )
+          if (tokenTxData.ok) {
+            let tokenTxDataJSON = await tokenTxData.json()
+            // Return if the request was successful
+            if (tokenTxDataJSON.status === "1") {
+              // add shard and address to each result
+              tokenTxDataJSON.result.forEach((item) => {
+                item.shard = shard
+                item.lookupAddress = address.address
+                item.status = "confirmed"
+              })
+
+              accountActivity = accountActivity.concat(tokenTxDataJSON.result)
+            }
+          }
+
           return accountActivity
         }
       } catch (e) {
@@ -318,7 +356,7 @@ export default class NetworkController {
     return uniqueActivity
   }
 
-  async getTokenBalances(
+  async getBalanceData(
     addresses: Address[]
   ): Promise<TokenNetworkAddressData[]> {
     const tokenBalancesPromises = this.tokens.map(async (token) => {

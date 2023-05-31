@@ -7,11 +7,11 @@ import { Storage } from "@plasmohq/storage"
 import { useStorage } from "@plasmohq/storage/hook"
 
 import type { Network } from "~background/services/network/chains"
+import { updateActiveAddresses } from "~slices/active-addresses"
 import { updateActivityData } from "~slices/activity-data"
-import { updateAddressData } from "~slices/address-data"
-import { updateTokenBalanceData } from "~slices/token-balance-data"
+import { updateBalanceData } from "~slices/balance-data"
 import type { TokenNetworkData } from "~storage/token"
-import type { StoredWallet } from "~storage/wallet"
+import type { Address, StoredWallet } from "~storage/wallet"
 import { useAppDispatch } from "~store"
 
 const storage = new Storage({ area: "local" })
@@ -44,6 +44,35 @@ function Fetcher() {
     }
   }, [activeWallet, activeNetwork, tokens])
 
+  async function fetchData(addresses: Address[]) {
+    try {
+      let balanceDataPromise = sendToBackground({
+        name: "get-balance-data",
+        body: {
+          addresses: addresses
+        }
+      })
+
+      let activityDataPromise = sendToBackground({
+        name: "get-activity-data",
+        body: {
+          addresses: addresses
+        }
+      })
+
+      const [getBalanceDataReponse, acitivityDataResponse] = await Promise.all([
+        balanceDataPromise,
+        activityDataPromise
+      ])
+
+      dispatch(updateBalanceData(getBalanceDataReponse.tokenBalanceData))
+      dispatch(updateActivityData(acitivityDataResponse.activityData))
+    } catch (error) {
+      // handle error
+      console.log(error)
+    }
+  }
+
   async function fetchAddressData() {
     // Get addresses off of activeWallet derivations and match activeNetwork
     // chain code
@@ -52,29 +81,9 @@ function Fetcher() {
       (derivation) => derivation.chainCode === activeNetwork.chainCode
     )[0].addresses
 
-    const addressDataResponse = await sendToBackground({
-      name: "get-address-data",
-      body: {
-        addresses: addresses
-      }
-    })
+    dispatch(updateActiveAddresses(addresses))
 
-    const acitivityDataResponse = await sendToBackground({
-      name: "get-activity-data",
-      body: {
-        addresses: addresses
-      }
-    })
-
-    const getTokenDataResponse = await sendToBackground({
-      name: "get-token-balance-data",
-      body: {
-        addresses: addresses
-      }
-    })
-    dispatch(updateAddressData(addressDataResponse.addressData))
-    dispatch(updateActivityData(acitivityDataResponse.activityData))
-    dispatch(updateTokenBalanceData(getTokenDataResponse.tokenBalanceData))
+    await fetchData(addresses)
   }
 
   return <div></div>

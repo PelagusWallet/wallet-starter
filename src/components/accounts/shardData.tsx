@@ -5,7 +5,10 @@ import React from "react"
 import toast from "react-hot-toast"
 import { VscCopy, VscOpenPreview } from "react-icons/vsc"
 
-import type { AddressWithData } from "~background/services/network/controller"
+import type {
+  AddressWithData,
+  TokenNetworkAddressData
+} from "~background/services/network/controller"
 import { type Address, getShardFromAddress } from "~storage/wallet"
 import { addAdddressByShard } from "~storage/wallet"
 import { useAppSelector } from "~store"
@@ -32,21 +35,26 @@ function ShardData({ wallet, addressGroup }) {
     })
   })
 
-  const addressData = useAppSelector(
-    (state) => state.addressData.addressesWithData as AddressWithData[]
+  const balanceData = useAppSelector(
+    (state) => state.balanceData.balanceData as TokenNetworkAddressData[]
   )
 
   useEffect(() => {
-    getTotalShardBalance()
     setRenderKey(renderKey + 1)
-  }, [addressData])
+  }, [balanceData])
 
-  function getTotalShardBalance() {
-    let total = 0
-    addressGroup?.addresses?.forEach((address) => {
-      total += address.balance
-    })
-    setTotalShardBalance(parseFloat(Number(total).toFixed(4)))
+  function getAddressBalance(lookupAddress: string) {
+    let addressData = balanceData.find(
+      (token) => token.type === "native"
+    ).addresses
+
+    if (addressData?.length == 0) return
+
+    let balance = addressData?.find(
+      (address) => address.address == lookupAddress
+    )?.balance
+
+    return formatBalance(balance)
   }
 
   function formatBalance(balance) {
@@ -100,7 +108,7 @@ function ShardData({ wallet, addressGroup }) {
               </div>
             </div>
             <div className="w-2/6 m-1 float-right text-[14px] font-thin text-right">
-              {formatBalance(address.balance) + " QUAI"}
+              {getAddressBalance(address.address) + " QUAI"}
             </div>
           </div>
         ))}

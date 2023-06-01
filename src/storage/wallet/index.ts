@@ -12,9 +12,6 @@ import { getActiveNetwork } from "~/storage/network"
 import { setupDefaultTokens } from "~/storage/token"
 import { QUAI_CONTEXTS, QuaiContext } from "~background/services/network/chains"
 import { decryptHDKey, deriveAddress, getWalletFromMnemonic } from "~crypto"
-import { updateActiveToken } from "~slices/active-token"
-import { DEFAULT_TOKENS } from "~storage/token"
-import { useAppDispatch } from "~store"
 
 import { WALLET_GENERATED } from "./constants"
 import { watchKeyRemoval } from "./password"
@@ -66,6 +63,7 @@ export interface StoredWallet {
 /**
  * Hook that opens a new tab if Pelagus has not been set up yet
  */
+
 export const useSetUp = (darkMode) =>
   useEffect(() => {
     ;(async () => {
@@ -88,11 +86,9 @@ export const useSetUp = (darkMode) =>
       }
 
       watchKeyRemoval()
-      const dispatch = useAppDispatch()
 
       // Add default tokens to storage and set active token
       setupDefaultTokens()
-      dispatch(updateActiveToken(DEFAULT_TOKENS[0]))
     })()
   }, [])
 

@@ -17,10 +17,10 @@ export default function Balance() {
   async function getTotalBalance() {
     let addressData = balanceData.find(
       (token) => token.type === "native"
-    ).addresses
+    )?.addresses
     if (addressData?.length == 0) return
     let balance = addressData.reduce((acc, curr) => {
-      return acc + curr.balance
+      return acc + curr?.balance
     }, 0)
 
     balance = parseFloat(Number(balance).toFixed(4))

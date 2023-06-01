@@ -158,10 +158,12 @@ export default function SendConfirm() {
           }
         })
       }
+
       if (result.error) {
         console.log("error", result.error)
         throw new Error(result.error)
       }
+      signedTx = result.signedTx
     } catch (error: any) {
       toast.custom((t) => (
         <div
@@ -187,6 +189,7 @@ export default function SendConfirm() {
 
     toast.custom((t) => (
       <div
+        style={{ zIndex: 9999 }} // Setting a high z-index value
         className={`${
           t.visible ? "animate-enter" : "animate-leave"
         } max-w-md w-full secondary-bg-container shadow-lg rounded-lg pointer-events-auto flex ring-1 ring-black ring-opacity-5`}>

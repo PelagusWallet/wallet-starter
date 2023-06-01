@@ -43,13 +43,12 @@ export default function ActivityItem({ activity }) {
 
   function formatValue(value: string) {
     let balance = Number(quais.utils.formatEther(value))
-
     // format large balance with e notation
     if (balance > 100000000) {
       return balance.toExponential(2)
     }
     // format small balance with 4 decimal places
-    return parseFloat(Number(balance).toFixed(4))
+    return balance
   }
 
   if (activity.status === "pending") {
@@ -133,12 +132,14 @@ export default function ActivityItem({ activity }) {
                   }
                 })()}
               </div>
-              {getSymbolOrNative(activity) ? (
+              {getSymbolOrNative(activity) !== "QUAI" ? (
                 <div className="font-semibold">
                   {activity.value} {getSymbolOrNative(activity)}
                 </div>
               ) : (
-                <div>{formatValue(activity.value)}</div>
+                <div className="font-semibold">
+                  {formatValue(activity.value)} QUAI
+                </div>
               )}
             </div>
             <div className="flex justify-between">

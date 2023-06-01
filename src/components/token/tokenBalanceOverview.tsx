@@ -22,7 +22,10 @@ export default function TokenBalanceOverview({ tokenData }) {
 
     if (tokenData.type === "native") {
       let filteredActivity = activityData.filter((activity) => {
-        return activity.contractAddress === null
+        return (
+          activity.contractAddress ==
+          "0x0000000000000000000000000000000000000000"
+        )
       })
       setFilteredActivity(filteredActivity)
       return
@@ -48,7 +51,7 @@ export default function TokenBalanceOverview({ tokenData }) {
       <ul role="list" className="space-y-3">
         {tokenData.addresses?.map((address, i) => (
           <div key={i}>
-            {address.balance > 0 && (
+            {address?.balance > 0 && (
               <TokenData key={"tokenData" + i} address={address} />
             )}
           </div>

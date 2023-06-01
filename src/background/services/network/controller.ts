@@ -267,23 +267,6 @@ export default class NetworkController {
             accountActivity = accountActivity.concat(pendingDataJSON.result)
           }
 
-          let confirmedData = await fetch(
-            `${explorerEndpoint}/api?module=account&action=txlist&address=${address.address}`
-          )
-
-          let confirmedDataJSON = await confirmedData.json()
-          // Return if the request was successful
-          if (confirmedDataJSON.status === "1") {
-            // add shard and address to each result
-            confirmedDataJSON.result.forEach((item) => {
-              item.shard = shard
-              item.lookupAddress = address.address
-              item.status = "confirmed"
-            })
-
-            accountActivity = accountActivity.concat(confirmedDataJSON.result)
-          }
-
           let tokenTxData = await fetch(
             `${explorerEndpoint}/api?module=account&action=tokentx&address=${address.address}`
           )
@@ -300,6 +283,23 @@ export default class NetworkController {
 
               accountActivity = accountActivity.concat(tokenTxDataJSON.result)
             }
+          }
+
+          let confirmedData = await fetch(
+            `${explorerEndpoint}/api?module=account&action=txlist&address=${address.address}`
+          )
+
+          let confirmedDataJSON = await confirmedData.json()
+          // Return if the request was successful
+          if (confirmedDataJSON.status === "1") {
+            // add shard and address to each result
+            confirmedDataJSON.result.forEach((item) => {
+              item.shard = shard
+              item.lookupAddress = address.address
+              item.status = "confirmed"
+            })
+
+            accountActivity = accountActivity.concat(confirmedDataJSON.result)
           }
 
           return accountActivity
@@ -347,7 +347,7 @@ export default class NetworkController {
         }
       } else {
         let index = uniqueActivity.findIndex((i) => i.hash === item.hash)
-        if (index !== -1) {
+        if (index !== -1 && uniqueActivity[index].tokenSymbol === undefined) {
           uniqueActivity[index].type = "transfer"
         }
       }
@@ -376,9 +376,12 @@ export default class NetworkController {
       })
       const addressData = await Promise.all(addressDataPromises)
 
+      console.log(addressData)
       let totalBalance = 0
       addressData.forEach((address) => {
-        totalBalance += address.balance
+        if (address !== undefined) {
+          totalBalance += address.balance
+        }
       })
 
       return {

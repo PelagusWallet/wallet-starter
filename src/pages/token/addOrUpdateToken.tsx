@@ -40,7 +40,12 @@ function AddOrUpdateCustomToken() {
   }, [])
 
   useEffect(() => {
-    if (!updateToken) return
+    if (updateToken === null || updateToken === undefined) return
+    if (
+      Object.keys(updateToken).length === 0 &&
+      updateToken.constructor === Object
+    )
+      return
     setTokenName(updateToken.name)
     setSymbol(updateToken.symbol)
     setDecimals(updateToken.decimals.toString())

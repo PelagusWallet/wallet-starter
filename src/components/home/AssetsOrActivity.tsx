@@ -80,9 +80,4 @@ function AssetsOrActivity() {
   )
 }
 
-function arePropsEqual(prevProps, nextProps) {
-  console.log("Check equal props", _.isEqual(prevProps, nextProps))
-  return _.isEqual(prevProps, nextProps)
-}
-
-export default React.memo(AssetsOrActivity, arePropsEqual)
+export default AssetsOrActivity

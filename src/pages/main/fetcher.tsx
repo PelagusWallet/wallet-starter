@@ -8,9 +8,11 @@ import { useStorage } from "@plasmohq/storage/hook"
 
 import type { Network } from "~background/services/network/chains"
 import { updateActiveAddresses } from "~slices/active-addresses"
+import { updateActiveToken } from "~slices/active-token"
 import { updateActivityData } from "~slices/activity-data"
 import { updateBalanceData } from "~slices/balance-data"
 import type { TokenNetworkData } from "~storage/token"
+import { DEFAULT_TOKENS } from "~storage/token"
 import type { Address, StoredWallet } from "~storage/wallet"
 import { useAppDispatch } from "~store"
 
@@ -37,6 +39,7 @@ function Fetcher() {
 
   useEffect(() => {
     if (!activeWallet) return
+    dispatch(updateActiveToken(DEFAULT_TOKENS[0]))
     fetchAddressData().catch((err) => console.error(err))
     const intervalId = setInterval(fetchAddressData, 10000) // Update data every 10 seconds
     return () => {
@@ -45,7 +48,6 @@ function Fetcher() {
   }, [activeWallet, activeNetwork, tokens])
 
   async function fetchData(addresses: Address[]) {
-    console.log("tokens here", tokens)
     try {
       let balanceDataPromise = sendToBackground({
         name: "get-balance-data",

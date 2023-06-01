@@ -43,8 +43,8 @@ export default function SelectSendFrom() {
   return (
     <div>
       <ul role="list" className="space-y-3">
-        {tokenData?.addresses.map((address, i) => {
-          if (address.balance == 0) {
+        {tokenData?.addresses?.map((address, i) => {
+          if (!address || address?.balance == 0) {
             return <div> </div>
           } else {
             return (

@@ -1,3 +1,5 @@
+import { quais } from "quais"
+
 /**
  * Get app URL from any link
  *
@@ -60,3 +62,22 @@ export function formatAddress(address: string, count = 13) {
  * @returns Valid address or not
  */
 export const isAddress = (addr: string) => /[a-z0-9_-]{43}/i.test(addr)
+
+export function formatBalance(balance: number, inWei: boolean) {
+  if (inWei) {
+    // format large balance with e notation
+    if (balance > 100000000) {
+      return Number(balance).toExponential(2)
+    }
+    // format small balance with 4 decimal places
+    return parseFloat(Number(balance).toFixed(4))
+  } else {
+    balance = Number(quais.utils.formatEther(balance.toString()))
+    // format large balance with e notation
+    if (balance > 100000000) {
+      return balance.toExponential(2)
+    }
+    balance = Math.floor(balance * 1e5) / 1e5 // 1e5 means "10 to the power of 5"
+    return balance
+  }
+}

@@ -19,6 +19,7 @@ import { getShardFromAddress } from "~storage/wallet"
 
 import "../../../style.css"
 
+import { format } from "path"
 import { quais } from "quais"
 import { useEffect, useState } from "react"
 
@@ -27,6 +28,7 @@ import AddressLabel from "~components/accounts/addressLabel"
 import SpeedSelect from "~components/send/speedSelect"
 import { TokenNetworkData } from "~storage/token"
 import { useAppSelector } from "~store"
+import { formatBalance } from "~utils/format"
 
 export default function SendConfirm() {
   // router
@@ -152,7 +154,7 @@ export default function SendConfirm() {
           body: {
             from: fromAddress,
             to: toAddress,
-            value: amount,
+            value: quais.utils.parseUnits(amount, "ether").toString(),
             gasLimit: 5000000,
             contractAddress: TokenShardData?.address
           }
@@ -282,9 +284,13 @@ export default function SendConfirm() {
             </div>
           ) : (
             <div className="flex flex-col justify-center text-center">
-              <div>
-                {activeToken.symbol} Balance: {fromBalanace}
-              </div>
+              {fromBalanace && (
+                <div>
+                  {activeToken.symbol} Balance:{" "}
+                  {formatBalance(fromBalanace, false)}
+                </div>
+              )}
+
               <div>QUAI Balance: {quaiBalance}</div>
             </div>
           )}

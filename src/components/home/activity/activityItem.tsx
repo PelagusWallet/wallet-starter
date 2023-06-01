@@ -7,6 +7,7 @@ import { useStorage } from "@plasmohq/storage/hook"
 
 import { getExplorerURLForShard } from "~background/services/network/chains"
 import type { Network } from "~background/services/network/chains"
+import { formatBalance } from "~utils/format"
 
 import Spinner from "./activitySpinner"
 
@@ -36,19 +37,17 @@ export default function ActivityItem({ activity }) {
     }
   }
 
+  function isNative(activity: any) {
+    if (activity.tokenSymbol) {
+      return false
+    } else {
+      return true
+    }
+  }
+
   function formatTimestamp(timeStamp: any) {
     const date = new Date(timeStamp * 1000)
     return date.toLocaleString()
-  }
-
-  function formatValue(value: string) {
-    let balance = Number(quais.utils.formatEther(value))
-    // format large balance with e notation
-    if (balance > 100000000) {
-      return balance.toExponential(2)
-    }
-    // format small balance with 4 decimal places
-    return balance
   }
 
   if (activity.status === "pending") {
@@ -77,11 +76,17 @@ export default function ActivityItem({ activity }) {
                   }
                 })()}
               </div>
-              <div className="font-semibold text-md">
-                {formatValue(activity.value) +
-                  " " +
-                  getSymbolOrNative(activity)}
-              </div>
+              {activity.input != "0x" ? (
+                <div className="font-semibold text-md">
+                  Contract Interaction
+                </div>
+              ) : (
+                <div className="font-semibold text-md">
+                  {formatBalance(activity.value, isNative(activity)) +
+                    " " +
+                    getSymbolOrNative(activity)}
+                </div>
+              )}{" "}
             </div>
           </div>
         </div>
@@ -134,11 +139,12 @@ export default function ActivityItem({ activity }) {
               </div>
               {getSymbolOrNative(activity) !== "QUAI" ? (
                 <div className="font-semibold">
-                  {activity.value} {getSymbolOrNative(activity)}
+                  {formatBalance(activity.value, isNative(activity))}{" "}
+                  {getSymbolOrNative(activity)}
                 </div>
               ) : (
                 <div className="font-semibold">
-                  {formatValue(activity.value)} QUAI
+                  {formatBalance(activity.value, false)} QUAI
                 </div>
               )}
             </div>

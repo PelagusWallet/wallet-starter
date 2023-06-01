@@ -35,14 +35,14 @@ function SwitchNetworks({ activeNetwork }) {
     })
   }, [customNetworks])
 
-  function handleNetworkChange(network: Network) {
-    setActiveNetwork(network.name)
+  async function handleNetworkChange(network: Network) {
+    await setActiveNetwork(network.name)
   }
 
-  function handleNetworkUpdate(oldNetwork: Network, newNetwork: Network) {
-    updateCustomNetwork(oldNetwork, newNetwork)
+  async function handleNetworkUpdate(oldNetwork: Network, newNetwork: Network) {
+    await updateCustomNetwork(oldNetwork, newNetwork)
     if (activeNetwork.name === oldNetwork.name) {
-      setActiveNetwork(newNetwork.name)
+      await setActiveNetwork(newNetwork.name)
     }
   }
 

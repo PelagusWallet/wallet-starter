@@ -13,6 +13,7 @@ import type {
 import { updateActiveToken } from "~slices/active-token"
 import { useAppSelector } from "~store"
 import { useAppDispatch } from "~store"
+import { formatBalance } from "~utils/format"
 
 export default function AssetItem({ token: token }) {
   const [balance, setBalance] = useState(0)
@@ -46,7 +47,7 @@ export default function AssetItem({ token: token }) {
         setBalance(storedTokenData.totalBalance)
       }
     }
-  }, [addressData])
+  }, [addressData, balanceData])
 
   async function getNativeTotalBalance() {
     let addressData = balanceData.find(
@@ -66,15 +67,6 @@ export default function AssetItem({ token: token }) {
     setLocation(`/token`)
   }
 
-  const formatBalance = (balance: number) => {
-    // format large balance with e notation
-    if (balance > 100000000) {
-      return balance.toExponential(2)
-    }
-    // format small balance with 4 decimal places
-    return parseFloat(Number(balance).toFixed(4))
-  }
-
   return (
     <div className="mt-3 px-2">
       <div className="flex flex-row justify-between">
@@ -88,7 +80,7 @@ export default function AssetItem({ token: token }) {
               }  `}></div>
           )}
           <div className="m-auto text-lg">
-            {formatBalance(balance)} {token.name}
+            {formatBalance(balance, token.type == "native")} {token.name}
           </div>
         </div>
         <ChevronRightIcon

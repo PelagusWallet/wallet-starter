@@ -20,6 +20,7 @@ import { useHashLocation } from "~utils/router"
 
 import "./style.css"
 
+import { render } from "@headlessui/react/dist/utils/render"
 import { useEffect, useState } from "react"
 
 import { useStorage } from "@plasmohq/storage/hook"
@@ -79,8 +80,9 @@ function IndexPopup() {
   useSetUp(darkMode)
 
   useEffect(() => {
+    setRenderKey((prevKey) => prevKey + 1)
     if (!activeWallet) return
-  }, [activeWallet])
+  }, [activeWallet, activeNetwork, signedIn])
 
   return (
     <Provider store={store}>

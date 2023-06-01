@@ -24,7 +24,8 @@ export default function TokenBalanceOverview({ tokenData }) {
       let filteredActivity = activityData.filter((activity) => {
         return (
           activity.contractAddress ==
-          "0x0000000000000000000000000000000000000000"
+            "0x0000000000000000000000000000000000000000" ||
+          activity.input == "0x"
         )
       })
       setFilteredActivity(filteredActivity)
@@ -33,15 +34,21 @@ export default function TokenBalanceOverview({ tokenData }) {
 
     let tokenAddrs = tokenData.shardData.map((addr) => addr.address)
     let filteredActivity = activityData.filter((activity) => {
-      return tokenAddrs
-        .map((addr) => {
-          if (addr === undefined) {
-            return false
-          } else {
-            return addr.toLowerCase()
-          }
-        })
-        .includes(activity.contractAddress?.toLowerCase())
+      let filteredTokenAddrs = tokenAddrs.map((addr) => {
+        if (addr === undefined || addr === "") {
+          return false
+        } else {
+          return addr.toLowerCase()
+        }
+      })
+
+      if (
+        filteredTokenAddrs.includes(activity.contractAddress) ||
+        filteredTokenAddrs.includes(activity.to)
+      ) {
+        return true
+      }
+      return false
     })
     setFilteredActivity(filteredActivity)
   }, [tokenData, activityData])

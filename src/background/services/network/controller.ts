@@ -250,56 +250,68 @@ export default class NetworkController {
         if (explorerEndpoint) {
           let accountActivity = []
 
-          let pendingData = await fetch(
-            `${explorerEndpoint}/api?module=account&action=pendingtxlist&address=${address.address}`
-          )
+          try {
+            let pendingData = await fetch(
+              `${explorerEndpoint}/api?module=account&action=pendingtxlist&address=${address.address}`
+            )
 
-          let pendingDataJSON = await pendingData.json()
-          // Return if the request was successful
-          if (pendingDataJSON.status === "1") {
-            // add shard and address to each result
-            pendingDataJSON.result.forEach((item) => {
-              item.shard = shard
-              item.lookupAddress = address.address
-              item.status = "pending"
-            })
+            let pendingDataJSON = await pendingData.json()
+            // Return if the request was successful
+            if (pendingDataJSON.status === "1") {
+              // add shard and address to each result
+              pendingDataJSON.result.forEach((item) => {
+                item.shard = shard
+                item.lookupAddress = address.address
+                item.status = "pending"
+              })
 
-            accountActivity = accountActivity.concat(pendingDataJSON.result)
+              accountActivity = accountActivity.concat(pendingDataJSON.result)
+            }
+          } catch (e) {
+            console.log(e)
           }
 
-          let tokenTxData = await fetch(
-            `${explorerEndpoint}/api?module=account&action=tokentx&address=${address.address}`
-          )
-          if (tokenTxData.ok) {
-            let tokenTxDataJSON = await tokenTxData.json()
+          try {
+            let tokenTxData = await fetch(
+              `${explorerEndpoint}/api?module=account&action=tokentx&address=${address.address}`
+            )
+            if (tokenTxData.ok) {
+              let tokenTxDataJSON = await tokenTxData.json()
+              // Return if the request was successful
+              if (tokenTxDataJSON.status === "1") {
+                // add shard and address to each result
+                tokenTxDataJSON.result.forEach((item) => {
+                  item.shard = shard
+                  item.lookupAddress = address.address
+                  item.status = "confirmed"
+                })
+
+                accountActivity = accountActivity.concat(tokenTxDataJSON.result)
+              }
+            }
+          } catch (e) {
+            console.log(e)
+          }
+
+          try {
+            let confirmedData = await fetch(
+              `${explorerEndpoint}/api?module=account&action=txlist&address=${address.address}`
+            )
+
+            let confirmedDataJSON = await confirmedData.json()
             // Return if the request was successful
-            if (tokenTxDataJSON.status === "1") {
+            if (confirmedDataJSON.status === "1") {
               // add shard and address to each result
-              tokenTxDataJSON.result.forEach((item) => {
+              confirmedDataJSON.result.forEach((item) => {
                 item.shard = shard
                 item.lookupAddress = address.address
                 item.status = "confirmed"
               })
 
-              accountActivity = accountActivity.concat(tokenTxDataJSON.result)
+              accountActivity = accountActivity.concat(confirmedDataJSON.result)
             }
-          }
-
-          let confirmedData = await fetch(
-            `${explorerEndpoint}/api?module=account&action=txlist&address=${address.address}`
-          )
-
-          let confirmedDataJSON = await confirmedData.json()
-          // Return if the request was successful
-          if (confirmedDataJSON.status === "1") {
-            // add shard and address to each result
-            confirmedDataJSON.result.forEach((item) => {
-              item.shard = shard
-              item.lookupAddress = address.address
-              item.status = "confirmed"
-            })
-
-            accountActivity = accountActivity.concat(confirmedDataJSON.result)
+          } catch (e) {
+            console.log(e)
           }
 
           return accountActivity
@@ -359,6 +371,7 @@ export default class NetworkController {
   async getBalanceData(
     addresses: Address[]
   ): Promise<TokenNetworkAddressData[]> {
+    await this.updateController()
     const tokenBalancesPromises = this.tokens.map(async (token) => {
       const addressDataPromises = addresses.map(async (address) => {
         try {
@@ -376,7 +389,6 @@ export default class NetworkController {
       })
       const addressData = await Promise.all(addressDataPromises)
 
-      console.log(addressData)
       let totalBalance = 0
       addressData.forEach((address) => {
         if (address !== undefined) {

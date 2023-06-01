@@ -11,6 +11,7 @@ import TokenButtonGroup from "~components/token/tokenButtonGroup"
 import { updateCustomToken } from "~slices/update-token"
 import { TokenNetworkData } from "~storage/token"
 import { useAppDispatch, useAppSelector } from "~store"
+import { formatBalance } from "~utils/format"
 
 function TokenPage() {
   const dispatch = useAppDispatch()
@@ -41,7 +42,7 @@ function TokenPage() {
   }
 
   return (
-    <div className="">
+    <div className="pb-20">
       <div className="p-6">
         <div className="flex flex-row justify-between items-center">
           <button onClick={() => setLocation("/")} className="text-gray-400">
@@ -58,7 +59,14 @@ function TokenPage() {
           )}
         </div>
         <div className="flex flex-col items-center justify-center cursor-default">
-          <div className="text-3xl">{tokenData?.totalBalance}</div>
+          {tokenData && (
+            <div className="text-3xl">
+              {formatBalance(
+                tokenData?.totalBalance,
+                activeToken.type == "native"
+              )}
+            </div>
+          )}
           <div className="text-lg"> {tokenData?.name}</div>
         </div>
       </div>

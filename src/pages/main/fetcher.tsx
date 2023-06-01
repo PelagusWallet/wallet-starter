@@ -39,6 +39,7 @@ function Fetcher() {
 
   useEffect(() => {
     if (!activeWallet) return
+    console.log("Does this dispatch???")
     dispatch(updateActiveToken(DEFAULT_TOKENS[0]))
     fetchAddressData().catch((err) => console.error(err))
     const intervalId = setInterval(fetchAddressData, 10000) // Update data every 10 seconds

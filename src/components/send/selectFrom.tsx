@@ -9,6 +9,7 @@ import type { TokenNetworkAddressData } from "~background/services/network/contr
 import AddressLabel from "~components/accounts/addressLabel"
 import { TokenNetworkData, getToken } from "~storage/token"
 import { useAppSelector } from "~store"
+import { formatBalance } from "~utils/format"
 
 export default function SelectSendFrom() {
   const [, setLocation] = useLocation()
@@ -32,14 +33,6 @@ export default function SelectSendFrom() {
     }
   }, [activeToken])
 
-  const formatBalance = (balance: number) => {
-    // format large balance with e notation
-    if (balance > 100000000) {
-      return balance.toExponential(2)
-    }
-    // format small balance with 4 decimal places
-    return parseFloat(Number(balance).toFixed(4))
-  }
   return (
     <div>
       <ul role="list" className="space-y-3">
@@ -71,7 +64,10 @@ export default function SelectSendFrom() {
                       </div>
                     </div>
                     <div className="w-3/6 m-1 float-right text-[14px] font-thin text-right">
-                      {formatBalance(address.balance) +
+                      {formatBalance(
+                        address.balance,
+                        activeToken.type == "native"
+                      ) +
                         " " +
                         activeToken.symbol}
                     </div>

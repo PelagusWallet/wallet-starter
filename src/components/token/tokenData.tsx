@@ -24,6 +24,7 @@ import { getExplorerURLForShard } from "~background/services/network/chains"
 import { Network } from "~background/services/network/chains"
 import AddressLabel from "~components/accounts/addressLabel"
 import type { TokenNetworkData } from "~storage/token"
+import { formatBalance } from "~utils/format"
 
 function TokenData({ address }) {
   const [activeNetwork] = useStorage<Network>({
@@ -36,15 +37,6 @@ function TokenData({ address }) {
   const activeToken = useAppSelector(
     (state) => state.activeToken.activeToken as TokenNetworkData
   )
-
-  const formatBalance = (balance: number) => {
-    // format large balance with e notation
-    if (balance > 100000000) {
-      return balance.toExponential(2)
-    }
-    // format small balance with 4 decimal places
-    return parseFloat(Number(balance).toFixed(4))
-  }
 
   // Support Quaiscan by default
   function linkToExplorer(address: Address): string {
@@ -95,7 +87,9 @@ function TokenData({ address }) {
             </div>
           </div>
           <div className="w-3/6 m-1 float-right text-[14px] font-thin text-right">
-            {formatBalance(address.balance) + " " + activeToken.symbol}
+            {formatBalance(address.balance, activeToken.type == "native") +
+              " " +
+              activeToken.symbol}
           </div>
         </div>
       </div>

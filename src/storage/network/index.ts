@@ -36,9 +36,6 @@ export async function setActiveNetwork(networkName: string) {
   }
 
   await storage.set("active_network", activeNetwork)
-  await sendToBackground({
-    name: "network/update-controller"
-  })
 }
 
 export async function addCustomNetwork(network: Network) {

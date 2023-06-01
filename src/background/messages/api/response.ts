@@ -1,9 +1,9 @@
 import type { PlasmoMessaging } from "@plasmohq/messaging"
 
-import { handleRequest } from "../../api/handle"
+import { handleResponse } from "../../api/handle"
 
 const handler: PlasmoMessaging.MessageHandler = async (req, res) => {
-  let response = await handleRequest(req.body)
+  let response = await handleResponse(req.body)
   res.send(response)
 }
 

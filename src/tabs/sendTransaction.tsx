@@ -29,7 +29,6 @@ function SendTransaction() {
   const [data, setData] = useState("")
   const [sentTransaction, setSentTransaction] = useState(false)
   const [transactionResponse, setTransactionResponse] = useState("")
-  const [nonce, setNonce] = useState(0)
 
   const [activeNetwork, setActiveNetwork] = useState<Network>()
 
@@ -50,21 +49,6 @@ function SendTransaction() {
   }, [])
 
   useEffect(() => {
-    const getAddressData = async () => {
-      if (!from) return
-      const address = await getAddress(from)
-      const resp = await sendToBackground({
-        name: "get-address-data",
-        body: {
-          addresses: [address]
-        }
-      })
-      setNonce(resp.addressData[0].nonce)
-    }
-    getAddressData().catch((err) => console.error(err))
-  }, [from])
-
-  useEffect(() => {
     const getNetwork = async () => {
       const resp = await getActiveNetwork()
       setActiveNetwork(resp)
@@ -82,22 +66,57 @@ function SendTransaction() {
       data: data
     } as unknown as TransactionRequest
 
+    let resp
     try {
-      let resp = await signAndSendTransaction(transaction)
+      resp = await signAndSendTransaction(transaction)
       setTransactionResponse(resp.hash)
     } catch (err) {
       console.error(err)
       setTransactionResponse(err.message)
     }
     setSentTransaction(true)
+
+    // close window
+    // Get the current window
+    chrome.windows.getCurrent(async (currentWindow) => {
+      // Now currentWindow.id contains the window ID
+      const windowId = currentWindow.id
+
+      // Send the message
+      await sendToBackground({
+        name: "api/response",
+        body: {
+          action: "requestPermission",
+          windowId: windowId,
+          data: { code: 200, message: resp }
+        }
+      })
+    })
+
     setTimeout(() => {
       window.close()
     }, 3000)
   }
 
-  const handleReject = () => {
+  const handleReject = async () => {
     // close window
-    window.close()
+    // Get the current window
+    chrome.windows.getCurrent(async (currentWindow) => {
+      // Now currentWindow.id contains the window ID
+      const windowId = currentWindow.id
+
+      // Send the message
+      await sendToBackground({
+        name: "api/response",
+        body: {
+          action: "requestPermission",
+          windowId: windowId,
+          data: { code: 4001, message: "User denied the request." }
+        }
+      })
+
+      window.close()
+    })
   }
 
   if (sentTransaction) {
@@ -151,11 +170,6 @@ function SendTransaction() {
           <div className="secondary-bg-container rounded-md p-2 m-2 w-full sm:w-1/2 md:w-1/3">
             <p className="font-bold">Data:</p>
             <p>{data}</p>
-          </div>
-
-          <div className="secondary-bg-container rounded-md p-2 m-2 w-full sm:w-1/2 md:w-1/3">
-            <p className="font-bold">Nonce:</p>
-            <p>{nonce}</p>
           </div>
         </div>
       </div>

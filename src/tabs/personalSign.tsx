@@ -1,7 +1,9 @@
 import { quais } from "quais"
 import React, { useEffect, useState } from "react"
 
-import { getActiveWallet, personalSignFromAddress } from "~storage/wallet"
+import { sendToBackground } from "@plasmohq/messaging"
+
+import { personalSignFromAddress } from "~storage/wallet"
 
 import "../style.css"
 
@@ -32,18 +34,53 @@ function PersonalSign() {
   }, [])
 
   const handleSign = async () => {
+    let signed
     try {
-      let signed = await personalSignFromAddress(address, message)
+      signed = await personalSignFromAddress(address, message)
       setSignedMessage(signed)
       let signedAddress = quais.utils.verifyMessage(message, signed)
       setSignedAddress(signedAddress)
     } catch (err) {
       console.error(err)
     }
+
+    // Get the current window
+    chrome.windows.getCurrent(async (currentWindow) => {
+      // Now currentWindow.id contains the window ID
+      const windowId = currentWindow.id
+
+      // Send the message
+      await sendToBackground({
+        name: "api/response",
+        body: {
+          action: "requestPermission",
+          windowId: windowId,
+          data: { code: 200, message: signed }
+        }
+      })
+
+      window.close()
+    })
   }
 
   const handleDeny = () => {
-    window.close()
+    // Get the current window
+    chrome.windows.getCurrent(async (currentWindow) => {
+      // Now currentWindow.id contains the window ID
+      const windowId = currentWindow.id
+
+      // Send the message
+      await sendToBackground({
+        name: "api/response",
+        body: {
+          action: "requestPermission",
+          windowId: windowId,
+          data: { code: 4001, message: "User denied the request." }
+        }
+      })
+
+      window.close()
+    })
   }
 
   if (signedMessage) {

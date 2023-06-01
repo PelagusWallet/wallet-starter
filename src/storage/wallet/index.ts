@@ -404,6 +404,11 @@ export async function signAndSendTransaction(transaction: TransactionRequest) {
   const activeAddress = activeDerivations?.addresses?.find(
     (item) => item.address === transaction.from
   )
+
+  if (activeAddress === undefined) {
+    throw new Error("Address not found")
+  }
+
   const password = await storage.get("decryption_key")
   const keyfile = await getKeyfileForWallet(wallet.pubkey)
 
@@ -426,6 +431,8 @@ export async function signAndSendTransaction(transaction: TransactionRequest) {
     transaction.type = 2
   }
 
+  const feeData = await provider.getFeeData()
+
   if (transaction.maxFeePerGas == undefined) {
     transaction.maxFeePerGas = 1
   }
@@ -433,11 +440,9 @@ export async function signAndSendTransaction(transaction: TransactionRequest) {
     transaction.maxPriorityFeePerGas = 1
   }
 
-  if (transaction.gasLimit == undefined) {
+  if (transaction.gasLimit === undefined) {
     transaction.gasLimit = 21000
   }
-
-  const feeData = await provider.getFeeData()
 
   const rawTransaction = {
     to: transaction.to,
@@ -519,6 +524,10 @@ export async function personalSignFromAddress(address: string, msg: string) {
   const activeAddress = activeDerivations?.addresses?.find(
     (item) => item.address === address
   )
+  if (activeAddress === undefined) {
+    throw new Error("Address not found")
+  }
+
   const password = await storage.get("decryption_key")
   const keyfile = await getKeyfileForWallet(wallet.pubkey)
 

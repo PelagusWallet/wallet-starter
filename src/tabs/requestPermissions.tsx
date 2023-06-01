@@ -6,6 +6,8 @@ import { approveDomainPermissions } from "~storage/permissions/index"
 
 import "../style.css"
 
+import { sendToBackground } from "@plasmohq/messaging"
+
 interface QueryParams {
   url?: string
   requestedMethods?: string
@@ -32,11 +34,44 @@ function PermissionRequest() {
   const handleAllow = async () => {
     setPermissionRequested(true)
     await approveDomainPermissions(url, requestedMethods)
-    window.close()
+
+    // Get the current window
+    chrome.windows.getCurrent(async (currentWindow) => {
+      // Now currentWindow.id contains the window ID
+      const windowId = currentWindow.id
+
+      // Send the message
+      await sendToBackground({
+        name: "api/response",
+        body: {
+          action: "requestPermission",
+          windowId: windowId,
+          data: { code: 200, message: "Permission granted" }
+        }
+      })
+
+      window.close()
+    })
   }
 
-  const handleDeny = () => {
-    window.close()
+  const handleDeny = async () => {
+    // Get the current window
+    chrome.windows.getCurrent(async (currentWindow) => {
+      // Now currentWindow.id contains the window ID
+      const windowId = currentWindow.id
+
+      // Send the message
+      await sendToBackground({
+        name: "api/response",
+        body: {
+          action: "requestPermission",
+          windowId: windowId,
+          data: { code: 4001, message: "User denied the request." }
+        }
+      })
+
+      window.close()
+    })
   }
 
   if (permissionRequested) {

@@ -30,6 +30,17 @@ export default function MenuBar({ activeWallet }) {
     }
   }
 
+  function clickAccountButton() {
+    // if location contains /accounts, go to home
+    // else go to /accounts
+    console.log(location)
+    if (location.includes("accounts")) {
+      setLocation("/")
+    } else {
+      setLocation("/accounts?/" + activeWallet.pubkey)
+    }
+  }
+
   return (
     <div className=" secondary-bg-container fixed top-0 w-full z-50">
       <div className=" min-h-full">
@@ -57,9 +68,7 @@ export default function MenuBar({ activeWallet }) {
               </Disclosure.Button>
               <div
                 className="p-1 my-1 mr-1 border-2 rounded-full border-blue-600 dark:border-blue-400 cursor-pointer shadow shadow-blue-400 overflow-hidden"
-                onClick={() =>
-                  setLocation("/accounts?/" + activeWallet.pubkey)
-                }>
+                onClick={() => clickAccountButton()}>
                 {activeWallet ? (
                   <Jdenticon
                     size="38"

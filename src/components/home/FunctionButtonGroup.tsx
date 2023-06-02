@@ -6,14 +6,25 @@ import {
 import { FaFaucet } from "react-icons/fa"
 import { useLocation } from "wouter"
 
+import { updateActiveToken } from "~slices/active-token"
+import { useAppDispatch } from "~store"
+
 import "../../style.css"
+
+import { DEFAULT_TOKENS } from "~storage/token"
 
 export default function FunctionButtonGroup() {
   // router
   const [, setLocation] = useLocation()
+  const dispatch = useAppDispatch()
 
   const openFaucet = () => {
     window.open(process.env.PLASMO_PUBLIC_FAUCET_LINK, "_blank")
+  }
+
+  function navigateToSend() {
+    dispatch(updateActiveToken(DEFAULT_TOKENS[0]))
+    setLocation("/send")
   }
 
   return (
@@ -31,7 +42,7 @@ export default function FunctionButtonGroup() {
         </button>
         <button
           className="flex home-button-outer group w-1/3"
-          onClick={() => setLocation("/send")}>
+          onClick={() => navigateToSend()}>
           <div className="flex flex-col items-center m-auto">
             <ArrowUpRightIcon className="h-6 w-6" />
             <span className="home-button-inner">Send</span>

@@ -82,7 +82,7 @@ export default function ActivityItem({ activity }) {
                 </div>
               ) : (
                 <div className="font-semibold text-md">
-                  {formatBalance(activity.value, isNative(activity)) +
+                  {formatBalance(activity.value, false) +
                     " " +
                     getSymbolOrNative(activity)}
                 </div>

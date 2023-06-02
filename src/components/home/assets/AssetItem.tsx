@@ -69,7 +69,9 @@ export default function AssetItem({ token: token }) {
 
   return (
     <div className="mt-3 px-2">
-      <div className="flex flex-row justify-between">
+      <div
+        className="flex flex-row justify-between cursor-pointer"
+        onClick={navigateToTokenPage}>
         <div className="flex flex-row">
           {token.type == "native" ? (
             <img className="w-8 h-8 mr-2" src={quaiIcon} alt="quai-icon" />
@@ -83,10 +85,7 @@ export default function AssetItem({ token: token }) {
             {formatBalance(balance, token.type == "native")} {token.name}
           </div>
         </div>
-        <ChevronRightIcon
-          onClick={navigateToTokenPage}
-          className="h-6 w-6 cursor-pointer"
-        />
+        <ChevronRightIcon className="h-6 w-6" />
       </div>
     </div>
   )

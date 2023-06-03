@@ -29,6 +29,8 @@ export async function handleRequest(body: any) {
         message: "Permission granted",
         data: body.requestedMethods
       }
+    case "quai_chainId":
+      return "0x1"
   }
 
   let hasPermissions = await checkPermissions(url, body.method)

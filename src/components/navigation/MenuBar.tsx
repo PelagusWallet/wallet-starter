@@ -1,6 +1,7 @@
 import { Disclosure } from "@headlessui/react"
 import Jdenticon from "react-jdenticon"
-import pelagusLogo from "url:/assets/icon.png"
+import pelagusDarkBlueIcon from "url:/assets/logos/dark-blue/png/icon.png"
+import pelagusLightBlueIcon from "url:/assets/logos/light-blue/png/icon.png"
 import { useLocation } from "wouter"
 
 import "../../style.css"
@@ -20,6 +21,13 @@ export default function MenuBar({ activeWallet }) {
   const [activeNetwork] = useStorage<Network>({
     key: "active_network",
     instance: storage
+  })
+
+  const [darkMode] = useStorage<boolean>({
+    key: "dark_mode",
+    instance: new Storage({
+      area: "local"
+    })
   })
 
   function networkButtonClick() {
@@ -51,11 +59,19 @@ export default function MenuBar({ activeWallet }) {
                 <div
                   className="flex-shrink-0 cursor-pointer"
                   onClick={() => setLocation("/")}>
-                  <img
-                    className="h-9"
-                    src={pelagusLogo}
-                    alt="Pelagus Extension"
-                  />
+                  {darkMode ? (
+                    <img
+                      className="h-9"
+                      src={pelagusLightBlueIcon}
+                      alt="Pelagus"
+                    />
+                  ) : (
+                    <img
+                      className="h-9"
+                      src={pelagusDarkBlueIcon}
+                      alt="Pelagus"
+                    />
+                  )}
                 </div>
               </div>
               <Disclosure.Button

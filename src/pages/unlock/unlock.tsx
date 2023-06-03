@@ -1,11 +1,22 @@
 import { useState } from "react"
-import pelagusLogo from "url:/assets/group-68.png"
+import pelagusLgBlack from "url:/assets/logos/black/png/vertical-lockup.png"
+import pelagusLgWhite from "url:/assets/logos/white/png/vertical-lockup.png"
+
+import { Storage } from "@plasmohq/storage"
+import { useStorage } from "@plasmohq/storage/hook"
 
 import { unlock } from "~storage/wallet/password"
 
 export default function Unlock() {
   const [password, setPassword] = useState("")
   const [error, setError] = useState("")
+
+  const [darkMode] = useStorage<boolean>({
+    key: "dark_mode",
+    instance: new Storage({
+      area: "local"
+    })
+  })
 
   async function handleUnlock() {
     const passwordCorrect = await unlock(password)
@@ -18,7 +29,11 @@ export default function Unlock() {
   return (
     <div className=" flex flex-col h-screen p-6 m-auto">
       <div className="m-auto">
-        <img className="h-auto w-full mb-10" src={pelagusLogo} alt="Pelagus" />
+        {darkMode ? (
+          <img className="h-36 w-auto" src={pelagusLgWhite} alt="Pelagus" />
+        ) : (
+          <img className="h-36 w-auto" src={pelagusLgBlack} alt="Pelagus" />
+        )}
         <label className="mt-10">Password</label>
         <input
           type="password"

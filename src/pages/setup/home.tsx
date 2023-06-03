@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
-import pelagusLgBlack from "url:/assets/pelagus-lg-black.png"
-import pelagusLgWhite from "url:/assets/pelagus-lg-white.png"
+import pelagusLgBlack from "url:/assets/logos/black/png/vertical-lockup.png"
+import pelagusLgWhite from "url:/assets/logos/white/png/vertical-lockup.png"
 import quaiLogoBlack from "url:/assets/quai-full-black.png"
 import quaiLogo from "url:/assets/quai-full.png"
 import { useLocation } from "wouter"

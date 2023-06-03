@@ -1,4 +1,4 @@
-![Pelagus Icon](./assets/icon.png)
+![Pelagus Icon](./assets/logos/White/PNG/horizontal_lockup.png)
 
 # Pelagus: Embark on Web3
 

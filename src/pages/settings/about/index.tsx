@@ -1,7 +1,7 @@
 import { Disclosure } from "@headlessui/react"
 import { ChevronLeftIcon } from "@heroicons/react/24/outline"
-import pelagusLgBlack from "url:/assets/pelagus-lg-black.png"
-import pelagusLgWhite from "url:/assets/pelagus-lg-white.png"
+import pelagusLgBlack from "url:/assets/logos/black/png/vertical-lockup.png"
+import pelagusLgWhite from "url:/assets/logos/white/png/vertical-lockup.png"
 import { useLocation } from "wouter"
 
 import Footer from "~components/navigation/Footer"

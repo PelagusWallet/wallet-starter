@@ -20,31 +20,31 @@ export async function generateRandomMnemonic() {
  * as a string, an array of UTF-8 bytes, or a Buffer. Mnemonic input
  * passed as type buffer or array of UTF-8 bytes must be NFKD normalized.
  */
-export function getWalletFromMnemonic(mnemonic) {
+export async function getWalletFromMnemonic(mnemonic) {
   // validate before initializing
   const isValid = bip39.validateMnemonic(mnemonic)
   if (!isValid) {
     throw new Error("Hd-Keyring: Invalid secret recovery phrase provided")
   }
 
-  // eslint-disable-next-line node/no-sync
-  const seed = bip39.mnemonicToSeedSync(mnemonic)
-  return HDKey.fromMasterSeed(seed)
+  const seedBuffer = await bip39.mnemonicToSeed(mnemonic)
+  const seedUint8Array = Uint8Array.from(seedBuffer)
+  return HDKey.fromMasterSeed(seedUint8Array)
 }
 
 /**
  * Returns a derived address from a given HDKey. Options available
  * are path (defaults to the Quai 994 path) and index (defaults to 0).
  *
- * @param HDKey
+ * @param hdKey
  * @param opts
  * @returns
  */
-export function deriveAddress(HDKey, opts) {
+export function deriveAddress(hdKey, opts) {
   let path = opts.path || defaultHDPath
   let index = opts.index || 0
 
-  let childKey = HDKey.derive(path + "/" + index.toString())
+  let childKey = hdKey.derive(path + "/" + index.toString())
   let signingKey = new quais.utils.SigningKey(childKey.privateKey)
   let address = quais.utils.computeAddress(signingKey.publicKey)
   return address
@@ -69,4 +69,24 @@ export function encryptHDKey(password, wallet) {
 export async function decryptHDKey(password, encrypted) {
   let hdJson = await encryptor.decrypt(password, encrypted)
   return HDKey.fromJSON(hdJson)
+}
+
+/**
+ * Takes in a password and mnemonic. Returns an encrypted form of the mnemonic.
+ * @param password
+ * @param mnemonic
+ * @returns
+ */
+export function encryptMnemonic(password, mnemonic) {
+  return encryptor.encrypt(password, mnemonic)
+}
+
+/**
+ * Takes in a password and encrypted mnemonic. Returns a decrypted form of the mnemonic.
+ * @param password
+ * @param mnemonic
+ * @returns
+ */
+export async function decryptMnemonic(password, encrypted) {
+  return encryptor.decrypt(password, encrypted)
 }

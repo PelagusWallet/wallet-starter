@@ -17,37 +17,38 @@ describe("generateRandomMnemonic", () => {
 })
 
 describe("getWalletFromMnemonic", () => {
-  it("should return an HDKey from a valid mnemonic", () => {
+  it("should return an HDKey from a valid mnemonic", async () => {
     const mnemonic =
       "abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about"
-    const wallet = getWalletFromMnemonic(mnemonic)
+    const wallet = await getWalletFromMnemonic(mnemonic)
     expect(wallet.constructor.name).toBe("HDKey")
   })
 
-  it("should throw an error for an invalid mnemonic", () => {
+  it("should throw an error for an invalid mnemonic", async () => {
     const mnemonic = "invalid mnemonic"
-    expect(() => getWalletFromMnemonic(mnemonic)).toThrowError()
+    await expect(getWalletFromMnemonic(mnemonic)).rejects.toThrow()
   })
 })
 
 describe("deriveAddress", () => {
-  it("should derive an address from an HDKey", () => {
+  it("should derive an address from an HDKey", async () => {
     const mnemonic =
       "abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about"
-    const wallet = getWalletFromMnemonic(mnemonic)
+    const wallet = await getWalletFromMnemonic(mnemonic)
     const address = deriveAddress(wallet, { path: `m/44'/994'/0'/0` })
     expect(quais.utils.isAddress(address)).toBe(true)
   })
 })
 
 describe("encryptHDKey and decryptHDKey", () => {
-  it("should encrypt and decrypt an HDKey", () => {
+  it("should encrypt and decrypt an HDKey", async () => {
     const mnemonic =
       "abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about"
-    const wallet = getWalletFromMnemonic(mnemonic)
+    const wallet = await getWalletFromMnemonic(mnemonic)
     const password = "password"
-    const encrypted = encryptHDKey(password, wallet)
-    const decrypted = decryptHDKey(password, encrypted)
-    expect(decrypted).toEqual(wallet.toJSON())
+    const encrypted = await encryptHDKey(password, wallet)
+    const decrypted = await decryptHDKey(password, encrypted)
+
+    expect(decrypted).toEqual(wallet)
   })
 })

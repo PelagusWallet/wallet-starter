@@ -11,12 +11,17 @@ import { SecureStorage } from "@plasmohq/storage/secure"
 import { getActiveNetwork } from "~/storage/network"
 import { setupDefaultTokens } from "~/storage/token"
 import { QUAI_CONTEXTS, QuaiContext } from "~background/services/network/chains"
-import { decryptHDKey, deriveAddress, getWalletFromMnemonic } from "~crypto"
+import {
+  decryptHDKey,
+  deriveAddress,
+  encryptHDKey,
+  encryptMnemonic,
+  getWalletFromMnemonic
+} from "~crypto"
 
 import { WALLET_GENERATED } from "./constants"
 import { watchKeyRemoval } from "./password"
 
-const encryptor = require("@metamask/browser-passworder")
 const storage = new Storage({ area: "local" })
 const secureStorage = new SecureStorage({ area: "local" })
 
@@ -162,7 +167,7 @@ export async function createWallet(password: string, mnemonic: string) {
   await secureStorage.set("keyfiles", [])
   await storage.set("wallets", [])
 
-  let hdWallet = getWalletFromMnemonic(mnemonic)
+  let hdWallet = await getWalletFromMnemonic(mnemonic)
   addWallet(hdWallet, mnemonic, password)
 
   await storage.set("decryption_key", password)
@@ -183,7 +188,8 @@ export async function addWallet(wallet: any, mnemonic: any, password: string) {
   const keyfiles = await getKeyfiles()
   const freshInstall = wallets.length === 0
 
-  const encrypted = await encryptor.encrypt(password, wallet)
+  const encryptedHDKey = await encryptHDKey(password, wallet)
+  const encryptedMnemonic = await encryptMnemonic(password, mnemonic)
 
   // Get address at default hdPath and 0 index
   const chainCode = 994
@@ -224,8 +230,8 @@ export async function addWallet(wallet: any, mnemonic: any, password: string) {
   keyfiles.push({
     nickname: walletName,
     pubkey: accountNode.publicKey.toString("hex"),
-    keyfile: encrypted,
-    mnemonic: mnemonic,
+    keyfile: encryptedHDKey,
+    mnemonic: encryptedMnemonic,
     type: WALLET_GENERATED
   })
 

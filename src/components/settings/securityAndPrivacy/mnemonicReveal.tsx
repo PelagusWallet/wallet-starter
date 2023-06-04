@@ -2,6 +2,7 @@ import "../../../style.css"
 
 import { useEffect, useState } from "react"
 
+import { sendToBackground } from "@plasmohq/messaging"
 import { Storage } from "@plasmohq/storage"
 import { useStorage } from "@plasmohq/storage/hook"
 
@@ -19,11 +20,14 @@ export default function MnemonicReveal({ password, onClose }) {
   })
 
   async function revealMnemonic() {
-    const keyfile = await attemptGetKeyfileForWallet(
-      activeWallet.pubkey,
-      password
-    )
-    setMnemonic(keyfile.mnemonic)
+    const mnemonic = await sendToBackground({
+      name: "wallet/reveal-mnemonic",
+      body: {
+        password: password,
+        pubkey: activeWallet.pubkey
+      }
+    })
+    setMnemonic(mnemonic.decryptedMnemonic)
   }
 
   useEffect(() => {

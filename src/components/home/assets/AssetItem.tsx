@@ -16,7 +16,7 @@ import { useAppDispatch } from "~store"
 import { formatBalance } from "~utils/format"
 
 export default function AssetItem({ token: token }) {
-  const [balance, setBalance] = useState(0)
+  const [balance, setBalance] = useState(null)
   const [location, setLocation] = useLocation()
 
   const addressData = useAppSelector(
@@ -54,7 +54,7 @@ export default function AssetItem({ token: token }) {
       (token) => token.type === "native"
     ).addresses
     if (addressData?.length == 0) return
-    let balance = addressData.reduce((acc, curr) => {
+    let balance = addressData?.reduce((acc, curr) => {
       return acc + curr.balance
     }, 0)
 

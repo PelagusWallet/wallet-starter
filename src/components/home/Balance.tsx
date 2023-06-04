@@ -3,8 +3,6 @@ import "../../style.css"
 import { useEffect, useState } from "react"
 import gradient from "url:/assets/gradients/frame-5.png"
 
-import { sendToBackground } from "@plasmohq/messaging"
-
 import type { TokenNetworkAddressData } from "~background/services/network/controller"
 import { useAppSelector } from "~store"
 
@@ -19,8 +17,9 @@ export default function Balance() {
     let addressData = balanceData.find(
       (token) => token.type === "native"
     )?.addresses
-    if (addressData?.length == 0) return
-    let balance = addressData.reduce((acc, curr) => {
+    if (!addressData) return
+    let balance = addressData?.reduce((acc, curr) => {
+      if (!curr) return acc
       return acc + curr?.balance
     }, 0)
 

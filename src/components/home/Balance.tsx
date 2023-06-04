@@ -1,6 +1,7 @@
 import "../../style.css"
 
 import { useEffect, useState } from "react"
+import gradient from "url:/assets/gradients/frame-5.png"
 
 import { sendToBackground } from "@plasmohq/messaging"
 
@@ -36,7 +37,10 @@ export default function Balance() {
       <header
         className=" cursor-default py-8 h-50 my-auto mx-4 rounded-md mb-4 px-4 backdrop-blur-md"
         style={{
-          background: "linear-gradient(45deg, #3b82f6, #f59e0b, #ef4444)"
+          backgroundImage: `url(${gradient})`,
+          backgroundPosition: "center", // change according to your needs
+          backgroundSize: "cover", // change according to your needs
+          backgroundRepeat: "no-repeat" // change according to your needs
         }}>
         <p className="text-bold text-[18px]">My balance</p>
         {balance == null ? (

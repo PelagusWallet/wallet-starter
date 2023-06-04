@@ -8,7 +8,8 @@ module.exports = {
     fontFamily: {
       sans: ["Inter", "sans-serif"],
       serif: ["Georgia", "serif"],
-      quai: ["Bai Jamjuree", "serif"]
+      quai: ["Bai Jamjuree", "serif"],
+      pelagus: ["Alata", "serif"]
     },
     extend: {
       colors: {

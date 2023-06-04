@@ -114,7 +114,7 @@ export default function SettingsList() {
 
                   <Disclosure.Button
                     as="a"
-                    className="block font-quai rounded-md px-3 py-2 text-base font-medium">
+                    className="block rounded-md px-3 py-2 text-base font-medium">
                     {item.name}
                   </Disclosure.Button>
                 </div>

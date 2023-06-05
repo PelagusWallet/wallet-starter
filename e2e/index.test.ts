@@ -1,6 +1,5 @@
 import { BrowserManager } from "./bootstrap"
 import { TEST_PAGE_SERVER_PORT } from "./constants"
-import { EXTENSION_ID, POPUP_PAGE } from "./constants"
 import testPageServer from "./testPageServer"
 import { HomePageTesters } from "./testers/HomePageTesters"
 import { WelcomePageTesters } from "./testers/WelcomePageTesters"

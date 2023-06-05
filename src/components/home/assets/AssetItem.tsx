@@ -82,7 +82,8 @@ export default function AssetItem({ token: token }) {
               }  `}></div>
           )}
           <div className="m-auto text-lg">
-            {formatBalance(balance, token.type == "native")} {token.name}
+            {balance && formatBalance(balance, token?.type == "native")}{" "}
+            {token.name}
           </div>
         </div>
         <ChevronRightIcon className="h-6 w-6" />

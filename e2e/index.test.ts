@@ -1,5 +1,6 @@
-import { bootstrap } from "./bootstrap"
+import { BrowserManager } from "./bootstrap"
 import { TEST_PAGE_SERVER_PORT } from "./constants"
+import { EXTENSION_ID, POPUP_PAGE } from "./constants"
 import testPageServer from "./testPageServer"
 import { HomePageTesters } from "./testers/HomePageTesters"
 import { WelcomePageTesters } from "./testers/WelcomePageTesters"
@@ -19,12 +20,16 @@ describe("Clean setup", () => {
   test("text changes are applied", async () => {
     const appUrl = `http://localhost:${TEST_PAGE_SERVER_PORT}/basic-page.html`
 
-    const context = await bootstrap({ appUrl })
-    const { appPage, browser, extensionPage } = context
+    const manager = new BrowserManager()
+    await manager.setupWelcomePage({ appUrl })
+
+    const welcomePage = manager.getWelcomePage()
+    if (!welcomePage) {
+      throw new Error("Welcome page not found.")
+    }
 
     try {
-      const welcomePageTesters = new WelcomePageTesters(context)
-      // const homePageTesters = new HomePageTesters(context)
+      const welcomePageTesters = new WelcomePageTesters(manager)
 
       await welcomePageTesters.checkTheBox()
       await welcomePageTesters.clickCreateNewWallet()
@@ -34,9 +39,17 @@ describe("Clean setup", () => {
       await welcomePageTesters.clickSubmitPassword()
       await welcomePageTesters.clickCopySeedPhrase()
       await welcomePageTesters.clickContinueSeedPhrase()
+
+      const extensionPage = await manager.getExtensionPage()
+      if (!extensionPage) {
+        throw new Error("Extension page not found.")
+      }
+
+      // Perform actions on the extension page
+
       await wait(1000)
     } finally {
-      await browser.close()
+      await manager.browser.close()
     }
   })
 })
@@ -44,11 +57,17 @@ describe("Clean setup", () => {
 describe("Setup unhappy paths", () => {
   test("Mismatching Passwords", async () => {
     const appUrl = `http://localhost:${TEST_PAGE_SERVER_PORT}/basic-page.html`
-    const context = await bootstrap({ appUrl })
-    const { appPage, browser, extensionPage } = context
-    const welcomePageTesters = new WelcomePageTesters(context)
+    const manager = new BrowserManager()
+    await manager.setupWelcomePage({ appUrl })
+
+    const welcomePage = manager.getWelcomePage()
+    if (!welcomePage) {
+      throw new Error("Welcome page not found.")
+    }
 
     try {
+      const welcomePageTesters = new WelcomePageTesters(manager)
+
       await welcomePageTesters.checkTheBox()
       await welcomePageTesters.clickCreateNewWallet()
 
@@ -61,17 +80,22 @@ describe("Setup unhappy paths", () => {
 
       await wait(500)
     } finally {
-      await browser.close()
+      await manager.browser.close()
     }
   })
 
   test("Short Password", async () => {
     const appUrl = `http://localhost:${TEST_PAGE_SERVER_PORT}/basic-page.html`
-    const context = await bootstrap({ appUrl })
-    const { appPage, browser, extensionPage } = context
-    const welcomePageTesters = new WelcomePageTesters(context)
+    const manager = new BrowserManager()
+    await manager.setupWelcomePage({ appUrl })
+
+    const welcomePage = manager.getWelcomePage()
+    if (!welcomePage) {
+      throw new Error("Welcome page not found.")
+    }
 
     try {
+      const welcomePageTesters = new WelcomePageTesters(manager)
       await welcomePageTesters.checkTheBox()
       await welcomePageTesters.clickCreateNewWallet()
 
@@ -84,7 +108,7 @@ describe("Setup unhappy paths", () => {
 
       await wait(500)
     } finally {
-      await browser.close()
+      await manager.browser.close()
     }
   })
 })

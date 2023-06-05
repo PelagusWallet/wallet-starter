@@ -1,59 +1,56 @@
-import puppeteer from "puppeteer"
+import puppeteer, { Browser, Page } from "puppeteer"
 
 import { EXTENSION_ID, POPUP_PAGE } from "./constants"
 import type { Context } from "./types"
 
-export async function bootstrap(options: {
-  devtools?: boolean
-  slowMo?: number
-  appUrl: string
-}): Promise<Context> {
-  const { devtools = false, slowMo = 0, appUrl } = options
-  const browser = await puppeteer.launch({
-    headless: false,
-    devtools,
-    args: [
-      "--disable-extensions-except=./build/chrome-mv3-dev",
-      "--load-extension=./build/chrome-mv3-dev"
-    ],
-    slowMo
-  })
+export class BrowserManager {
+  browser: Browser
+  appPage: Page | null = null
+  extensionPage: Page | null = null
+  welcomePage: Page | null = null
+  extensionUrl: string = `chrome-extension://${EXTENSION_ID}/${POPUP_PAGE}.html`
+  welcomeUrl: string = `chrome-extension://${EXTENSION_ID}/tabs/welcome.html`
 
-  // Store all browser tabs
-  let pages = await browser.pages()
+  async setupWelcomePage(options) {
+    const { devtools = false, slowMo = 0, appUrl } = options
+    this.browser = await puppeteer.launch({
+      headless: false,
+      devtools,
+      args: [
+        "--disable-extensions-except=./build/chrome-mv3-dev",
+        "--load-extension=./build/chrome-mv3-dev"
+      ],
+      slowMo
+    })
 
-  // Handle new tabs
-  browser.on("targetcreated", async () => {
-    pages = await browser.pages()
-  })
+    // Store all browser tabs
+    let pages = await this.browser.pages()
 
-  // Execute your extension which opens a new tab
+    // Handle new tabs
+    this.browser.on("targetcreated", async () => {
+      pages = await this.browser.pages()
+    })
 
-  // Wait for the new tab to open
-  while (pages.length != 2) {
-    pages = await browser.pages()
-    console.log("Waiting for extension to open...", pages.length)
-    await new Promise((resolve) => setTimeout(resolve, 100))
+    // Execute your extension which opens a new tab
+
+    // Wait for the new tab to open
+    while (pages.length !== 2) {
+      await new Promise((resolve) => setTimeout(resolve, 100))
+      pages = await this.browser.pages()
+    }
+
+    this.welcomePage = pages[1]
+    await this.welcomePage.goto(this.welcomeUrl, { waitUntil: "load" })
   }
 
-  const appPage = null
-  // await appPage.goto(appUrl, { waitUntil: "load" })
+  getWelcomePage(): Page | null {
+    return this.welcomePage
+  }
 
-  const extensionPage = null
-  const extensionUrl = `chrome-extension://${EXTENSION_ID}/${POPUP_PAGE}.html`
-  // await extensionPage.goto(extensionUrl, { waitUntil: "load" })
-
-  console.log("pages", pages)
-  const welcomePage = pages[1]
-  const welcomeUrl = `chrome-extension://${EXTENSION_ID}/tabs/welcome.html`
-  await welcomePage.goto(welcomeUrl, { waitUntil: "load" })
-
-  return {
-    appPage,
-    browser,
-    extensionUrl,
-    extensionPage,
-    welcomeUrl,
-    welcomePage
+  async getExtensionPage(): Promise<Page | null> {
+    this.extensionPage = await this.browser.newPage()
+    const extensionUrl = `chrome-extension://${EXTENSION_ID}/${POPUP_PAGE}.html`
+    await this.extensionPage.goto(extensionUrl, { waitUntil: "load" })
+    return this.extensionPage
   }
 }

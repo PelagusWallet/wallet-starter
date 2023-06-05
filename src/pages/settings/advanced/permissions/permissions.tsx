@@ -45,13 +45,15 @@ function DomainPermissions() {
         <div className="w-full text-center">No approved domains</div>
       )}
       {approvedDomains?.map(({ url, approvedMethods, date }) => (
-        <div key={url} className="bg-gray-800  p-4 rounded-md mb-2 mx-2">
-          <h2 className="text-2xl font-bold mb-2">{url}</h2>
+        <div
+          key={url}
+          className="secondary-bg-container p-4 rounded-md mb-2 mx-2">
+          <h2 className="text-lg font-bold mb-2">{url}</h2>
           <p className="italic mb-2">
             Date granted: {new Date(date.toString()).toLocaleDateString()}
           </p>
 
-          <ul className="list-disc list-inside bg-gray-700 rounded-md p-2 mb-2">
+          <ul className="list-disc list-inside rounded-md p-2 mb-2">
             {approvedMethods.map((permission) => (
               <li key={permission.method}>{permission.method}</li>
             ))}

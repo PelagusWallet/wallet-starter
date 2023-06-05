@@ -465,6 +465,7 @@ export async function signAndSendTransaction(transaction: TransactionRequest) {
   }
 
   if (fromShard !== toShard) {
+    rawTransaction.gasLimit = BigInt(420000)
     rawTransaction.externalGasLimit = BigInt(100000)
     rawTransaction.externalGasPrice = BigInt(Number(feeData.maxFeePerGas) * 2)
     rawTransaction.externalGasTip = BigInt(

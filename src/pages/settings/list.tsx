@@ -61,15 +61,8 @@ const userNavigation = [
     bgColor: "bg-indigo-200 dark:bg-indigo-700"
   },
   {
-    name: "Sign out",
-    href: "#",
-    icon: ArrowLeftOnRectangleIcon,
-    iconColor: "text-gray-500",
-    bgColor: "bg-gray-200 dark:bg-gray-700"
-  },
-  {
     name: "Follow on Twitter",
-    href: "https://twitter.com/your_username",
+    href: "https://twitter.com/PelagusWallet",
     icon: FaTwitter,
     iconColor: "text-blue-600 dark:text-blue-400",
     bgColor: "bg-blue-100 dark:bg-blue-600"
@@ -80,6 +73,13 @@ const userNavigation = [
     icon: FaDiscord,
     iconColor: "text-indigo-400",
     bgColor: "bg-indigo-100 dark:bg-indigo-600"
+  },
+  {
+    name: "Sign out",
+    href: "#",
+    icon: ArrowLeftOnRectangleIcon,
+    iconColor: "text-gray-500",
+    bgColor: "bg-gray-200 dark:bg-gray-700"
   }
 ]
 
@@ -87,11 +87,16 @@ export default function SettingsList() {
   const [, setLocation] = useLocation()
 
   async function handleClick(item) {
-    if (item.name === "Sign out") {
-      await signOut()
-      setLocation("/")
-    } else {
-      setLocation("/settings" + item.href)
+    switch (item.name) {
+      case "Sign out":
+        await signOut()
+        setLocation("/")
+        break
+      case "Follow on Twitter":
+        window.open(item.href, "_blank")
+        break
+      default:
+        setLocation("/settings" + item.href)
     }
   }
 

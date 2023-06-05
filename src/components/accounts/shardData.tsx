@@ -45,6 +45,8 @@ function ShardData({ wallet, addressGroup }) {
       (token) => token.type === "native"
     ).addresses
 
+    if (!addressData) return
+
     if (addressData?.length == 0) return
 
     let balance = addressData?.find(

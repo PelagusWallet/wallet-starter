@@ -25,6 +25,9 @@ dependencies:
   '@plasmohq/messaging':
     specifier: ^0.1.8
     version: 0.1.8(react@18.2.0)
+  '@plasmohq/persistent':
+    specifier: ^0.0.3
+    version: 0.0.3
   '@plasmohq/redux-persist':
     specifier: ^6.1.0
     version: 6.1.0(redux@4.2.1)
@@ -4045,6 +4048,10 @@ packages:
       - walrus
       - whiskers
     dev: true
+
+  /@plasmohq/persistent@0.0.3:
+    resolution: {integrity: sha512-vDHISIyormUDT8cmen+Gcls1aK8+mLb3LuwjvHeS+buBFblmX7paHAiRUEez5FTzK7vEn9H2PD4mr6Fj8dk9FA==}
+    dev: false
 
   /@plasmohq/prettier-plugin-sort-imports@3.5.4(prettier@2.7.1):
     resolution: {integrity: sha512-VrGA2R+hCS4hBwg5aILPXjIhs72ctikWr89ti7EWdlPs3jzo+G10177ppDeNgROLtAx8woT5Rdh+zTU58RRSwg==}

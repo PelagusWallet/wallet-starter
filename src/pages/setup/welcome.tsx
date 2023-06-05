@@ -67,7 +67,7 @@ const App = () => {
       }}
       className="cursor-pointer"
       onClick={() => setLocation("/language")}>
-      <AnimatePresence exitBeforeEnter>
+      <AnimatePresence>
         <motion.div
           key={greetings[index].language}
           initial={{ y: 0, opacity: 0 }}

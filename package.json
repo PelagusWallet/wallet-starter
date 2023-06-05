@@ -19,6 +19,7 @@
     "@ledgerhq/hw-transport-webusb": "^6.27.15",
     "@metamask/browser-passworder": "^4.1.0",
     "@plasmohq/messaging": "^0.1.8",
+    "@plasmohq/persistent": "^0.0.3",
     "@plasmohq/redux-persist": "^6.1.0",
     "@plasmohq/storage": "^1.6.1",
     "@reduxjs/toolkit": "^1.9.5",

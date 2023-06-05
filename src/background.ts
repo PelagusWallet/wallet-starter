@@ -1,5 +1,6 @@
 import browser from "webextension-polyfill"
 
+import { keepAlive } from "@plasmohq/persistent/background"
 import { Storage } from "@plasmohq/storage"
 
 import InitializePelagus from "~background/index"
@@ -24,5 +25,7 @@ chrome.runtime.onInstalled.addListener(() => {
 })
 
 InitializePelagus()
+
+keepAlive()
 
 export {}

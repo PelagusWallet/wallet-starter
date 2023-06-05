@@ -89,7 +89,7 @@ function ImportMnemonic() {
         <ProgressBar page={page} setPage={attemptSetPage} steps={steps} />
       </div>
       <div className="w-full border border-white rounded-b-md py-20">
-        <AnimatePresence exitBeforeEnter>
+        <AnimatePresence>
           {page == 0 && (
             <motion.div
               key="mnemonicSetup"

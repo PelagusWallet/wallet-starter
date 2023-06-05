@@ -21,7 +21,10 @@ function PinExtension({ onContinue }) {
         </div>
       </div>
       <div className="flex justify-center pt-10">
-        <button onClick={() => onContinue()} className="btn-class">
+        <button
+          data-testid="pinExtensionButton"
+          onClick={() => onContinue()}
+          className="btn-class">
           Continue
         </button>
       </div>

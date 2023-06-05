@@ -20,6 +20,7 @@ function PasswordSetup({ onPasswordSubmit }) {
 
   function submitPassword() {
     if (password != passwordConfirm) {
+      setErrorMessage("Passwords do not match")
       return
     }
 
@@ -39,6 +40,7 @@ function PasswordSetup({ onPasswordSubmit }) {
         </label>
         <div className="relative mt-2 flex items-center">
           <input
+            data-testid="passwordInput"
             type={showPassword ? "text" : "password"}
             name="password"
             id="password"
@@ -58,6 +60,7 @@ function PasswordSetup({ onPasswordSubmit }) {
         </div>
         <div className="relative mt-1 flex items-center">
           <input
+            data-testid="passwordConfirmInput"
             type="password"
             name="passwordConfirm"
             id="passwordConfirm"
@@ -67,13 +70,18 @@ function PasswordSetup({ onPasswordSubmit }) {
           />
         </div>
         <div className="flex justify-center mt-10">
-          <button onClick={() => submitPassword()} className="btn-class">
+          <button
+            data-testid="submitPasswordButton"
+            onClick={() => submitPassword()}
+            className="btn-class">
             Submit Password
           </button>
         </div>
         <div>
           {errorMessage && (
-            <div className="text-red-500 text-center mt-4 font-bold text-md">
+            <div
+              data-testid="passwordErrorMessage"
+              className="text-red-500 text-center mt-4 font-bold text-md">
               {errorMessage}
             </div>
           )}

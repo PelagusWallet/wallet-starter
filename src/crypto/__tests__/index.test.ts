@@ -7,7 +7,7 @@ import {
   encryptHDKey,
   generateRandomMnemonic,
   getWalletFromMnemonic
-} from "~crypto"
+} from "../../crypto"
 
 describe("generateRandomMnemonic", () => {
   it("should generate a valid mnemonic", async () => {

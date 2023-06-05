@@ -57,6 +57,7 @@ function Home() {
                 </div>
                 <div>
                   <button
+                    data-testid="createWalletButton"
                     disabled={!isChecked}
                     onClick={() => setLocation("/generate")}
                     className="btn-class w-full">

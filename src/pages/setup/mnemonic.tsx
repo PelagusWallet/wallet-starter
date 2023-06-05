@@ -30,12 +30,18 @@ function MnemonicSetup({ mnemonic, onCopiedMnemonic }) {
         </div>
       </div>
       <div className="flex justify-center pt-10">
-        <button onClick={() => copiedMnemonic()} className="btn-class">
+        <button
+          data-testid="copySeedPhraseButton"
+          onClick={() => copiedMnemonic()}
+          className="btn-class">
           Copy Secure Phrase
         </button>
       </div>
       <div className="flex justify-center pt-10">
-        <button onClick={() => continueMnemonic()} className="btn-class">
+        <button
+          data-testid="continueSeedPhraseButton"
+          onClick={() => continueMnemonic()}
+          className="btn-class">
           Continue
         </button>
       </div>

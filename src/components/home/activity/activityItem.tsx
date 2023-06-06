@@ -122,7 +122,7 @@ export default function ActivityItem({ activity }) {
           </div>
           <div className="flex flex-col w-full">
             <div className="flex justify-between">
-              <div>
+              <div className="font-semibold">
                 {(() => {
                   switch (activity.type) {
                     case "send":
@@ -138,24 +138,22 @@ export default function ActivityItem({ activity }) {
                 })()}
               </div>
               {getSymbolOrNative(activity) !== "QUAI" ? (
-                <div className="font-semibold">
+                <div className="">
                   {formatBalance(activity.value, isNative(activity))}{" "}
                   {getSymbolOrNative(activity)}
                 </div>
               ) : (
-                <div className="font-semibold">
+                <div className="">
                   {formatBalance(activity.value, false)} QUAI
                 </div>
               )}
             </div>
             <div className="flex justify-between">
-              <div>Confirmations</div>
-              <div className="font-medium">{activity.confirmations}</div>
+              {/* <div>Confirmations</div>
+              <div className="font-medium">{activity.confirmations}</div> */}
             </div>
             <div className="flex justify-between">
-              <div className="font-medium">
-                {formatTimestamp(activity.timeStamp)}
-              </div>
+              <div className="">{formatTimestamp(activity.timeStamp)}</div>
             </div>
           </div>
         </div>

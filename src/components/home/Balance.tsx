@@ -41,11 +41,13 @@ export default function Balance() {
           backgroundSize: "cover", // change according to your needs
           backgroundRepeat: "no-repeat" // change according to your needs
         }}>
-        <p className="text-bold text-[18px]">My balance</p>
+        <p className="text-bold text-[18px] text-white">My balance</p>
         {balance == null ? (
           <h1 className="text-3xl tracking-tight"> </h1>
         ) : (
-          <h1 className="text-3xl font-bold tracking-tight">{balance} QUAI</h1>
+          <h1 className="text-3xl font-bold tracking-tight text-white">
+            {balance} QUAI
+          </h1>
         )}
       </header>
     </>

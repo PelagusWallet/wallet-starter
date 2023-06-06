@@ -35,57 +35,62 @@ function PasswordSetup({ onPasswordSubmit }) {
   return (
     <main className=" flex bg-transparent">
       <div className="mx-auto max-w-md mt-0">
-        <label htmlFor="password" className="block text-sm font-medium">
-          Enter a password to generate a secure phrase.
-        </label>
-        <div className="relative mt-2 flex items-center">
-          <input
-            data-testid="passwordInput"
-            type={showPassword ? "text" : "password"}
-            name="password"
-            id="password"
-            onChange={handlePasswordChange}
-            value={password}
-            className="input-class"
-          />
-          <div
-            onClick={() => setShowPassword(!showPassword)}
-            className="absolute inset-y-0 right-0 flex py-1.5 pr-1.5">
-            {showPassword ? (
-              <EyeSlashIcon className="cursor-pointer inline-flex items-center px-2 font-sans text-sm font-medium"></EyeSlashIcon>
-            ) : (
-              <EyeIcon className="cursor-pointer inline-flex items-center px-2 font-sans text-sm font-medium"></EyeIcon>
+        <form
+          onSubmit={(event) => {
+            submitPassword()
+          }}>
+          <label htmlFor="password" className="block text-sm font-medium">
+            Enter a password to generate a secure phrase.
+          </label>
+          <div className="relative mt-2 flex items-center">
+            <input
+              data-testid="passwordInput"
+              type={showPassword ? "text" : "password"}
+              name="password"
+              id="password"
+              onChange={handlePasswordChange}
+              value={password}
+              className="input-class"
+            />
+            <div
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute inset-y-0 right-0 flex py-1.5 pr-1.5">
+              {showPassword ? (
+                <EyeSlashIcon className="cursor-pointer inline-flex items-center px-2 font-sans text-sm font-medium"></EyeSlashIcon>
+              ) : (
+                <EyeIcon className="cursor-pointer inline-flex items-center px-2 font-sans text-sm font-medium"></EyeIcon>
+              )}
+            </div>
+          </div>
+          <div className="relative mt-1 flex items-center">
+            <input
+              data-testid="passwordConfirmInput"
+              type="password"
+              name="passwordConfirm"
+              id="passwordConfirm"
+              onChange={handlePasswordConfirmChange}
+              value={passwordConfirm}
+              className="input-class"
+            />
+          </div>
+          <div className="flex justify-center mt-10">
+            <button
+              type="submit" // making this a submit button
+              data-testid="submitPasswordButton"
+              className="btn-class">
+              Submit Password
+            </button>
+          </div>
+          <div>
+            {errorMessage && (
+              <div
+                data-testid="passwordErrorMessage"
+                className="text-red-500 text-center mt-4 font-bold text-md">
+                {errorMessage}
+              </div>
             )}
           </div>
-        </div>
-        <div className="relative mt-1 flex items-center">
-          <input
-            data-testid="passwordConfirmInput"
-            type="password"
-            name="passwordConfirm"
-            id="passwordConfirm"
-            onChange={handlePasswordConfirmChange}
-            value={passwordConfirm}
-            className="input-class"
-          />
-        </div>
-        <div className="flex justify-center mt-10">
-          <button
-            data-testid="submitPasswordButton"
-            onClick={() => submitPassword()}
-            className="btn-class">
-            Submit Password
-          </button>
-        </div>
-        <div>
-          {errorMessage && (
-            <div
-              data-testid="passwordErrorMessage"
-              className="text-red-500 text-center mt-4 font-bold text-md">
-              {errorMessage}
-            </div>
-          )}
-        </div>
+        </form>
       </div>
     </main>
   )

@@ -47,6 +47,14 @@ export async function addOrUpdateToken(token: TokenNetworkData) {
   await storage.set("tokens", tokens)
 }
 
+export async function removeToken(tokenID: number) {
+  let tokens = await getTokens()
+
+  tokens = tokens.filter((token) => token.id !== tokenID)
+
+  await storage.set("tokens", tokens)
+}
+
 export async function getTokens() {
   let tokens: TokenNetworkData[] = await storage.get("tokens")
 

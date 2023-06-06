@@ -45,7 +45,7 @@ const InputMnemonic: React.FC<InputMnemonicProps> = ({
                 type="text"
                 value={word}
                 onChange={(event) => handleInputChange(index, event)}
-                className="inline-flex justify-center rounded-md border border-white bg-transparent py-2 px-4 text-sm font-medium shadow-sm hover:bg-zinc-950 w-full focus:border-none focus:ring-white"
+                className="inline-flex justify-center input-class"
               />
             </div>
           ))}
@@ -54,7 +54,7 @@ const InputMnemonic: React.FC<InputMnemonicProps> = ({
       <div className="flex justify-center pt-10">
         <button
           onClick={handleSubmit}
-          className="flex justify-center rounded-md border border-white bg-transparent py-2 px-4 text-sm font-medium shadow-sm hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2">
+          className="flex justify-center btn-class">
           Continue
         </button>
       </div>

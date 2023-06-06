@@ -29,6 +29,13 @@
   --LIGHTBLUE: #017c9f;
 }
 
+@font-face {
+  font-family: 'TTTravelsRegular';
+  src: url('/assets/fonts/TT\ Travels\ Trial\ Regular.otf') format('opentype'); 
+  font-weight: 400;
+  font-style: normal;
+}
+
 .bg-container::before {
   transform: rotate(135deg);
 }
@@ -250,4 +257,42 @@
 
 .tooltip:hover .tooltiptext {
   visibility: visible;
+}
+
+.toggle-checkbox:checked {
+  right: 0;
+  border-color: #4B5563;
+  background-color: #10B981;
+}
+
+.toggle-checkbox:checked + .toggle-label {
+  background-color: #A1A1AA;
+}
+
+.toggle-checkbox:active + .toggle-label {
+  box-shadow: none;
+}
+
+.toggle-checkbox:focus + .toggle-label {
+  box-shadow: 0 0 2px 3px rgba(34, 230, 159, 0.3);
+}
+
+.toggle-checkbox:active + .toggle-label {
+  box-shadow: none;
+}
+
+.toggle-checkbox:checked:focus + .toggle-label {
+  border-color: #34D399;
+}
+
+.toggle-checkbox:checked:focus:active + .toggle-label {
+  background-color: #1F2937;
+}
+
+.toggle-label {
+  transition: background-color 0.5s ease-in;
+}
+
+.toggle-checkbox {
+  transition: right 0.5s ease-in, background-color 0.5s ease-in, border-color 0.5s ease-in;
 }

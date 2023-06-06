@@ -46,7 +46,7 @@ export default function AssetsList() {
   }, [balanceData, activeNetwork])
 
   return (
-    <div className="flex flex-col justify-between h-full">
+    <div className="flex flex-col justify-between h-full mx-2">
       {filteredBalanceData.map((token) => (
         <AssetItem key={token.symbol} token={token} />
       ))}

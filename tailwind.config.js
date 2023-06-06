@@ -9,7 +9,7 @@ module.exports = {
       sans: ["Inter", "sans-serif"],
       serif: ["Georgia", "serif"],
       quai: ["Bai Jamjuree", "serif"],
-      pelagus: ["Alata", "serif"]
+      pelagus: ["TTTravelsRegular", "serif"],
     },
     extend: {
       colors: {

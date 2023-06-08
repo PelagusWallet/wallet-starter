@@ -208,7 +208,3 @@ Enjoy! 🥳
 See the license in the '**[LICENSE](LICENSE.md)**' file.
 
 Watch the changes in the '**[CHANGELOG.md](CHANGELOG.md)**' file.
-
----
-
-_Made with a lot of ❤️❤️ by **[@dominant-strategies](https://github.com/dominant-strategies)**_

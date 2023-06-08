@@ -78,7 +78,7 @@ function PasswordSetup({ onPasswordSubmit }) {
             <button
               type="submit" // making this a submit button
               data-testid="submitPasswordButton"
-              className="btn-class">
+              className="btn-class p-3">
               Submit Password
             </button>
           </div>

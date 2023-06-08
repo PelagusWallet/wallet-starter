@@ -138,9 +138,9 @@ function EditContact({ onContactAdded, contactData }) {
           className="h-8 w-8 flex justify-center text-gray-400 hover:text-gray-500 cursor-pointer"
         />
       </div>
-      <div className="w-full pr-4 inline-flex rounded-md justify-center mt-2 absolute bottom-3">
+      <div className="w-full pr-4 inline-flex rounded-md justify-center mt-2 absolute bottom-3 space-x-1">
         <button
-          className="flex home-button-outer group w-1/3"
+          className="flex btn-class-action group w-1/3"
           type="button"
           onClick={() => closeContacts()}>
           <div className="flex flex-col items-center m-auto">
@@ -149,20 +149,20 @@ function EditContact({ onContactAdded, contactData }) {
         </button>
         {contactData && (
           <button
-            className="flex home-button-outer group w-1/3"
+            className="flex btn-class-action group w-1/3"
             type="button"
             onClick={() => deleteContactByName(contactData.name)}>
             <div className="flex flex-col items-center m-auto">
-              <span className="home-button-inner">Delete</span>
+              <span className="">Delete</span>
             </div>
           </button>
         )}
         <button
-          className="flex home-button-outer group w-1/3"
+          className="flex btn-class-action group w-1/3"
           type="button"
           onClick={() => editContact()}>
           <div className="flex flex-col items-center m-auto">
-            <span className="home-button-inner">Save</span>
+            <span className="">Save</span>
           </div>
         </button>
       </div>

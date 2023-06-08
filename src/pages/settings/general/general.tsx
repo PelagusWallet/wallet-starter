@@ -88,14 +88,14 @@ export default function GeneralSettings() {
               onClick={() => {
                 generateAndCopyAddresses()
               }} // Add your onClick function here
-              className="btn-class">
+              className="btn-class p-4">
               Copy Mining Configuration
             </button>
           </div>
           <div className="w-full flex justify-center pt-4">
             <button
               onClick={() => setDarkMode(!darkMode)}
-              className="btn-class">
+              className="btn-class p-4">
               Toggle Dark Mode
             </button>
           </div>

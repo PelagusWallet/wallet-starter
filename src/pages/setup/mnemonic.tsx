@@ -33,7 +33,7 @@ function MnemonicSetup({ mnemonic, onCopiedMnemonic }) {
         <button
           data-testid="copySeedPhraseButton"
           onClick={() => copiedMnemonic()}
-          className="btn-class">
+          className="btn-class-secondary">
           Copy Secure Phrase
         </button>
       </div>

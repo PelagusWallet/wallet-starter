@@ -60,7 +60,7 @@ function Home() {
                     data-testid="createWalletButton"
                     disabled={!isChecked}
                     onClick={() => setLocation("/generate")}
-                    className="btn-class w-full">
+                    className="btn-class p-4 w-full">
                     {chrome.i18n.getMessage("createNewWallet")}
                   </button>
                 </div>
@@ -68,7 +68,7 @@ function Home() {
                   <button
                     disabled={!isChecked}
                     onClick={() => setLocation("/import")}
-                    className="btn-class w-full">
+                    className="btn-class-secondary p-4 w-full">
                     Import Exisiting Wallet
                   </button>
                 </div>

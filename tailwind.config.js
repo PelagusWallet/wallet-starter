@@ -10,6 +10,7 @@ module.exports = {
       serif: ["Georgia", "serif"],
       quai: ["Bai Jamjuree", "serif"],
       pelagus: ["TTTravelsRegular", "serif"],
+      alata: ["Alata", "sans-serif"],
     },
     extend: {
       colors: {
@@ -33,7 +34,9 @@ module.exports = {
         "pelagus-blue": "#014164",
         "embark-blue": "#016789",
         "lagos-blue": "#015375",
-        "light-blue": "#017c9f"
+        "light-blue": "#017c9f",
+        "pelagus-dark-blue": "#282bee",
+        "pelagus-light-blue": "#186ef0"
       },
       backdropBlur: {
         'none': '0',
@@ -48,7 +51,7 @@ module.exports = {
       transitionDuration: {
         '0': '0ms',
         '2000': '2000ms', // add 2000ms transition
-      },
+      }
     }
   },
   variants: { extend: { typography: ["dark"] } },

@@ -45,7 +45,7 @@ export default function Balance() {
         {balance == null ? (
           <h1 className="text-3xl tracking-tight"> </h1>
         ) : (
-          <h1 className="text-3xl font-bold tracking-tight text-white">
+          <h1 className="text-3xl font-bold tracking-tight text-white font-alata">
             {balance} QUAI
           </h1>
         )}

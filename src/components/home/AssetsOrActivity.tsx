@@ -48,33 +48,31 @@ function AssetsOrActivity() {
   }, [activeTab, tabs, controls])
 
   return (
-    <div className="h-full">
-      <div>
-        <nav className="flex justify-center relative" aria-label="Tabs">
-          {tabs.map((tab, index) => (
-            <a
-              key={tab.name}
-              href="#"
-              className={classNames(
-                "whitespace-nowrap flex py-4 px-1 font-medium text-lg mx-3 ",
-                tab.current
-                  ? ""
-                  : "text-gray-500 hover:text-gray-700 hover:border-gray-200"
-              )}
-              onClick={() => setCurrentTab(tab)}
-              aria-current={tab.current ? "page" : undefined}
-              ref={(el) => (tabsRef.current[index] = el)}>
-              {tab.name}
-            </a>
-          ))}
-          <motion.div
-            className="absolute bottom-0 border-b-2 border-blue-600 dark:border-blue-400"
-            style={borderStyle}
-            animate={controls}
-            transition={{ type: "spring", stiffness: 300, damping: 30 }}
-          />
-        </nav>
-      </div>
+    <div className="h-full w-full">
+      <nav className="flex justify-center relative w-full" aria-label="Tabs">
+        {tabs.map((tab, index) => (
+          <a
+            key={tab.name}
+            href="#"
+            className={classNames(
+              "w-full justify-center whitespace-nowrap flex py-2 px-1 font-medium text-lg ",
+              tab.current
+                ? ""
+                : "text-gray-500 hover:text-gray-700 border-b-1 border-gray-500"
+            )}
+            onClick={() => setCurrentTab(tab)}
+            aria-current={tab.current ? "page" : undefined}
+            ref={(el) => (tabsRef.current[index] = el)}>
+            {tab.name}
+          </a>
+        ))}
+        <motion.div
+          className="absolute bottom-0 border-b-2 border-blue-600 dark:border-blue-400 w-full"
+          style={borderStyle}
+          animate={controls}
+          transition={{ type: "spring", stiffness: 300, damping: 30 }}
+        />
+      </nav>
       {activeTab.name === "Assets" ? <AssetsList /> : <ActivityList />}
     </div>
   )

@@ -75,14 +75,14 @@ export default function MenuBar({ activeWallet }) {
               </div>
               <Disclosure.Button
                 onClick={() => networkButtonClick()}
-                className="secondary-bg-container btn-hover w-1/3 rounded-full border border-.5 border-white inline-flex items-center justify-center ease-in-out focus:outline-none p-1">
+                className="secondary-bg-container btn-hover w-1/3 rounded-full inline-flex items-center justify-center ease-in-out focus:outline-none p-1 shadow shadow-pelagus-dark-blue dark:shadow-pelagus-light-blue border border-pelagus-dark-blue dark:border-pelagus-light-blue">
                 <div className="w-full flex flex-row items-center justify-center px-1">
                   <div className="text-center">{activeNetwork?.name}</div>
                   <ChevronDownIcon className="w-3 h-3" />
                 </div>
               </Disclosure.Button>
               <div
-                className="p-1 my-1 mr-1 border-2 rounded-full border-blue-600 dark:border-blue-400 cursor-pointer shadow shadow-blue-400 overflow-hidden"
+                className="p-1 my-1 mr-1 border-2 rounded-full border-pelagus-dark-blue dark:border-pelagus-light-blue cursor-pointer shadow shadow-pelagus-dark-blue dark:shadow-pelagus-light-blue overflow-hidden"
                 onClick={() => clickAccountButton()}>
                 {activeWallet ? (
                   <Jdenticon

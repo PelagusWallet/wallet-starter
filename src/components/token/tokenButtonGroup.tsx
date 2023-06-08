@@ -20,20 +20,26 @@ export default function TokenButtonGroup() {
       <div
         className="w-full inline-flex rounded-md justify-center pl-3 pr-3 h-content"
         role="group">
-        <button
-          className="flex home-button-outer group w-1/3"
-          onClick={() => setLocation("/send")}>
-          <div className="flex flex-col items-center m-auto">
-            <ArrowUpRightIcon className="h-6 w-6" />
-            <span className="home-button-inner">Send</span>
-          </div>
-        </button>
-        <button className="flex home-button-outer group w-1/3">
-          <div className="flex flex-col items-center m-auto">
-            <ArrowsRightLeftIcon className="h-6 w-6" />
-            <span className="home-button-inner">Swap</span>
-          </div>
-        </button>
+        <div className="flex flex-col w-1/3 group home-button-outer justify-center">
+          <button
+            className="flex btn-class py-2 w-full"
+            onClick={() => setLocation("/send")}>
+            <div className="flex flex-col items-center m-auto">
+              <ArrowUpRightIcon className="h-6 w-6" />
+            </div>
+          </button>
+          <span className="home-button-inner">Send</span>
+        </div>
+        <div className="flex flex-col w-1/3 group home-button-outer justify-center">
+          <button
+            className="flex btn-class py-2 w-full"
+            onClick={() => setLocation("/send")}>
+            <div className="flex flex-col items-center m-auto">
+              <ArrowsRightLeftIcon className="h-6 w-6" />
+            </div>
+          </button>
+          <span className="home-button-inner">Swap</span>
+        </div>
       </div>
     </>
   )

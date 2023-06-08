@@ -53,8 +53,8 @@ export default function AssetsList() {
       <div className="w-full flex items-center justify-center">
         <div
           onClick={() => setLocation("/token/add")}
-          className="cursor-pointer text-blue-600 dark:text-blue-400 secondary-bg-container py-1 px-2 rounded">
-          Add token
+          className="btn-class-action">
+          + Add token
         </div>
       </div>
     </div>

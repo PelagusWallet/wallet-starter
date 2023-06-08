@@ -49,14 +49,10 @@ export default function MnemonicReveal({ password, onClose }) {
       </div>
       <div className="pb-5 font-bold text-lg">{mnemonic}</div>
       <div className="w-full flex justify-center space-x-4">
-        <button
-          className="rounded secondary-bg-container text-blue-600 dark:text-blue-400 p-3"
-          onClick={() => onClose(false)}>
+        <button className="btn-class-action" onClick={() => onClose(false)}>
           Close
         </button>
-        <button
-          className="rounded secondary-bg-container text-blue-600 dark:text-blue-400 p-3"
-          onClick={() => onCopy()}>
+        <button className="btn-class-action" onClick={() => onCopy()}>
           Copy
         </button>
       </div>

@@ -58,7 +58,7 @@ function TokenPage() {
             />
           )}
         </div>
-        <div className="flex flex-col items-center justify-center cursor-default">
+        <div className="flex flex-col items-center justify-center cursor-default mt-4">
           {tokenData && (
             <div className="text-3xl">
               {formatBalance(

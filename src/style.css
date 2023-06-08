@@ -120,15 +120,15 @@
   }
 
   .secondary-bg-container {
-    @apply bg-white dark:bg-zinc-950 shadow-sm
+    @apply bg-white dark:bg-zinc-950 shadow-md
   }
 
   .home-button-outer {
-    @apply  secondary-bg-container relative inline-flex items-center justify-center py-1 mx-1 overflow-hidden text-sm font-medium text-blue-600 dark:text-blue-400 hover:bg-white/20 rounded-md group-hover:to-quai-deep-teal dark:focus:ring-0 focus:outline-none;
+    @apply relative inline-flex items-center justify-center m-1 overflow-hidden text-sm font-medium rounded-md dark:focus:ring-0 focus:outline-none;
   }
 
   .home-button-inner {
-    @apply w-full relative px-5 py-0.5 bg-transparent rounded-md group-hover:bg-opacity-0;
+    @apply w-full text-center relative px-5 py-0.5 bg-transparent rounded-md group-hover:bg-opacity-0;
   }
 
   .send-form-input {
@@ -148,7 +148,15 @@
   }
 
   .btn-class {
-    @apply border btn-hover rounded-md shadow-sm flex justify-center py-2 px-4 text-sm font-medium dark:bg-zinc-950
+    @apply border p-3 btn-hover rounded-md shadow-sm flex justify-center bg-pelagus-dark-blue text-white dark:bg-pelagus-light-blue dark:border-none
+  }
+
+  .btn-class-secondary {
+    @apply border p-3 btn-hover rounded-md shadow-sm flex justify-center dark:bg-zinc-950 text-pelagus-dark-blue border-pelagus-dark-blue dark:text-pelagus-light-blue dark:border-pelagus-light-blue
+  }
+
+  .btn-class-action {
+    @apply cursor-pointer text-blue-600 dark:text-blue-400 secondary-bg-container mt-4 py-2 px-2 rounded
   }
 
   .input-class {

@@ -41,7 +41,6 @@ export default function MenuBar({ activeWallet }) {
   function clickAccountButton() {
     // if location contains /accounts, go to home
     // else go to /accounts
-    console.log(location)
     if (location.includes("accounts")) {
       setLocation("/")
     } else {

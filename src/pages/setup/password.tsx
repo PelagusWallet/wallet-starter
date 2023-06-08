@@ -38,6 +38,7 @@ function PasswordSetup({ onPasswordSubmit }) {
         <form
           onSubmit={(event) => {
             submitPassword()
+            event.preventDefault()
           }}>
           <label htmlFor="password" className="block text-sm font-medium">
             Enter a password to generate a secure phrase.

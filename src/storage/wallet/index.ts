@@ -168,7 +168,7 @@ export async function createWallet(password: string, mnemonic: string) {
   await storage.set("wallets", [])
 
   let hdWallet = await getWalletFromMnemonic(mnemonic)
-  addWallet(hdWallet, mnemonic, password)
+  await addWallet(hdWallet, mnemonic, password)
 
   await storage.set("decryption_key", password)
   await storage.set("is_setup", true)

@@ -82,13 +82,13 @@ function ImportMnemonic() {
   useEffect(() => {}, [page])
 
   return (
-    <div className="w-full max-h-screen h-screen  flex flex-col items-center justify-center max-w-3xl shadow-lg rounded-lg mx-auto">
+    <div className="w-full max-h-screen h-screen  flex flex-col items-center justify-center max-w-3xl rounded-lg mx-auto">
       <SetupHeaderBar />
 
       <div className="w-full">
         <ProgressBar page={page} setPage={attemptSetPage} steps={steps} />
       </div>
-      <div className="w-full border border-white rounded-b-md py-20">
+      <div className="secondary-bg-container w-full rounded-b-md py-20 shadow-lg dark:border dark:border-white">
         <AnimatePresence>
           {page == 0 && (
             <motion.div

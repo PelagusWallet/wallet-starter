@@ -433,6 +433,8 @@ export async function signAndSendTransaction(transaction: TransactionRequest) {
   const provider = new quais.providers.JsonRpcProvider(fromChain.rpc)
   const signingWallet = new quais.Wallet(privKey, provider)
 
+  console.log(fromShard[0].shard, toShard[0].shard)
+
   if (fromShard[0].shard !== toShard[0].shard) {
     transaction.type = 2
   }
@@ -464,7 +466,7 @@ export async function signAndSendTransaction(transaction: TransactionRequest) {
     externalGasTip: null
   }
 
-  if (fromShard !== toShard) {
+  if (fromShard[0].shard != toShard[0].shard) {
     rawTransaction.gasLimit = BigInt(420000)
     rawTransaction.externalGasLimit = BigInt(100000)
     rawTransaction.externalGasPrice = BigInt(Number(feeData.maxFeePerGas) * 2)

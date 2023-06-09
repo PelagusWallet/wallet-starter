@@ -228,13 +228,13 @@ export default function SendConfirm() {
     <div className="">
       <div className="relative">
         <div className="flex items-center justify-center">
-          <div className="w-1/2 p-2 rounded-md secondary-bg-container flex flex-col justify-start">
+          <div className="w-1/2 p-2 rounded-md bg-white dark:bg-zinc-950 flex flex-col justify-start">
             <div>{formatAddress(fromAddress)}</div>
             <div className="flex flex-row justify-between">
               <AddressLabel address={fromAddress} />
             </div>
           </div>
-          <div className="w-1/2 p-2 rounded-md secondary-bg-container flex flex-col justify-end">
+          <div className="w-1/2 p-2 rounded-md bg-white dark:bg-zinc-950 flex flex-col justify-end">
             <div className="flex justify-end">{formatAddress(toAddress)}</div>
             <div className="flex flex-row justify-end">
               <AddressLabel address={toAddress} />
@@ -305,12 +305,7 @@ export default function SendConfirm() {
               type="button"
               onClick={() => confirmSend()}
               style={{ lineHeight: "1" }}>
-              <div>
-                Send {amount} ${activeToken.symbol}
-              </div>
-              <div className="text-[10px] mt-0">
-                +{parseFloat(speed)} QUAI Network Fee
-              </div>
+              <div>Send</div>
             </button>
           </div>
         </div>

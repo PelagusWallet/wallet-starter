@@ -1,6 +1,16 @@
-import { quais } from "quais"
-import { HiOutlineArrowPathRoundedSquare } from "react-icons/hi2"
-import { IoCheckmarkCircleOutline, IoPaperPlaneOutline } from "react-icons/io5"
+import {
+  BsCheck2,
+  BsCheck2All,
+  BsSend,
+  BsSendCheck,
+  BsSendX,
+  BsXOctagon
+} from "react-icons/bs"
+import { GrRevert } from "react-icons/gr"
+import {
+  HiOutlineArrowPath,
+  HiOutlineArrowPathRoundedSquare
+} from "react-icons/hi2"
 
 import { Storage } from "@plasmohq/storage"
 import { useStorage } from "@plasmohq/storage/hook"
@@ -8,8 +18,6 @@ import { useStorage } from "@plasmohq/storage/hook"
 import { getExplorerURLForShard } from "~background/services/network/chains"
 import type { Network } from "~background/services/network/chains"
 import { formatBalance } from "~utils/format"
-
-import Spinner from "./activitySpinner"
 
 const storage = new Storage({ area: "local" })
 
@@ -57,7 +65,24 @@ export default function ActivityItem({ activity }) {
         className="w-full cursor-pointer secondary-bg-container py-2 px-4 rounded-lg shadow-inner space-y-2">
         <div className="flex flex-row space-x-4">
           <div className="flex my-auto">
-            <Spinner />
+            {(() => {
+              switch (activity.type) {
+                case "send":
+                  return (
+                    <BsSend className="text-blue-600 dark:text-blue-400 w-7 h-7" />
+                  )
+                case "transfer":
+                  return (
+                    <HiOutlineArrowPath className="text-blue-600 dark:text-blue-400 w-7 h-7" />
+                  )
+                case "receive":
+                  return (
+                    <BsCheck2 className="text-blue-600 dark:text-blue-400 w-7 h-7" />
+                  )
+                default:
+                  return null
+              }
+            })()}
           </div>
           <div className="flex flex-col w-full my-auto">
             <div className="flex justify-between">
@@ -94,6 +119,70 @@ export default function ActivityItem({ activity }) {
     )
   }
 
+  if (activity.isError === "1") {
+    return (
+      <div
+        onClick={() => linkToExplorer(activity.shard, activity.hash)}
+        className="w-full cursor-pointer secondary-bg-container py-2 px-4 rounded-lg shadow-inner space-y-2">
+        <div className="flex flex-row space-x-4">
+          <div className="flex my-auto">
+            {(() => {
+              switch (activity.type) {
+                case "send":
+                  return (
+                    <BsSendX className="text-red-600 dark:text-red-400 w-7 h-7" />
+                  )
+                case "transfer":
+                  return (
+                    <GrRevert className="text-red-600 dark:text-red-400 w-7 h-7" />
+                  )
+                case "receive":
+                  return (
+                    <BsXOctagon className="text-red-600 dark:text-red-400 w-7 h-7" />
+                  )
+                default:
+                  return null
+              }
+            })()}
+          </div>
+          <div className="flex flex-col w-full">
+            <div className="flex justify-between">
+              <div className="font-semibold">
+                {(() => {
+                  switch (activity.type) {
+                    case "send":
+                      return <div>Send failed</div>
+                    case "transfer":
+                      return <div>Transfer failed</div>
+                    case "receive":
+                      return <div>Receive failed</div>
+
+                    default:
+                      return null
+                  }
+                })()}
+              </div>
+              {getSymbolOrNative(activity) !== "QUAI" ? (
+                <div className="">
+                  {formatBalance(activity.value, isNative(activity))}{" "}
+                  {getSymbolOrNative(activity)}
+                </div>
+              ) : (
+                <div className="">
+                  {formatBalance(activity.value, false)} QUAI
+                </div>
+              )}
+            </div>
+            <div className="flex justify-between"></div>
+            <div className="flex justify-between">
+              <div className="">{formatTimestamp(activity.timeStamp)}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div>
       <div
@@ -105,7 +194,7 @@ export default function ActivityItem({ activity }) {
               switch (activity.type) {
                 case "send":
                   return (
-                    <IoPaperPlaneOutline className="text-blue-600 dark:text-blue-400 w-7 h-7" />
+                    <BsSendCheck className="text-blue-600 dark:text-blue-400 w-7 h-7" />
                   )
                 case "transfer":
                   return (
@@ -113,7 +202,7 @@ export default function ActivityItem({ activity }) {
                   )
                 case "receive":
                   return (
-                    <IoCheckmarkCircleOutline className="text-blue-600 dark:text-blue-400 w-7 h-7" />
+                    <BsCheck2All className="text-blue-600 dark:text-blue-400 w-7 h-7" />
                   )
                 default:
                   return null
@@ -148,10 +237,7 @@ export default function ActivityItem({ activity }) {
                 </div>
               )}
             </div>
-            <div className="flex justify-between">
-              {/* <div>Confirmations</div>
-              <div className="font-medium">{activity.confirmations}</div> */}
-            </div>
+            <div className="flex justify-between"></div>
             <div className="flex justify-between">
               <div className="">{formatTimestamp(activity.timeStamp)}</div>
             </div>

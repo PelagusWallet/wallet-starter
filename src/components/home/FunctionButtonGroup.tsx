@@ -50,14 +50,16 @@ export default function FunctionButtonGroup() {
 
   return (
     <div className="pl-3 pr-3">
-      <button
-        onClick={() => openFaucet()}
-        className="flex btn-class-secondary home-button-outer group w-full py-2">
-        <div className="flex flex-row items-center m-auto">
-          <FaFaucet className="h-6 w-6" />
-          <span className="home-button-inner pl-1">Faucet</span>
-        </div>
-      </button>
+      <div className="px-1">
+        <button
+          onClick={() => openFaucet()}
+          className="flex btn-class-secondary font-medium w-full py-2">
+          <div className="flex flex-row items-center m-auto">
+            <FaFaucet className="h-6 w-6" />
+            <span className="home-button-inner pl-1">Faucet</span>
+          </div>
+        </button>
+      </div>
       <div
         className="w-full inline-flex rounded-md justify-center h-content"
         role="group">

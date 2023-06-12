@@ -6,8 +6,8 @@ import "../../style.css"
 import _ from "lodash"
 import React from "react"
 
-import ActivityList from "~/components/home/activity/ActivityList"
-import AssetsList from "~/components/home/assets/AssetsList"
+import ActivityList from "~components/home/activity/ActivityList"
+import AssetsList from "~components/home/assets/AssetsList"
 
 const tabs = [
   { name: "Assets", href: "#", current: true },

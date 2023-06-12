@@ -1,9 +1,7 @@
 import {
-  ArrowDownTrayIcon,
   CheckCircleIcon,
   ChevronLeftIcon,
   ExclamationTriangleIcon,
-  HomeIcon,
   QuestionMarkCircleIcon
 } from "@heroicons/react/24/outline"
 import { toast } from "react-hot-toast"
@@ -19,13 +17,12 @@ import { getShardFromAddress } from "~storage/wallet"
 
 import "../../../style.css"
 
-import { format } from "path"
-import { quais } from "quais"
+import { BigNumber, quais } from "quais"
 import { useEffect, useState } from "react"
 
 import { getExplorerURLForShard } from "~background/services/network/chains"
 import AddressLabel from "~components/accounts/addressLabel"
-import SpeedSelect from "~components/send/speedSelect"
+import TotalFee from "~components/send/totalFee"
 import { TokenNetworkData } from "~storage/token"
 import { useAppSelector } from "~store"
 import { formatBalance } from "~utils/format"
@@ -39,7 +36,14 @@ export default function SendConfirm() {
   const [fromBalanace, setFromBalance] = useState<number>()
   const [quaiBalance, setQuaiBalance] = useState<number>(0)
   const [amount, setAmount] = useState<string>("0.0")
-  const [speed, setSpeed] = useState<string>(".01")
+
+  const [gasLimit, setGasLimit] = useState<BigNumber>(BigNumber.from(21000))
+  const [maxFeePerGas, setMaxFeePerGas] = useState<BigNumber>(BigNumber.from(1))
+  const [maxPriorityFeePerGas, setMaxPriorityFeePerGas] = useState<BigNumber>(
+    BigNumber.from(1)
+  )
+  // (base fee + priority fee) x units of gas used
+  const [totalFee, setTotalFee] = useState<BigNumber>(BigNumber.from(420000))
 
   const [activeNetwork] = useStorage<Network>({
     key: "active_network",
@@ -62,6 +66,31 @@ export default function SendConfirm() {
     // @ts-ignore: Object is possibly 'null'.
     setToAddress(params!.toAddress)
   }, [])
+
+  useEffect(() => {
+    setFeeData()
+  }, [fromAddress, toAddress, activeNetwork])
+
+  async function setFeeData() {
+    if (fromAddress == undefined || toAddress == undefined) return
+    if (!activeNetwork) return
+
+    let fromShard = getShardFromAddress(fromAddress)
+    let toShard = getShardFromAddress(toAddress)
+
+    let fromChain = activeNetwork.chains.find(
+      (item) => item.shard === fromShard[0].shard
+    )
+    const provider = new quais.providers.JsonRpcProvider(fromChain.rpc)
+
+    const feeData = await provider.getFeeData()
+    setMaxFeePerGas(feeData.maxFeePerGas)
+    setMaxPriorityFeePerGas(feeData.maxPriorityFeePerGas)
+    if (fromShard[0].shard === toShard[0].shard) {
+      setGasLimit(BigNumber.from(42000))
+    }
+    setTotalFee(maxFeePerGas.add(maxPriorityFeePerGas).mul(gasLimit))
+  }
 
   useEffect(() => {
     if (fromAddress == undefined) return
@@ -108,8 +137,10 @@ export default function SendConfirm() {
     setAmount(result)
   }
 
-  function handleSpeedChange(newSpeed) {
-    setSpeed(newSpeed)
+  function handleFeeDataChange(editBaseFee, editPriorityFee, editGasLimit) {
+    setMaxFeePerGas(BigNumber.from(editBaseFee))
+    setMaxPriorityFeePerGas(BigNumber.from(editPriorityFee))
+    setGasLimit(BigNumber.from(editGasLimit))
   }
 
   function formatAddress(address: string): string {
@@ -296,12 +327,17 @@ export default function SendConfirm() {
           )}
         </div>
 
-        <SpeedSelect selected={speed} handleSelect={handleSpeedChange} />
+        <TotalFee
+          gasLimit={gasLimit}
+          baseFee={maxFeePerGas}
+          priorityFee={maxPriorityFeePerGas}
+          handleEdit={handleFeeDataChange}
+        />
 
         <div className="mb-0">
           <div className="mt-10 w-full flex justify-center">
             <button
-              className="w-full text-blue-600 dark:text-blue-400 text-lg px-6 py-3 rounded secondary-bg-container"
+              className="w-full btn-class-action text-lg px-6 py-3 rounded secondary-bg-container"
               type="button"
               onClick={() => confirmSend()}
               style={{ lineHeight: "1" }}>

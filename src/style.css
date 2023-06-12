@@ -148,15 +148,15 @@
   }
 
   .btn-class {
-    @apply border p-3 btn-hover rounded-md shadow-sm flex justify-center bg-pelagus-dark-blue text-white dark:bg-pelagus-light-blue dark:border-none
+    @apply border p-3 btn-hover rounded-md shadow-sm flex justify-center bg-pelagus-dark-blue text-white dark:bg-pelagus-light-blue dark:border-none hover:text-pelagus-dark-blue hover:bg-white dark:hover:bg-white dark:hover:text-pelagus-light-blue
   }
 
   .btn-class-secondary {
-    @apply border p-3 btn-hover rounded-md shadow-sm flex justify-center dark:bg-zinc-950 text-pelagus-dark-blue border-pelagus-dark-blue dark:text-pelagus-light-blue dark:border-pelagus-light-blue
+    @apply border p-3 btn-hover rounded-md shadow-sm flex justify-center dark:bg-zinc-950 text-pelagus-dark-blue border-pelagus-dark-blue dark:text-pelagus-light-blue dark:border-pelagus-light-blue hover:text-white hover:bg-pelagus-dark-blue dark:hover:bg-pelagus-light-blue dark:hover:text-white
   }
 
   .btn-class-action {
-    @apply cursor-pointer text-blue-600 dark:text-blue-400 secondary-bg-container mt-4 py-2 px-2 rounded
+    @apply cursor-pointer text-pelagus-dark-blue dark:text-pelagus-light-blue secondary-bg-container mt-4 py-2 px-2 rounded hover:bg-pelagus-dark-blue hover:text-white dark:hover:bg-pelagus-light-blue dark:hover:text-white
   }
 
   .input-class {
@@ -303,4 +303,24 @@
 
 .toggle-checkbox {
   transition: right 0.5s ease-in, background-color 0.5s ease-in, border-color 0.5s ease-in;
+}
+
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  max-width: 500px;
+  width: 100%;
 }

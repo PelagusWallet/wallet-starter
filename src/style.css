@@ -136,7 +136,7 @@
   }
 
   .footer-button {
-    @apply flex justify-center w-1/4 py-4 text-black dark:text-zinc-300 font-medium text-xs leading-tight uppercase hover:bg-zinc-200 dark:hover:bg-white/20 focus:bg-quai-off-white focus:outline-none focus:ring-0 active:bg-quai-off-white;
+    @apply flex justify-center w-1/4 py-4 text-black dark:text-zinc-300 font-medium text-xs leading-tight uppercase hover:bg-zinc-200 dark:hover:bg-white/20 focus:outline-none focus:ring-0;
   }
 
   .footer-bg {
@@ -148,11 +148,11 @@
   }
 
   .btn-class {
-    @apply border p-3 btn-hover rounded-md shadow-sm flex justify-center bg-pelagus-dark-blue text-white dark:bg-pelagus-light-blue dark:border-none hover:text-pelagus-dark-blue hover:bg-white dark:hover:bg-white dark:hover:text-pelagus-light-blue
+    @apply border p-3 btn-hover rounded-md shadow-sm flex justify-center bg-pelagus-dark-blue text-white dark:bg-pelagus-light-blue dark:border-none hover:text-pelagus-dark-blue hover:bg-zinc-200 dark:hover:bg-white dark:hover:text-pelagus-light-blue
   }
 
   .btn-class-secondary {
-    @apply border p-3 btn-hover rounded-md shadow-sm flex justify-center dark:bg-zinc-950 text-pelagus-dark-blue border-pelagus-dark-blue dark:text-pelagus-light-blue dark:border-pelagus-light-blue hover:text-white hover:bg-pelagus-dark-blue dark:hover:bg-pelagus-light-blue dark:hover:text-white
+    @apply border p-3 btn-hover rounded-md shadow-sm flex justify-center dark:bg-zinc-950 text-pelagus-dark-blue border-pelagus-dark-blue dark:text-pelagus-light-blue dark:border-pelagus-light-blue hover:text-white hover:bg-blue-800 dark:hover:bg-blue-400 dark:hover:text-white
   }
 
   .btn-class-action {

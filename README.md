@@ -188,14 +188,14 @@ await window.quai.request({
 
 # Contributing
 
-Visit the contributing file for information on how to hack on Pelagus.'**[CONTRIBUTING](.github/CONTRIBUTING.md)**' file.
+Visit the **[CONTRIBUTING](.github/CONTRIBUTING.md)** file for information on how to hack on Pelagus.
 
 ## 🎉 Was the extension helpful? Help us raise these numbers up
 
-[![GitHub followers](https://img.shields.io/github/followers/dominant-strategies.svg?style=social)](https://github.com/alanorwick)
-[![GitHub stars](https://img.shields.io/github/stars/dominant-strategies/pelagus-extension.svg?style=social)](https://github.com/dominant-strategies/pelagus-extension/stargazers)
-[![GitHub watchers](https://img.shields.io/github/watchers/dominant-strategies/pelagus-extension.svg?style=social)](https://github.com/dominant-strategies/pelagus-extension/watchers)
-[![GitHub forks](https://img.shields.io/github/forks/dominant-strategies/pelagus-extension.svg?style=social)](https://github.com/dominant-strategies/pelagus-extension/network/members)
+[![GitHub followers](https://img.shields.io/github/followers/PelagusWallet.svg?style=social)](https://github.com/PelagusWallet)
+[![GitHub stars](https://img.shields.io/github/stars/PelagusWallet/pelagus-extension.svg?style=social)](https://github.com/PelagusWallet/pelagus-extension/stargazers)
+[![GitHub watchers](https://img.shields.io/github/watchers/PelagusWallet/pelagus-extension.svg?style=social)](https://github.com/PelagusWallet/pelagus-extension/watchers)
+[![GitHub forks](https://img.shields.io/github/forks/PelagusWallet/pelagus-extension.svg?style=social)](https://github.com/PelagusWallet/pelagus-extension/network/members)
 
 <!-- MODIFY THIS LINK TO YOUR MAIN DONATING SITE IF YOU ARE NOT IN THE GITHUB SPONSORS PROGRAM -->
 
@@ -205,6 +205,6 @@ Enjoy! 🥳
 
 ## ⚖️📝 **License and Changelog**
 
-See the license in the '**[LICENSE](LICENSE.md)**' file.
+See the license in the **[LICENSE](LICENSE.md)** file.
 
-Watch the changes in the '**[CHANGELOG.md](CHANGELOG.md)**' file.
+Watch the changes in the **[CHANGELOG.md](CHANGELOG.md)** file.

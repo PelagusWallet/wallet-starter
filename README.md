@@ -197,10 +197,6 @@ Visit the **[CONTRIBUTING](.github/CONTRIBUTING.md)** file for information on ho
 [![GitHub watchers](https://img.shields.io/github/watchers/PelagusWallet/pelagus-extension.svg?style=social)](https://github.com/PelagusWallet/pelagus-extension/watchers)
 [![GitHub forks](https://img.shields.io/github/forks/PelagusWallet/pelagus-extension.svg?style=social)](https://github.com/PelagusWallet/pelagus-extension/network/members)
 
-<!-- MODIFY THIS LINK TO YOUR MAIN DONATING SITE IF YOU ARE NOT IN THE GITHUB SPONSORS PROGRAM -->
-
-[![Sponsor](https://img.shields.io/static/v1?label=Sponsor&message=%E2%9D%A4&logo=github-sponsors&color=red&style=social)](https://github.com/sponsors/PelagusWallet)
-
 Enjoy! 🥳
 
 ## ⚖️📝 **License and Changelog**

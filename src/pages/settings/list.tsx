@@ -69,7 +69,7 @@ const userNavigation = [
   },
   {
     name: "Join Discord",
-    href: "https://discord.com/invite/your_invite_code",
+    href: "https://discord.gg/UUTfPKfRrh",
     icon: FaDiscord,
     iconColor: "text-indigo-400",
     bgColor: "bg-indigo-100 dark:bg-indigo-600"
@@ -92,7 +92,7 @@ export default function SettingsList() {
         await signOut()
         setLocation("/")
         break
-      case "Follow on Twitter":
+      case "Follow on Twitter" || "Join Discord":
         window.open(item.href, "_blank")
         break
       default:

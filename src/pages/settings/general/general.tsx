@@ -2,8 +2,8 @@ import { Disclosure } from "@headlessui/react"
 import { ChevronLeftIcon } from "@heroicons/react/24/outline"
 import { useLocation } from "wouter"
 
-import type { AddressWithData } from "~background/services/network/controller"
 import Footer from "~components/navigation/Footer"
+import type { Address } from "~storage/wallet"
 import { useAppSelector } from "~store"
 
 import "../../../style.css"
@@ -11,12 +11,10 @@ import "../../../style.css"
 import { Storage } from "@plasmohq/storage"
 import { useStorage } from "@plasmohq/storage/hook"
 
+import { getAddresses } from "~storage/wallet"
+
 export default function GeneralSettings() {
   const [, setLocation] = useLocation()
-
-  const addressData = useAppSelector(
-    (state) => state.addressData.addressesWithData as AddressWithData[]
-  )
 
   const [darkMode, setDarkMode] = useStorage<boolean>({
     key: "dark_mode",
@@ -25,7 +23,7 @@ export default function GeneralSettings() {
     })
   })
 
-  function groupByShard(addresses: AddressWithData[]) {
+  function groupByShard(addresses: Address[]) {
     let groups = addresses.reduce((groups, address) => {
       const shard = address.shard
       if (!groups[shard]) {
@@ -37,7 +35,8 @@ export default function GeneralSettings() {
     return groups
   }
 
-  function generateAndCopyAddresses() {
+  async function generateAndCopyAddresses() {
+    let addressData = await getAddresses()
     const zones = [
       "ZONE_0_0_COINBASE",
       "ZONE_0_1_COINBASE",

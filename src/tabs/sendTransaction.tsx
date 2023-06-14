@@ -69,10 +69,13 @@ function SendTransaction() {
     let resp
     try {
       resp = await signAndSendTransaction(transaction)
+      resp.code = 200
       setTransactionResponse(resp.hash)
     } catch (err) {
+      resp = err
+      resp.code = 4001
       console.error(err)
-      setTransactionResponse(err.message)
+      setTransactionResponse(err.reason)
     }
     setSentTransaction(true)
 
@@ -88,7 +91,7 @@ function SendTransaction() {
         body: {
           action: "requestPermission",
           windowId: windowId,
-          data: { code: 200, message: resp }
+          data: { code: resp.code, message: resp }
         }
       })
     })
@@ -121,11 +124,11 @@ function SendTransaction() {
 
   if (sentTransaction) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
+      <div className="max-2-md flex items-center justify-center min-h-screen">
         <div className="text-center">
           <div className="text-2xl mb-4">Transaction response</div>
-          <div className="text-xsm overflow-auto">
-            {transactionResponse.substring(0, 20) + "..."}
+          <div className="text-xsm whitespace-normal overflow-auto break-words">
+            {transactionResponse}
           </div>
         </div>
       </div>
@@ -133,8 +136,8 @@ function SendTransaction() {
   }
 
   return (
-    <div className=" p-4 rounded-md">
-      <div className="w-full flex justify-end">
+    <div className="p-4 rounded-md">
+      <div className="flex justify-end">
         <div className="w-1/4 border-green-400 border-2 rounded-lg p-1 mb-1 mx-2 text-center">
           {activeNetwork?.name}
         </div>

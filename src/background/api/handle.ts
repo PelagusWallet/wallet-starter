@@ -9,6 +9,11 @@ let restrictedMethods = [
   "quai_sendTransaction"
 ]
 
+interface PermissionResponse {
+  code: number
+  message: string
+}
+
 export async function handleRequest(body: any) {
   let url = new URL(body.url).hostname
 
@@ -37,9 +42,14 @@ export async function handleRequest(body: any) {
   if (!hasPermissions) {
     // body.method is a restricted method
     if (restrictedMethods.includes(body.method)) {
-      let permissions = await requestPermissions(url, [body.method])
-      if (permissions !== "Permission granted") {
-        return { code: 4001, message: "Permission request denied" }
+      let permissionResponse = (await requestPermissions(url, [
+        body.method
+      ])) as PermissionResponse
+      if (permissionResponse.message !== "Permission granted") {
+        return {
+          code: 4001,
+          message: "Permission request denied"
+        }
       }
     }
   }
@@ -50,7 +60,16 @@ export async function handleRequest(body: any) {
     case "personal_sign":
       return personalSign(body.params)
     case "quai_sendTransaction":
-      return await sendTransaction(body.params)
+      let addressesData = await getAddresses()
+      let addresses = addressesData.map((address) => address.address)
+      if (!addresses.includes(body.params[0].from)) {
+        return {
+          code: 4001,
+          message: "From address not found"
+        }
+      }
+      let transactionResponse = await sendTransaction(body.params)
+      return transactionResponse
   }
 
   return { code: 200, message: "Hello from the background script!" }

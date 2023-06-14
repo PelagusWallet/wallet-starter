@@ -41,7 +41,7 @@ function PasswordSetup({ onPasswordSubmit }) {
             event.preventDefault()
           }}>
           <label htmlFor="password" className="block text-sm font-medium">
-            Enter a password to generate a secure phrase.
+            Enter a secure password to protect your wallet.
           </label>
           <div className="relative mt-2 flex items-center">
             <input

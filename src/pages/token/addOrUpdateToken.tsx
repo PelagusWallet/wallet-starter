@@ -63,6 +63,7 @@ function AddOrUpdateCustomToken() {
       setTokenShards(JSON.parse(JSON.stringify(updateToken.shardData))) // Deep copy
     } else {
       setContractAddress(updateToken.shardData[0].address)
+      setTokenShards(JSON.parse(JSON.stringify(updateToken.shardData))) // Deep copy
     }
     setRandomID(updateToken.id)
   }, [updateToken])
@@ -84,7 +85,7 @@ function AddOrUpdateCustomToken() {
     setContractAddress(event.target.value)
 
     let shardForAddress = getShardFromAddress(event.target.value)
-    if (shardForAddress === null) return
+    if (shardForAddress === null || shardForAddress.length == 0) return
     // find the shard in the tokenShards array
     let shardIndex = tokenShards.findIndex(
       (shard) => shard.shard === shardForAddress[0].shard

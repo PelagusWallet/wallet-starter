@@ -2,6 +2,7 @@ import { PencilIcon } from "@heroicons/react/24/outline"
 import { AnimatePresence, motion } from "framer-motion"
 
 import type { NetworkAddresses, WalletContact } from "~storage/contacts"
+import { formatAddress } from "~utils/format"
 
 import "../../style.css"
 
@@ -27,12 +28,19 @@ export default function ContactData({ contact, selectable, onContactSelect }) {
     })
   })
 
-  function autoSelectContactAddress(address: WalletContact) {
-    onContactSelect(address)
+  function autoSelectContactAddress() {
+    if (!selectable) return
+    let defaultAddress = contactAddresses[0].address
+    onContactSelect(defaultAddress)
   }
 
   function contactAdded(name: string) {
     setShowEditContactModal(false)
+  }
+
+  const toggleActive = (event) => {
+    event.stopPropagation()
+    setActive(!active)
   }
 
   useEffect(() => {
@@ -45,12 +53,9 @@ export default function ContactData({ contact, selectable, onContactSelect }) {
   }, [contact, activeNetwork])
 
   return (
-    <div className="shard-data-height rounded-md relative secondary-bg-container transition-[height] ease-in-out duration-500 max-height ">
-      <div
-        className={
-          "w-full h-full absolute rounded-md " +
-          (active ? "fadeIn shard-data-div-active" : "fadeOut")
-        }></div>
+    <div
+      className="shard-data-height rounded-md relative secondary-bg-container transition-[height] ease-in-out duration-500 max-height cursor-pointer"
+      onClick={() => autoSelectContactAddress()}>
       <div className="p-2 opacity-100 flex-col">
         <div className="flex flex-row justify-between">
           <div className="text-lg font-thin">{contact.name}</div>
@@ -60,18 +65,16 @@ export default function ContactData({ contact, selectable, onContactSelect }) {
           />
         </div>
         <div className="flex flex-row justify-between">
-          {selectable && (
-            <div
-              className="text-[14px] font-thin"
-              onClick={() => autoSelectContactAddress(contact)}>
-              Auto Select
-            </div>
-          )}
-          <div
-            onClick={() => setActive(!active)}
-            className="z-20	cursor-pointer text-[14px] font-thin">
+          <div className="z-20	cursor-pointer text-[14px] font-thin">
             {contactAddresses?.length + " Total Addresses"}
           </div>
+          {contactAddresses?.length > 1 && selectable && (
+            <div
+              className="btn-class-secondary p-1 z-100"
+              onClick={toggleActive}>
+              Select advanced address
+            </div>
+          )}
         </div>
 
         <AnimatePresence initial={false}>
@@ -92,7 +95,9 @@ export default function ContactData({ contact, selectable, onContactSelect }) {
                   key={i}
                   className="my-1 w-full flex flex-row justify-between">
                   <div className="w-full flex flex-row justify-between border rounded-sm">
-                    <div className="m-1 w-full">{address.address}</div>
+                    <div className="m-1 w-full">
+                      {formatAddress(address.address)}
+                    </div>
                     {selectable && (
                       <div
                         onClick={() => onContactSelect(address.address)}

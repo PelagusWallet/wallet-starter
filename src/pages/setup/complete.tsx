@@ -23,6 +23,9 @@ function Complete() {
 
         <div className="flex justify-around mt-6 space-x-12">
           <div
+            onClick={() => {
+              window.open("https://twitter.com/pelaguswallet", "_blank")
+            }}
             className="cursor-pointer flex flex-col items-center border border-zinc-600 rounded-md p-4"
             style={{ width: "200px" }}>
             <FaTwitter className="text-blue-400 dark:text-blue-400 h-14 w-14" />
@@ -34,6 +37,9 @@ function Complete() {
           </div>
 
           <div
+            onClick={() => {
+              window.open("https://discord.gg/pcaA5EapZk", "_blank")
+            }}
             className="cursor-pointer flex flex-col items-center border border-zinc-600 rounded-md p-4"
             style={{ width: "200px" }}>
             <FaDiscord className="text-blue-600 h-14 w-14" />
@@ -45,6 +51,9 @@ function Complete() {
           </div>
 
           <div
+            onClick={() => {
+              window.open("https://www.youtube.com/@QuaiNetwork", "_blank")
+            }}
             className="cursor-pointer flex flex-col items-center border border-zinc-600 rounded-md p-4"
             style={{ width: "200px" }}>
             <FaYoutube className="text-red-500 h-14 w-14" />

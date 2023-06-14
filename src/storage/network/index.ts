@@ -1,4 +1,4 @@
-import { sendToBackground } from "@plasmohq/messaging"
+import { sendToBackground, sendToContentScript } from "@plasmohq/messaging"
 import { Storage } from "@plasmohq/storage"
 
 import {
@@ -36,6 +36,11 @@ export async function setActiveNetwork(networkName: string) {
   }
 
   await storage.set("active_network", activeNetwork)
+
+  await sendToContentScript({
+    name: "networkChanged",
+    body: activeNetwork.chainID
+  })
 }
 
 export async function addCustomNetwork(network: Network) {

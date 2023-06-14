@@ -7,6 +7,21 @@
 Welcome to the GitHub repository for Pelagus, a dedicated cryptocurrency wallet extension for the Quai Network.
 This is a [Plasmo extension](https://docs.plasmo.com/) project bootstrapped with [`plasmo init`](https://www.npmjs.com/package/plasmo).
 
+# Events
+
+Pelagus provides custom events using `CustomEvent` web API.
+
+### `networkChanged`
+
+networkChanged is called when the user switches networks in the Pelagus extension.
+
+```ts
+window.addEventListener("networkChanged", (e) => {
+  const newNetwork = e.detail.network
+  /** Handle network switch **/
+})
+```
+
 # Quai Provider API
 
 ## window.quai.request(args)

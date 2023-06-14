@@ -42,7 +42,7 @@ export default function TotalFee({
   }
 
   return (
-    <div className="p-4 shadow-lg rounded-lg bg-white">
+    <div className="p-4 shadow-lg rounded-lg secondary-bg-container">
       <div className="flex items-center justify-between">
         <div className="font-bold text-sm">
           Total Fee: {formatTotalFee()} QUAI

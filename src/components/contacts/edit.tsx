@@ -11,8 +11,7 @@ import { Storage } from "@plasmohq/storage"
 import {
   addContactToWallet,
   deleteContactByName,
-  editContactData,
-  formatNetworkLabels
+  editContactData
 } from "~storage/contacts"
 
 class AddressAndNetwork {
@@ -36,7 +35,7 @@ function EditContact({ onContactAdded, contactData }) {
   useEffect(() => {
     if (!contactData) return
     setContactName(contactData?.name)
-    setAddresses(formatNetworkLabels(contactData?.networkAddresses))
+    setAddresses(contactData?.networkAddresses)
   }, [contactData])
 
   useEffect(() => {}, [addresses])

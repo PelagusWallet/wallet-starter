@@ -1,3 +1,5 @@
+import { randomUUID } from "crypto"
+
 import { Storage } from "@plasmohq/storage"
 
 import {
@@ -9,6 +11,7 @@ import { getStorageConfig } from "~utils/storage"
 const storage = new Storage(getStorageConfig())
 
 export class WalletContact {
+  id: string
   name: string
   networkAddresses: NetworkAddresses[]
 }
@@ -16,6 +19,7 @@ export class WalletContact {
 export class NetworkAddresses {
   chainID: number
   address: string
+  network: string
 }
 
 export async function getContacts() {
@@ -44,7 +48,8 @@ export async function addContactToWallet(
     const chainID = NETWORK_TO_CHAIN_ID[addressAndNetwork.network]
     return {
       address: addressAndNetwork.address,
-      chainID: chainID
+      chainID: chainID,
+      network: addressAndNetwork.network
     }
   }) as NetworkAddresses[]
 
@@ -55,6 +60,7 @@ export async function addContactToWallet(
 
   // Push contact to contacts array
   contacts.push({
+    id: Math.floor(Math.random() * 10000000000000).toString(),
     name: name,
     networkAddresses: networkAddresses
   })
@@ -69,16 +75,27 @@ export async function editContactData(
   name: string,
   addresses: NetworkAddressLabel[]
 ) {
-  await deleteContactByName(contact.name)
-  try {
-    await addContactToWallet(name, addresses)
-  } catch (e) {
-    // If there is an error, add the contact back
-    await addContactToWallet(
-      contact.name,
-      formatNetworkLabels(contact.networkAddresses)
-    )
-  }
+  // lookup contact by id
+  const contacts = await getContacts()
+  let replaceContact = contacts.find(
+    (lookupContact) => lookupContact.id === contact.id
+  )
+  let networkAddresses = addresses.map((addressAndNetwork) => {
+    const chainID = NETWORK_TO_CHAIN_ID[addressAndNetwork.network]
+    return {
+      address: addressAndNetwork.address,
+      chainID: chainID,
+      network: addressAndNetwork.network
+    }
+  }) as NetworkAddresses[]
+  // Remove any addresses that don't have a chainID or address
+  networkAddresses = networkAddresses.filter(
+    (address) => address.chainID !== undefined && address.address !== null
+  )
+  replaceContact.name = name
+  replaceContact.networkAddresses = networkAddresses
+  // Save data
+  await storage.set("contacts", contacts)
 }
 
 // Delete contact from storage by name
@@ -88,14 +105,4 @@ export async function deleteContactByName(name: string) {
   const newContacts = contacts.filter((contact) => contact.name !== name)
 
   await storage.set("contacts", newContacts)
-}
-
-export function formatNetworkLabels(networkAddresses) {
-  return networkAddresses.map((addressAndNetwork) => {
-    const network = CHAIN_ID_TO_NETWORK[addressAndNetwork.chainID]
-    return {
-      address: addressAndNetwork.address,
-      network: network
-    }
-  })
 }

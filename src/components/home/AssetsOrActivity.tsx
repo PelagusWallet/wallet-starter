@@ -42,6 +42,10 @@ function AssetsOrActivity() {
   }
 
   useEffect(() => {
+    setCurrentTab(activeTab)
+  }, [])
+
+  useEffect(() => {
     const index = tabs.findIndex((tab) => tab.current)
     const newBorderStyle = calculateBorderStyle(index)
     controls.start(newBorderStyle)

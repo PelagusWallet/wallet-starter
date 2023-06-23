@@ -40,21 +40,26 @@ export default function MnemonicReveal({ password, onClose }) {
   }
 
   return (
-    <div className="bg-zinc-500 p-10 rounded shadow-lg ">
-      <div className="pb-2">{activeWallet?.nickname}</div>
-      <div className="pb-2">
-        Mnemonics are the keys to your digital wallet and should be stored
-        securely to prevent unauthorized access. Never share your mnemonics with
-        anyone, as they can be used to gain control over your assets.
-      </div>
-      <div className="pb-5 font-bold text-lg">{mnemonic}</div>
-      <div className="w-full flex justify-center space-x-4">
-        <button className="btn-class-action" onClick={() => onClose(false)}>
-          Close
-        </button>
-        <button className="btn-class-action" onClick={() => onCopy()}>
-          Copy
-        </button>
+    <div className="modal-backdrop secondary-bg-container">
+      <div className="my-[50px] p-10 rounded shadow-lg secondary-bg-container mx-4">
+        <div className="pb-4">
+          Mnemonics are the keys to your digital wallet and should be stored
+          securely to prevent unauthorized access. Never share your mnemonics
+          with anyone, as they can be used to gain control over your assets.
+        </div>
+        <div className="p-4 my-6 bg-zinc-950 rounded-md">
+          <div className="font-bold text-lg text-white text-center">
+            {mnemonic}
+          </div>
+        </div>
+        <div className="w-full flex justify-center space-x-4">
+          <button className="btn-class-action" onClick={() => onClose(false)}>
+            Close
+          </button>
+          <button className="btn-class-action" onClick={() => onCopy()}>
+            Copy
+          </button>
+        </div>
       </div>
     </div>
   )

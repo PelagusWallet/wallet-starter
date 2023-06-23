@@ -27,6 +27,11 @@ export default function SecurityAndPrivacy() {
     }
   }
 
+  const closeMnemonicReveal = () => {
+    setRevealMnemonic(false)
+    setPassword("")
+  }
+
   return (
     <>
       <div className="min-h-full">
@@ -46,6 +51,7 @@ export default function SecurityAndPrivacy() {
               type="password"
               className="w-1/2 secondary-bg-container rounded-md px-2 py-1  text-lg mb-3 focus:border-0 focus:ring-white"
               placeholder="Enter password"
+              value={password}
               onChange={handlePasswordChange}
             />
 
@@ -65,7 +71,7 @@ export default function SecurityAndPrivacy() {
               <div className="relative w-full mx-6">
                 <MnemonicReveal
                   password={password}
-                  onClose={setRevealMnemonic}
+                  onClose={closeMnemonicReveal}
                 />
               </div>
             </div>

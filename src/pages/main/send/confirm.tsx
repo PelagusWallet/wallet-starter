@@ -35,7 +35,7 @@ export default function SendConfirm() {
   const [toAddress, setToAddress] = useState<string>()
   const [fromBalanace, setFromBalance] = useState<number>()
   const [quaiBalance, setQuaiBalance] = useState<number>(0)
-  const [amount, setAmount] = useState<string>("0.0")
+  const [amount, setAmount] = useState<string>("")
 
   const [gasLimit, setGasLimit] = useState<BigNumber>(BigNumber.from(21000))
   const [maxFeePerGas, setMaxFeePerGas] = useState<BigNumber>(BigNumber.from(1))
@@ -304,6 +304,7 @@ export default function SendConfirm() {
             id="amount"
             onChange={(e) => handleAmountChange(e)}
             value={amount}
+            placeholder="0"
             className="block w-full bg-transparent text-3xl border-none sm:text-md text-center active:border-none focus:ring-0"
           />
           <div className="text-lg">{activeToken.name}</div>

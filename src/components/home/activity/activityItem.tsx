@@ -69,15 +69,15 @@ export default function ActivityItem({ activity }) {
               switch (activity.type) {
                 case "send":
                   return (
-                    <BsSend className="text-blue-600 dark:text-blue-400 w-7 h-7" />
+                    <BsSend className="text-zinc-600 dark:text-zinc-400 w-7 h-7" />
                   )
                 case "transfer":
                   return (
-                    <HiOutlineArrowPath className="text-blue-600 dark:text-blue-400 w-7 h-7" />
+                    <HiOutlineArrowPath className="text-zinc-600 dark:text-zinc-400 w-7 h-7" />
                   )
                 case "receive":
                   return (
-                    <BsCheck2 className="text-blue-600 dark:text-blue-400 w-7 h-7" />
+                    <BsCheck2 className="text-zinc-600 dark:text-zinc-400 w-7 h-7" />
                   )
                 default:
                   return null

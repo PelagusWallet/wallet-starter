@@ -1,13 +1,13 @@
 import "../../../style.css"
 
 import { useEffect, useState } from "react"
+import toast from "react-hot-toast"
 
 import { sendToBackground } from "@plasmohq/messaging"
 import { Storage } from "@plasmohq/storage"
 import { useStorage } from "@plasmohq/storage/hook"
 
 import type { StoredWallet } from "~storage/wallet"
-import { attemptGetKeyfileForWallet } from "~storage/wallet"
 
 const storage = new Storage({ area: "local" })
 
@@ -37,6 +37,8 @@ export default function MnemonicReveal({ password, onClose }) {
 
   function onCopy() {
     navigator.clipboard.writeText(mnemonic)
+    toast("Copied to clipboard 😎"),
+      { id: "copied-notification", position: "top-center" }
   }
 
   return (

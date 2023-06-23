@@ -6,6 +6,8 @@ import "../../style.css"
 import _ from "lodash"
 import React from "react"
 
+import { useStorage } from "@plasmohq/storage/hook"
+
 import ActivityList from "~components/home/activity/ActivityList"
 import AssetsList from "~components/home/assets/AssetsList"
 
@@ -19,7 +21,7 @@ function classNames(...classes) {
 }
 
 function AssetsOrActivity() {
-  const [activeTab, setActiveTab] = useState(tabs[0])
+  const [activeTab, setActiveTab] = useStorage("active_tab", tabs[0])
   const [borderStyle, setBorderStyle] = useState({})
   const controls = useAnimation()
   const tabsRef = useRef([])
@@ -42,21 +44,23 @@ function AssetsOrActivity() {
   }
 
   useEffect(() => {
-    setCurrentTab(activeTab)
-  }, [])
+    const index = tabs.findIndex((tab) => tab.current)
+    const initialBorderStyle = calculateBorderStyle(index)
+    controls.set(initialBorderStyle)
+  }, []) // dependencies array is empty, so this effect runs once on mount
 
   useEffect(() => {
     const index = tabs.findIndex((tab) => tab.current)
     const newBorderStyle = calculateBorderStyle(index)
     controls.start(newBorderStyle)
-  }, [activeTab, tabs, controls])
+  }, [activeTab, controls])
 
   return (
     <div className="h-full w-full">
       <nav className="flex justify-center relative w-full" aria-label="Tabs">
         {tabs.map((tab, index) => (
           <a
-            key={tab.name}
+            key={tab.name + tab.current}
             href="#"
             className={classNames(
               "w-full justify-center whitespace-nowrap flex py-2 px-1 font-medium text-lg ",

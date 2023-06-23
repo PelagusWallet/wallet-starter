@@ -2,35 +2,51 @@ import { ChevronLeftIcon } from "@heroicons/react/24/outline"
 import { useLocation, useRoute } from "wouter"
 
 import type { Address, QuaiContextAddresses } from "~storage/wallet"
-import { groupByPrefix } from "~storage/wallet"
 
 import "../../style.css"
 
 import { useEffect, useState } from "react"
 
+import { Storage } from "@plasmohq/storage"
+import { useStorage } from "@plasmohq/storage/hook"
+
+import { sortAddressesByActiveLocation } from "~storage/wallet/location"
 import { useAppSelector } from "~store"
 
 import ShardData from "../../components/accounts/shardData"
 
+const storage = new Storage({
+  area: "local"
+})
+
 export default function AccountData({ activeWallet }) {
   // router
   const [, setLocation] = useLocation()
-  const [activePathAddressGroups, setActivePathAddressGroups] =
-    useState<QuaiContextAddresses[]>()
-  const [match, params] = useRoute("/accounts?/:account")
+  const [sortedAddresses, setSortedAddresses] = useState<Address[]>()
+
+  const [activeLocation] = useStorage<string>({
+    key: "active_location",
+    instance: storage
+  })
 
   const activeAddresses = useAppSelector(
     (state) => state.activeAddresses.activeAddresses as Address[]
   )
 
   const sortAddresses = async () => {
-    let groups = groupByPrefix(activeAddresses)
-    setActivePathAddressGroups(groups)
+    if (!activeAddresses) return
+    if (!activeLocation) return
+
+    let addresses = sortAddressesByActiveLocation(
+      activeAddresses,
+      activeLocation
+    )
+    setSortedAddresses(addresses)
   }
 
   useEffect(() => {
     sortAddresses()
-  }, [activeAddresses])
+  }, [activeAddresses, activeLocation])
 
   return (
     <div className="">
@@ -48,8 +64,8 @@ export default function AccountData({ activeWallet }) {
           <div className="cursor-pointer text-md">Learn More</div>
         </div>
         <ul role="list" className="space-y-3">
-          {activePathAddressGroups?.map((group, i) => (
-            <ShardData key={i} addressGroup={group} wallet={activeWallet} />
+          {sortedAddresses?.map((addressData, i) => (
+            <ShardData key={i} addressData={addressData} />
           ))}
         </ul>
       </div>

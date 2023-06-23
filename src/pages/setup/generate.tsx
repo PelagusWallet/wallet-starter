@@ -12,13 +12,13 @@ import { generateRandomMnemonic } from "~crypto"
 import MnemonicSetup from "./mnemonic"
 import PasswordSetup from "./password"
 import ProgressBar from "./progress"
-import MnemonicVerify from "./verify"
 
 import "../../style.css"
 
 import SetupHeaderBar from "~components/setup/setupHeaderBar"
 import { setActiveNetwork } from "~storage/network"
 
+import LocateShard from "./locate"
 import PinExtension from "./pin"
 
 const steps = [
@@ -42,6 +42,13 @@ const steps = [
     href: "#",
     status: "upcoming",
     page: 2
+  },
+  {
+    id: "04",
+    name: "Locate Shard",
+    href: "#",
+    status: "upcoming",
+    page: 3
   }
 ]
 
@@ -84,13 +91,17 @@ function Generate() {
   }
 
   function handlePinnedExtension() {
-    setLocation("/complete")
+    setPage((v) => v + 1)
   }
 
   function attemptSetPage(attemptedPage) {
     if (attemptedPage < page) {
       setPage((v) => (v = attemptedPage))
     }
+  }
+
+  function handleLocateShard() {
+    setLocation("/complete")
   }
 
   useEffect(() => {}, [page])
@@ -144,6 +155,16 @@ function Generate() {
                 }}
               /> */}
               <PinExtension onContinue={(e) => handlePinnedExtension()} />
+            </motion.div>
+          )}
+          {page == 3 && (
+            <motion.div
+              key="locateShard"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}>
+              <LocateShard
+                onContinue={(e) => handleLocateShard()}></LocateShard>
             </motion.div>
           )}
         </AnimatePresence>

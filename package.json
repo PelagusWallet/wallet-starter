@@ -1,7 +1,7 @@
 {
   "name": "pelagus-extension",
   "displayName": "Pelagus",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Embark on Web3.",
   "author": "alan",
   "scripts": {
@@ -88,7 +88,7 @@
   "manifest": {
     "host_permissions": [
       "https://*/*",
-      "http://localhost:*/*"
+      "http://*/*"
     ],
     "permissions": [
       "alarms",
@@ -97,7 +97,8 @@
       "declarativeNetRequest",
       "webRequest",
       "webRequestBlocking",
-      "scripting"
+      "scripting",
+      "geolocation"
     ],
     "default_locale": "en"
   },

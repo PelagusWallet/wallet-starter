@@ -8,10 +8,9 @@ import { sendToBackground } from "@plasmohq/messaging"
 
 import { DEFAULT_NETWORKS } from "~background/services/network/chains"
 
-import MnemonicSetup from "./mnemonic"
+import LocateShard from "./locate"
 import PasswordSetup from "./password"
 import ProgressBar from "./progress"
-import MnemonicVerify from "./verify"
 
 import "../../style.css"
 
@@ -42,6 +41,13 @@ const steps = [
     href: "#",
     status: "upcoming",
     page: 2
+  },
+  {
+    id: "04",
+    name: "Locate Shard",
+    href: "#",
+    status: "upcoming",
+    page: 3
   }
 ]
 
@@ -70,7 +76,7 @@ function ImportMnemonic() {
   }
 
   function handlePinnedExtension() {
-    setLocation("/complete")
+    setPage((v) => v + 1)
   }
 
   function attemptSetPage(attemptedPage) {
@@ -79,6 +85,9 @@ function ImportMnemonic() {
     }
   }
 
+  function handleLocateShard() {
+    setLocation("/complete")
+  }
   useEffect(() => {}, [page])
 
   return (
@@ -129,6 +138,16 @@ function ImportMnemonic() {
                 }}
               /> */}
               <PinExtension onContinue={(e) => handlePinnedExtension()} />
+            </motion.div>
+          )}
+          {page == 3 && (
+            <motion.div
+              key="locateShard"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}>
+              <LocateShard
+                onContinue={(e) => handleLocateShard()}></LocateShard>
             </motion.div>
           )}
         </AnimatePresence>

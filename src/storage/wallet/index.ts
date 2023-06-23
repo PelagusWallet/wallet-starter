@@ -136,6 +136,11 @@ export async function getWallets() {
   return wallets || []
 }
 
+/**
+ * Get keyfiles from secure storage
+ * @param password
+ * @returns
+ */
 export async function getKeyfiles(password?: string) {
   if (!password) {
     password = await storage.get("decryption_key")
@@ -149,18 +154,33 @@ export async function getKeyfiles(password?: string) {
   return keyfiles || []
 }
 
+/**
+ * Get keyfile for wallet
+ * @param pubkey
+ */
 function getKeyfileForWallet(pubkey: string) {
   return getKeyfiles().then((keyfiles) =>
     keyfiles.find((keyfile) => keyfile.pubkey === pubkey)
   )
 }
 
+/**
+ * Get keyfile for wallet
+ * @param pubkey
+ * @param password
+ */
 export function attemptGetKeyfileForWallet(pubkey: string, password: string) {
   return getKeyfiles(password).then((keyfiles) =>
     keyfiles.find((keyfile) => keyfile.pubkey === pubkey)
   )
 }
 
+/**
+ * Create a new wallet
+ * @param password
+ * @param mnemonic
+ * @returns hdWallet
+ */
 export async function createWallet(password: string, mnemonic: string) {
   // check password
   await secureStorage.setPassword(password)

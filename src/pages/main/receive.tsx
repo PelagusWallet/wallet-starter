@@ -1,4 +1,8 @@
+import toast from "react-hot-toast"
+import { VscCopy, VscOpenPreview } from "react-icons/vsc"
+
 import type { Address } from "~storage/wallet"
+import { getShardFromAddress } from "~storage/wallet"
 
 import "../../style.css"
 
@@ -8,6 +12,8 @@ import QRCode from "react-qr-code"
 import { Storage } from "@plasmohq/storage"
 import { useStorage } from "@plasmohq/storage/hook"
 
+import { Network } from "~background/services/network/chains"
+import { getExplorerURLForShard } from "~background/services/network/chains"
 import SelectListbox from "~components/form/Listbox"
 import { sortAddressesByActiveLocation } from "~storage/wallet/location"
 import { useAppSelector } from "~store"
@@ -22,6 +28,11 @@ export default function Receive() {
 
   const [activeLocation] = useStorage<string>({
     key: "active_location",
+    instance: storage
+  })
+
+  const [activeNetwork] = useStorage<Network>({
+    key: "active_network",
     instance: storage
   })
 
@@ -62,6 +73,23 @@ export default function Receive() {
     return addresses
   }
 
+  // Support Quaiscan by default
+  function linkToExplorer(address: Address): string {
+    const shard = getShardFromAddress(address.address)[0].shard
+    if (shard == undefined) {
+      return ""
+    }
+    const explorerURL = getExplorerURLForShard(activeNetwork, shard)
+    const url = explorerURL + "/address/" + address.address
+    window.open(url, "_blank")
+  }
+
+  function copyAddress(address: Address) {
+    navigator.clipboard.writeText(address.address)
+    toast("Copied to clipboard 😎"),
+      { id: "copied-notification", position: "top-center" }
+  }
+
   return (
     <div className="m-4">
       <div>
@@ -85,7 +113,22 @@ export default function Receive() {
               />
             </div>
             <div className="flex justify-center flex-col mt-4 text-center">
-              <div> test wallet </div>
+              <div className="text-lg m-1"> test wallet </div>
+              <div className="flex flex-row justify-center">
+                <span className="tooltip">
+                  <VscCopy
+                    onClick={() => copyAddress(selectedAddress)}
+                    className="w-6 h-6 m-2 z-10 cursor-pointer"></VscCopy>
+                  <span className="tooltiptext">Copy address to clipboard</span>
+                </span>
+
+                <span className="tooltip">
+                  <VscOpenPreview
+                    onClick={() => linkToExplorer(selectedAddress)}
+                    className="w-6 h-6 m-2 z-10 cursor-pointer"></VscOpenPreview>
+                  <span className="tooltiptext">View address on explorer</span>
+                </span>
+              </div>
             </div>
           </div>
         )}

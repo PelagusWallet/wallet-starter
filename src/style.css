@@ -136,7 +136,7 @@
   }
 
   .footer-button {
-    @apply flex justify-center w-1/4 py-4 text-black dark:text-zinc-300 font-medium text-xs leading-tight uppercase hover:bg-zinc-200 dark:hover:bg-white/20 focus:outline-none focus:ring-0;
+    @apply flex justify-center w-1/3 py-4 text-black dark:text-zinc-300 font-medium text-xs leading-tight uppercase hover:bg-zinc-200 dark:hover:bg-white/20 focus:outline-none focus:ring-0;
   }
 
   .footer-bg {

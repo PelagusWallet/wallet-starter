@@ -44,19 +44,19 @@ export default function FunctionButtonGroup() {
 
   return (
     <div className="pl-3 pr-3">
-      <div className="px-1">
-        <button
-          onClick={() => openFaucet()}
-          className="flex btn-class-secondary font-medium w-full py-2">
-          <div className="flex flex-row items-center m-auto">
-            <FaFaucet className="h-6 w-6" />
-            <span className="home-button-inner pl-1">Faucet</span>
-          </div>
-        </button>
-      </div>
       <div
         className="w-full inline-flex rounded-md justify-center h-content"
         role="group">
+        <div className="flex flex-col w-1/3 group home-button-outer justify-center">
+          <button
+            onClick={() => openFaucet()}
+            className="flex btn-class py-2 w-full">
+            <div className="flex flex-col items-center m-auto">
+              <FaFaucet className="h-6 w-6" />
+            </div>
+          </button>
+          <span className="home-button-inner">Faucet</span>
+        </div>
         <div className="flex flex-col w-1/3 group home-button-outer justify-center">
           <button
             onClick={() => navigateToReceive()}
@@ -76,14 +76,6 @@ export default function FunctionButtonGroup() {
             </div>
           </button>
           <span className="home-button-inner">Send</span>
-        </div>
-        <div className="flex flex-col w-1/3 group home-button-outer justify-center">
-          <button className="flex btn-class py-2 w-full">
-            <div className="flex flex-col items-center m-auto">
-              <ArrowsRightLeftIcon className="h-6 w-6" />
-            </div>
-          </button>
-          <span className="home-button-inner">Swap</span>
         </div>
       </div>
     </div>

@@ -34,22 +34,27 @@ export default function Unlock() {
         ) : (
           <img className="h-36 w-auto" src={pelagusLgBlack} alt="Pelagus" />
         )}
-        <label className="mt-10">Password</label>
-        <input
-          type="password"
-          className="block mt-1 w-full bg-transparent rounded-md shadow-sm text-[13px] border focus:ring-white focus:border-0 sm:text-md"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <button
-          onClick={() => handleUnlock()}
-          className="mt-2 w-full secondary-bg-container text-blue-600 dark:text-blue-400 font-thin text-sm px-6 py-3 rounded"
-          type="button">
-          Unlock
-        </button>
-        <div className="mt-6 font-semibold text-md cursor-pointer flex justify-center">
-          Forgot password?
-        </div>
+        <form
+          onSubmit={(event) => {
+            handleUnlock()
+            event.preventDefault()
+          }}>
+          <label className="mt-10">Password</label>
+          <input
+            type="password"
+            className="block mt-1 w-full bg-transparent rounded-md shadow-sm text-[13px] border focus:ring-white focus:border-0 sm:text-md"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <button
+            className="mt-2 w-full secondary-bg-container text-blue-600 dark:text-blue-400 font-thin text-sm px-6 py-3 rounded"
+            type="submit">
+            Unlock
+          </button>
+          <div className="mt-6 font-semibold text-md cursor-pointer flex justify-center">
+            Forgot password?
+          </div>
+        </form>
       </div>
     </div>
   )

@@ -60,7 +60,7 @@ export default function SecurityAndPrivacy() {
                 onClick={() => {
                   validatePassword()
                 }} // Add your onClick function here
-                className="border-2 border-red-500 text-red-500 rounded-full py-2 px-4 hover:bg-red-500 hover:transition duration-200">
+                className="border-2 border-red-500 text-red-500 rounded-full py-2 px-4 hover:bg-red-500 hover:transition duration-200 hover:text-white">
                 Reveal secret phrase
               </button>
             </div>

@@ -38,14 +38,8 @@ export default function FunctionButtonGroup() {
     setLocation("/send")
   }
 
-  function navigateToAccounts() {
-    // if location contains /accounts, go to home
-    // else go to /accounts
-    if (location.includes("accounts")) {
-      setLocation("/")
-    } else {
-      setLocation("/accounts?/" + activeWallet.pubkey)
-    }
+  function navigateToReceive() {
+    setLocation("/receive")
   }
 
   return (
@@ -65,7 +59,7 @@ export default function FunctionButtonGroup() {
         role="group">
         <div className="flex flex-col w-1/3 group home-button-outer justify-center">
           <button
-            onClick={() => navigateToAccounts()}
+            onClick={() => navigateToReceive()}
             className="flex btn-class py-2 w-full">
             <div className="flex flex-col items-center m-auto">
               <ArrowDownIcon className="h-6 w-6" />

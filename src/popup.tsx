@@ -27,6 +27,7 @@ import { useStorage } from "@plasmohq/storage/hook"
 
 import type { Network } from "~background/services/network/chains"
 import Fetcher from "~pages/main/fetcher"
+import Receive from "~pages/main/receive"
 import SendConfirm from "~pages/main/send/confirm"
 import SendFrom from "~pages/main/send/from"
 import SendTo from "~pages/main/send/to"
@@ -103,6 +104,7 @@ function IndexPopup() {
                 path="/send?/confirm/:fromAddr?/:toAddr"
                 component={SendConfirm}
               />
+              <Route path="/receive" component={Receive} />
               <Route path="/contacts">
                 <Contacts />
               </Route>

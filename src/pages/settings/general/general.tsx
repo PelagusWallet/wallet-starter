@@ -1,30 +1,39 @@
 import { Disclosure } from "@headlessui/react"
 import { ChevronLeftIcon } from "@heroicons/react/24/outline"
+import { useEffect, useState } from "react"
+import Select from "react-select"
 import { useLocation } from "wouter"
-
-import Footer from "~components/navigation/Footer"
-import type { Address } from "~storage/wallet"
-import { useAppSelector } from "~store"
-
-import "../../../style.css"
 
 import { Storage } from "@plasmohq/storage"
 import { useStorage } from "@plasmohq/storage/hook"
 
+import { QUAI_CONTEXTS } from "~background/services/network/chains"
+import Footer from "~components/navigation/Footer"
 import { getAddresses } from "~storage/wallet"
+import type { Address } from "~storage/wallet"
+
+import "../../../style.css"
+
+const storage = new Storage({
+  area: "local"
+})
 
 export default function GeneralSettings() {
   const [, setLocation] = useLocation()
+  const [defaultValue, setDefaultValue] = useState(null)
 
   const [darkMode, setDarkMode] = useStorage<boolean>({
     key: "dark_mode",
-    instance: new Storage({
-      area: "local"
-    })
+    instance: storage
   })
 
-  function groupByShard(addresses: Address[]) {
-    let groups = addresses.reduce((groups, address) => {
+  const [activeLocation, setActiveLocation] = useStorage<string>({
+    key: "active_location",
+    instance: storage
+  })
+
+  const groupByShard = (addresses: Address[]) => {
+    return addresses.reduce((groups, address) => {
       const shard = address.shard
       if (!groups[shard]) {
         groups[shard] = []
@@ -32,41 +41,49 @@ export default function GeneralSettings() {
       groups[shard].push(address)
       return groups
     }, {})
-    return groups
   }
 
-  async function generateAndCopyAddresses() {
-    let addressData = await getAddresses()
-    const zones = [
-      "ZONE_0_0_COINBASE",
-      "ZONE_0_1_COINBASE",
-      "ZONE_0_2_COINBASE",
-      "ZONE_1_0_COINBASE",
-      "ZONE_1_1_COINBASE",
-      "ZONE_1_2_COINBASE",
-      "ZONE_2_0_COINBASE",
-      "ZONE_2_1_COINBASE",
-      "ZONE_2_2_COINBASE"
-    ]
-
-    const addresses = groupByShard(addressData)
-    // get first of each shard
-
-    let newAddresses = Object.keys(addresses).map(
-      (key) => addresses[key][0].address
+  const generateAndCopyAddresses = async () => {
+    const addressData = await getAddresses()
+    const zones = [...Array(9).keys()].map(
+      (i) => `ZONE_${Math.floor(i / 3)}_${i % 3}_COINBASE`
     )
+    const addresses = groupByShard(addressData)
+    const newAddresses = Object.values(addresses).map(
+      (addresses: Address[]) => addresses[0].address
+    )
+    const output = zones
+      .map((zone, i) => `${zone}=${newAddresses[i]}`)
+      .join("\n")
 
-    let output = zones.map((zone, i) => `${zone}=${newAddresses[i]}`).join("\n")
-
-    navigator.clipboard
-      .writeText(output)
-      .then(() => {
-        console.log("Addresses copied to clipboard")
-      })
-      .catch((err) => {
-        console.log("Could not copy text: ", err)
-      })
+    try {
+      await navigator.clipboard.writeText(output)
+      console.log("Addresses copied to clipboard")
+    } catch (err) {
+      console.error("Could not copy text: ", err)
+    }
   }
+
+  const options = QUAI_CONTEXTS?.map((context) => ({
+    value: context.shard,
+    label: context.name
+  }))
+
+  const handleLocationChange = (selectedOption) => {
+    setActiveLocation(selectedOption.value)
+  }
+
+  useEffect(() => {
+    const defaultContext = QUAI_CONTEXTS?.find(
+      (context) => context.shard === activeLocation
+    )
+    if (defaultContext) {
+      setDefaultValue({
+        value: defaultContext.shard,
+        label: defaultContext.name
+      })
+    }
+  }, [activeLocation])
 
   return (
     <>
@@ -84,9 +101,7 @@ export default function GeneralSettings() {
           </div>
           <div className="w-full flex justify-center">
             <button
-              onClick={() => {
-                generateAndCopyAddresses()
-              }} // Add your onClick function here
+              onClick={generateAndCopyAddresses}
               className="btn-class p-4">
               Copy Mining Configuration
             </button>
@@ -97,6 +112,16 @@ export default function GeneralSettings() {
               className="btn-class p-4">
               Toggle Dark Mode
             </button>
+          </div>
+          <div className="w-full p-4">
+            <p className="text-center">Select your active shard</p>
+            {defaultValue && (
+              <Select
+                options={options}
+                onChange={handleLocationChange}
+                defaultValue={defaultValue}
+              />
+            )}
           </div>
         </Disclosure>
       </div>

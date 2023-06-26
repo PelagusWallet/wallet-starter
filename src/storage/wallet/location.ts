@@ -77,3 +77,19 @@ export const sortAddressesByActiveLocation = (
     return 0
   })
 }
+
+const SHARD_COUNTRY_MAPPING = {
+  "cyprus-1": ["Canada", "United States", "Mexico", "Central America"],
+  "cyprus-2": ["South America"],
+  "paxos-1": ["Western Africa", "Western Europe"],
+  "paxos-2": ["Central Africa", "Eastern Europe"],
+  "paxos-3": ["Eastern Africa", "Middle East"],
+  "hydra-1": ["South Asia", "Central Asia"],
+  "hydra-2": ["East Asia"],
+  "hydra-3": ["Australia", "New Zealand"]
+}
+
+export const getCountriesForContext = (shard: string) => {
+  // return the list of countries for the given shard
+  return SHARD_COUNTRY_MAPPING[shard] || []
+}

@@ -30,16 +30,24 @@ export default function Unlock() {
     <div className=" flex flex-col h-screen p-6 m-auto">
       <div className="m-auto">
         {darkMode ? (
-          <img className="h-36 w-auto" src={pelagusLgWhite} alt="Pelagus" />
+          <img
+            className="h-36 w-auto mb-10"
+            src={pelagusLgWhite}
+            alt="Pelagus"
+          />
         ) : (
-          <img className="h-36 w-auto" src={pelagusLgBlack} alt="Pelagus" />
+          <img
+            className="h-36 w-auto mb-10"
+            src={pelagusLgBlack}
+            alt="Pelagus"
+          />
         )}
         <form
           onSubmit={(event) => {
             handleUnlock()
             event.preventDefault()
           }}>
-          <label className="mt-10">Password</label>
+          <label>Password</label>
           <input
             type="password"
             className="block mt-1 w-full bg-transparent rounded-md shadow-sm text-[13px] border focus:ring-white focus:border-0 sm:text-md"

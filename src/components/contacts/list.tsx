@@ -50,14 +50,16 @@ export default function ContactList({ selectable, onContactSelect }) {
         {contacts ? (
           <div>
             {contacts?.map((contact, i) => (
-              <ContactData
-                key={i}
-                contact={contact}
-                selectable={selectable}
-                onContactSelect={(e) => {
-                  onContactSelect(e)
-                }}
-              />
+              <div className="my-2">
+                <ContactData
+                  key={i}
+                  contact={contact}
+                  selectable={selectable}
+                  onContactSelect={(e) => {
+                    onContactSelect(e)
+                  }}
+                />
+              </div>
             ))}
           </div>
         ) : (

@@ -72,7 +72,7 @@ export default function ContactData({ contact, selectable, onContactSelect }) {
             <div
               className="btn-class-secondary p-1 z-100"
               onClick={toggleActive}>
-              Select advanced address
+              Show All Addresses
             </div>
           )}
         </div>

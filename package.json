@@ -46,7 +46,6 @@
     "react-jdenticon": "^1.0.1",
     "react-qr-code": "^2.0.11",
     "react-redux": "^8.0.7",
-    "react-select": "^5.7.3",
     "react-simple-maps": "^3.0.0",
     "redux-persist-webextension-storage": "^1.0.2",
     "secp256k1": "^4.0.3",

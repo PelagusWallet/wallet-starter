@@ -4,11 +4,11 @@ import "../../style.css"
 
 import { useEffect, useState } from "react"
 import QRCode from "react-qr-code"
-import Select from "react-select"
 
 import { Storage } from "@plasmohq/storage"
 import { useStorage } from "@plasmohq/storage/hook"
 
+import SelectListbox from "~components/form/Listbox"
 import { sortAddressesByActiveLocation } from "~storage/wallet/location"
 import { useAppSelector } from "~store"
 
@@ -44,7 +44,10 @@ export default function Receive() {
 
   const options = sortedAddresses?.map((address) => ({
     value: address.address,
-    label: `${address.shard} - ${address.address}`
+    label: `${address.shard} - ${address.address.slice(
+      0,
+      6
+    )}...${address.address.slice(-4)}`
   }))
 
   const sortAddresses = async () => {
@@ -63,10 +66,10 @@ export default function Receive() {
     <div className="m-4">
       <div>
         {options && (
-          <Select
+          <SelectListbox
             options={options}
-            onChange={handleAddressChange}
-            defaultValue={options[0]}
+            setSelectedOption={handleAddressChange}
+            selectedOption={options[0]}
           />
         )}
         {selectedAddress && (

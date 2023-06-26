@@ -1,13 +1,13 @@
-import { Disclosure } from "@headlessui/react"
+import { Disclosure, Listbox } from "@headlessui/react"
 import { ChevronLeftIcon } from "@heroicons/react/24/outline"
 import { useEffect, useState } from "react"
-import Select from "react-select"
 import { useLocation } from "wouter"
 
 import { Storage } from "@plasmohq/storage"
 import { useStorage } from "@plasmohq/storage/hook"
 
 import { QUAI_CONTEXTS } from "~background/services/network/chains"
+import SelectListbox from "~components/form/Listbox"
 import Footer from "~components/navigation/Footer"
 import { getAddresses } from "~storage/wallet"
 import type { Address } from "~storage/wallet"
@@ -20,6 +20,8 @@ const storage = new Storage({
 
 export default function GeneralSettings() {
   const [, setLocation] = useLocation()
+  const [selected, setSelected] = useState(null)
+
   const [defaultValue, setDefaultValue] = useState(null)
 
   const [darkMode, setDarkMode] = useStorage<boolean>({
@@ -70,6 +72,7 @@ export default function GeneralSettings() {
   }))
 
   const handleLocationChange = (selectedOption) => {
+    console.log(selectedOption)
     setActiveLocation(selectedOption.value)
   }
 
@@ -82,6 +85,7 @@ export default function GeneralSettings() {
         value: defaultContext.shard,
         label: defaultContext.name
       })
+      setSelected(defaultContext)
     }
   }, [activeLocation])
 
@@ -115,13 +119,11 @@ export default function GeneralSettings() {
           </div>
           <div className="w-full p-4">
             <p className="text-center">Select your active shard</p>
-            {defaultValue && (
-              <Select
-                options={options}
-                onChange={handleLocationChange}
-                defaultValue={defaultValue}
-              />
-            )}
+            <SelectListbox
+              options={options}
+              selectedOption={defaultValue}
+              setSelectedOption={handleLocationChange}
+            />
           </div>
         </Disclosure>
       </div>

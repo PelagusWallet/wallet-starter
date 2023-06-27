@@ -135,11 +135,19 @@ function AddOrUpdateCustomToken() {
     }
   }
 
+  function returnHome() {
+    if (updateToken === null || updateToken === undefined) {
+      setLocation("/")
+    } else {
+      setLocation("/token")
+    }
+  }
+
   return (
     <>
       <div className="p-6">
         <div className="flex flex-row justify-between items-center">
-          <button onClick={() => setLocation("/")} className="text-gray-400">
+          <button onClick={() => returnHome()} className="text-gray-400">
             <ChevronLeftIcon
               className="h-6 w-6 quai-dark-grey"
               aria-hidden="true"

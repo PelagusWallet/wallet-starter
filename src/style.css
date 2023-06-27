@@ -120,7 +120,7 @@
   }
 
   .secondary-bg-container {
-    @apply bg-white dark:bg-zinc-950 shadow-md
+    @apply bg-white dark:bg-zinc-800 shadow-md
   }
 
   .home-button-outer {
@@ -152,7 +152,7 @@
   }
 
   .btn-class-secondary {
-    @apply border p-3 btn-hover rounded-md shadow-sm flex justify-center dark:bg-zinc-950 text-pelagus-dark-blue border-pelagus-dark-blue dark:text-pelagus-light-blue dark:border-pelagus-light-blue hover:text-white hover:bg-blue-800 dark:hover:bg-blue-400 dark:hover:text-white
+    @apply border p-3 btn-hover rounded-md shadow-sm flex justify-center dark:bg-zinc-800 text-pelagus-dark-blue border-pelagus-dark-blue dark:text-pelagus-light-blue dark:border-pelagus-light-blue hover:text-white hover:bg-blue-800 dark:hover:bg-blue-400 dark:hover:text-white
   }
 
   .btn-class-action {

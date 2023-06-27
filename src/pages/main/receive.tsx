@@ -1,5 +1,7 @@
+import { ChevronLeftIcon } from "@heroicons/react/24/outline"
 import toast from "react-hot-toast"
 import { VscCopy, VscOpenPreview } from "react-icons/vsc"
+import { useLocation } from "wouter"
 
 import type { Address } from "~storage/wallet"
 import { getShardFromAddress } from "~storage/wallet"
@@ -20,6 +22,8 @@ const storage = new Storage({
 })
 
 export default function Receive() {
+  const [, setLocation] = useLocation()
+
   const [activeAddress] = useStorage<Address>({
     key: "active_address",
     instance: storage
@@ -49,6 +53,14 @@ export default function Receive() {
   return (
     <div className="m-4">
       <div>
+        <div>
+          <button onClick={() => setLocation("/")} className="text-gray-400">
+            <ChevronLeftIcon
+              className="h-6 w-6 quai-dark-grey"
+              aria-hidden="true"
+            />
+          </button>
+        </div>
         {activeAddress && (
           <div>
             <div className="flex space-y-4 w-full h-full justify-center mt-10">

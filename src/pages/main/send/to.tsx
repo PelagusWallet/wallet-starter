@@ -39,7 +39,7 @@ export default function SendTo() {
   return (
     <div className=" px-4 pt-2">
       <div>
-        <button onClick={() => setLocation("/send")} className="text-gray-400">
+        <button onClick={() => setLocation("/")} className="text-gray-400">
           <ChevronLeftIcon
             className="h-6 w-6 quai-dark-grey"
             aria-hidden="true"

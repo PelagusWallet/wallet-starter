@@ -26,7 +26,7 @@ export default function SelectedAddressHeader() {
 
   return (
     <>
-      {activeAddress && (
+      {activeAddress ? (
         <div className="flex flex-row">
           <div className="w-1/3 h-full">
             <div className="w-10 m-auto">
@@ -47,6 +47,8 @@ export default function SelectedAddressHeader() {
           </div>
           <div className="w-1/3"></div>
         </div>
+      ) : (
+        <div className="h-[62px]"></div>
       )}
     </>
   )

@@ -91,7 +91,7 @@ function IndexPopup() {
             <Fetcher />
             <Router hook={useHashLocation}>
               <MenuBar />
-              <div className="pt-[60px]"></div>
+              <div className="pt-[66px]"></div>
               <Route path="/" component={() => <Home />} />
               {/* <Route path="/send">
                 <SendFrom activeAddress={activeAddress} />

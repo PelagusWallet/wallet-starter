@@ -15,6 +15,7 @@ import { useStorage } from "@plasmohq/storage/hook"
 import { Network } from "~background/services/network/chains"
 import { getExplorerURLForShard } from "~background/services/network/chains"
 import SelectListbox from "~components/form/Listbox"
+import type { StoredWallet } from "~storage/wallet"
 import { sortAddressesByActiveLocation } from "~storage/wallet/location"
 import { useAppSelector } from "~store"
 
@@ -33,6 +34,11 @@ export default function Receive() {
 
   const [activeNetwork] = useStorage<Network>({
     key: "active_network",
+    instance: storage
+  })
+
+  const [activeWallet] = useStorage<StoredWallet>({
+    key: "active_wallet",
     instance: storage
   })
 
@@ -106,14 +112,14 @@ export default function Receive() {
               <QRCode
                 value={JSON.stringify({
                   address: selectedAddress.address,
-                  username: "test wallet"
+                  username: activeWallet?.nickname
                 })}
                 size={256}
                 style={{ color: "#000000" }}
               />
             </div>
             <div className="flex justify-center flex-col mt-4 text-center">
-              <div className="text-lg m-1"> test wallet </div>
+              <div className="text-lg m-1"> {activeWallet?.nickname} </div>
               <div className="flex flex-row justify-center">
                 <span className="tooltip">
                   <VscCopy

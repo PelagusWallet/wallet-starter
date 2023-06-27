@@ -20,7 +20,6 @@ import { useHashLocation } from "~utils/router"
 
 import "./style.css"
 
-import { render } from "@headlessui/react/dist/utils/render"
 import { useEffect, useState } from "react"
 
 import { useStorage } from "@plasmohq/storage/hook"
@@ -46,7 +45,6 @@ import type { StoredWallet } from "~storage/wallet"
 const storage = new Storage({ area: "local" })
 
 function IndexPopup() {
-  // const [signedIn, setSignedIn] = useState<boolean>(false)
   const [renderKey, setRenderKey] = useState(0)
 
   const [activeNetwork] = useStorage<Network>({

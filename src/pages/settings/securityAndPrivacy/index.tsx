@@ -3,7 +3,6 @@ import { ChevronLeftIcon } from "@heroicons/react/24/outline"
 import { useEffect, useState } from "react"
 import { useLocation } from "wouter"
 
-import Footer from "~components/navigation/Footer"
 import MnemonicReveal from "~components/settings/securityAndPrivacy/mnemonicReveal"
 import { checkPassword } from "~storage/wallet/password"
 
@@ -78,7 +77,6 @@ export default function SecurityAndPrivacy() {
           )}
         </Disclosure>
       </div>
-      <Footer />
     </>
   )
 }

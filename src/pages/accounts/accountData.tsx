@@ -10,7 +10,7 @@ import { useEffect, useState } from "react"
 import { Storage } from "@plasmohq/storage"
 import { useStorage } from "@plasmohq/storage/hook"
 
-import { sortAddressesByActiveLocation } from "~storage/wallet/location"
+import { sortAddressesByActiveShard } from "~storage/wallet/shard"
 import { useAppSelector } from "~store"
 
 import ShardData from "../../components/accounts/shardData"
@@ -37,10 +37,7 @@ export default function AccountData({ activeWallet }) {
     if (!activeAddresses) return
     if (!activeLocation) return
 
-    let addresses = sortAddressesByActiveLocation(
-      activeAddresses,
-      activeLocation
-    )
+    let addresses = sortAddressesByActiveShard(activeAddresses, activeLocation)
     setSortedAddresses(addresses)
   }
 

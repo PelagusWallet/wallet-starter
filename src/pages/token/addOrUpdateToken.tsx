@@ -6,7 +6,6 @@ import { useDispatch } from "react-redux"
 import { useLocation } from "wouter"
 
 import { QUAI_CONTEXTS } from "~background/services/network/chains"
-import Footer from "~components/navigation/Footer"
 import { updateCustomToken } from "~slices/update-token"
 import { getActiveNetwork } from "~storage/network"
 import { addOrUpdateToken, removeToken } from "~storage/token"
@@ -140,9 +139,7 @@ function AddOrUpdateCustomToken() {
     <>
       <div className="p-6">
         <div className="flex flex-row justify-between items-center">
-          <button
-            onClick={() => setLocation("/token")}
-            className="text-gray-400">
+          <button onClick={() => setLocation("/")} className="text-gray-400">
             <ChevronLeftIcon
               className="h-6 w-6 quai-dark-grey"
               aria-hidden="true"
@@ -240,7 +237,6 @@ function AddOrUpdateCustomToken() {
           </button>
         </div>
       </div>
-      <Footer />
     </>
   )
 }

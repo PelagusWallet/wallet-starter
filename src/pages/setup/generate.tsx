@@ -17,6 +17,7 @@ import "../../style.css"
 
 import SetupHeaderBar from "~components/setup/setupHeaderBar"
 import { setActiveNetwork } from "~storage/network"
+import { setActiveShard } from "~storage/wallet/shard"
 
 import LocateShard from "./locate"
 import PinExtension from "./pin"
@@ -100,7 +101,16 @@ function Generate() {
     }
   }
 
-  function handleLocateShard() {
+  async function handleLocateShard(shard: string) {
+    await sendToBackground({
+      name: "wallet/add-address",
+      body: {
+        shard: shard
+      }
+    })
+
+    await setActiveShard(shard)
+
     setLocation("/complete")
   }
 
@@ -164,7 +174,7 @@ function Generate() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}>
               <LocateShard
-                onContinue={(e) => handleLocateShard()}></LocateShard>
+                onContinue={(e) => handleLocateShard(e)}></LocateShard>
             </motion.div>
           )}
         </AnimatePresence>

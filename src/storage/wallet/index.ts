@@ -1,4 +1,5 @@
 import { watch } from "fs"
+import { get } from "http"
 import { Wallet, quais } from "quais"
 import type { HDNode } from "quais/lib/utils"
 import { useEffect } from "react"
@@ -29,6 +30,7 @@ const secureStorage = new SecureStorage({ area: "local" })
  * Address object that contains the BIP-39 index that it was derived at
  */
 export class Address {
+  name: string
   index: number
   path: string
   address: string
@@ -48,7 +50,6 @@ export class PathAddresses {
  * Keyfile stored in secure storage
  */
 export interface Keyfile {
-  nickname: string
   pubkey: string
   keyfile: string
   mnemonic: string
@@ -59,7 +60,6 @@ export interface Keyfile {
  * StoredWallet stored in the localstorage
  */
 export interface StoredWallet {
-  nickname: string
   pubkey: string
   derivations: PathAddresses[]
   type: string
@@ -68,7 +68,6 @@ export interface StoredWallet {
 /**
  * Hook that opens a new tab if Pelagus has not been set up yet
  */
-
 export const useSetUp = (darkMode) =>
   useEffect(() => {
     ;(async () => {
@@ -99,6 +98,43 @@ export const useSetUp = (darkMode) =>
 
 /**
  * Get the active address
+ */
+export async function getActiveAddress(): Promise<Address | null> {
+  const activeAddress = (await storage.get("active_address")) as Address
+  if (!activeAddress) {
+    return null
+  }
+  return activeAddress
+}
+
+/**
+ *  Set the active address
+ */
+export async function setActiveAddress(newActiveAddress?: Address) {
+  const addresses = await getAddresses()
+  let address = addresses.find(
+    (address) => address.address === newActiveAddress.address
+  )
+  if (!address) {
+    return
+  }
+  await storage.set("active_address", address)
+}
+
+/**
+ * Set active address by shard
+ */
+export async function setActiveAddressByShard(shard?: string) {
+  const addresses = await getAddresses()
+  let address = addresses.find((address) => address.shard === shard)
+  if (!address) {
+    return
+  }
+  await storage.set("active_address", address)
+}
+
+/**
+ * Get the active wallet
  */
 export async function getActiveWallet(): Promise<StoredWallet | null> {
   const activeWallet = (await storage.get("active_wallet")) as StoredWallet
@@ -212,43 +248,18 @@ export async function addWallet(wallet: any, mnemonic: any, password: string) {
   const encryptedMnemonic = await encryptMnemonic(password, mnemonic)
 
   // Get address at default hdPath and 0 index
-  const chainCode = 994
   const hdPath = "m/44'/994'/0'/0"
-  let addresses = []
-  for (const shard of QUAI_CONTEXTS) {
-    const address = grindAddress(wallet, hdPath, 0, shard.shard)
-
-    const addressList: Address = {
-      index: address.index,
-      address: address.address,
-      path: hdPath + "/" + address.index.toString(),
-      shard: shard.shard
-    }
-
-    addresses.push(addressList)
-  }
-
-  const addressDerivations: PathAddresses[] = [
-    {
-      chainCode: chainCode,
-      path: hdPath,
-      addresses: addresses
-    }
-  ]
 
   let accountNode = wallet.derive(hdPath)
 
-  let walletName = `Wallet ${wallets.length + 1}`
   // Push wallet
   wallets.push({
-    nickname: walletName,
     pubkey: accountNode.publicKey.toString("hex"),
-    derivations: addressDerivations,
+    derivations: [],
     type: WALLET_GENERATED
   })
 
   keyfiles.push({
-    nickname: walletName,
     pubkey: accountNode.publicKey.toString("hex"),
     keyfile: encryptedHDKey,
     mnemonic: encryptedMnemonic,
@@ -264,20 +275,18 @@ export async function addWallet(wallet: any, mnemonic: any, password: string) {
   await storage.set("active_wallet", wallets[0])
 }
 
-export async function addAdddressByShard(
-  wallet: any,
-  path: string,
-  index: number,
-  shard: string
-) {
-  const wallets = await getWallets()
+export async function addAdddressByShard(shard: string, name?: string) {
+  let wallet = await getActiveWallet()
+  let activeNetwork = await getActiveNetwork()
+
+  const path = "m/44'/" + activeNetwork.chainCode + "'/0'/0"
 
   // Decrypt and derive address
   const password = await storage.get("decryption_key")
   const keyfile = await getKeyfileForWallet(wallet.pubkey)
 
   const hdKey = await decryptHDKey(password, keyfile.keyfile)
-  const newAddress = grindAddress(hdKey, path, index, shard)
+  const newAddress = grindAddress(hdKey, path, 0, shard)
 
   // Add address to derivation in place
   const newDerivations = wallet.derivations.map((item) => {
@@ -292,6 +301,13 @@ export async function addAdddressByShard(
       contains = true
     }
 
+    if (!name) {
+      // Update name in place
+      newAddress.name = "Address " + (item.addresses.length + 1).toString()
+    } else {
+      newAddress.name = name
+    }
+
     if (!contains) {
       item.addresses.push(newAddress)
     }
@@ -302,6 +318,17 @@ export async function addAdddressByShard(
     }
   })
 
+  // Otherwise, we have a new path to add to
+  if (newDerivations.length === 0) {
+    newAddress.name = "Address 1"
+    newDerivations.push({
+      path: path,
+      addresses: [newAddress],
+      chainCode: activeNetwork.chainCode
+    })
+  }
+
+  const wallets = await getWallets()
   // Update wallet in place
   const newWallets = wallets.map((item) => {
     if (item.pubkey !== wallet.pubkey) {
@@ -323,12 +350,19 @@ export async function addAdddressByShard(
     await setActiveWallet(wallet)
   }
 
-  await sendToBackground({
-    name: "network/update-controller"
-  })
+  // Update active address
+  await setActiveAddress(newAddress)
 }
 
-function grindAddress(hdKey, path, index, shard) {
+/**
+ * Grind an address for a given hdkey, path, index, and shard
+ * @param hdKey
+ * @param path
+ * @param index
+ * @param shard
+ * @returns
+ */
+function grindAddress(hdKey, path, index, shard): Address {
   let found = false
   let newAddress = ""
   while (!found) {
@@ -346,6 +380,8 @@ function grindAddress(hdKey, path, index, shard) {
     index++
   }
   return {
+    name: "Address " + index.toString(),
+    shard: shard,
     address: newAddress,
     index: index,
     path: path + "/" + index.toString()
@@ -421,6 +457,11 @@ async function getSigningWallet(from: string) {
   return signingWallet
 }
 
+/**
+ * Signed and send a transaction
+ * @param transaction
+ * @returns
+ */
 export async function signAndSendTransaction(transaction: TransactionRequest) {
   const wallet = await getActiveWallet()
   const activeNetwork = await getActiveNetwork()
@@ -452,8 +493,6 @@ export async function signAndSendTransaction(transaction: TransactionRequest) {
 
   const provider = new quais.providers.JsonRpcProvider(fromChain.rpc)
   const signingWallet = new quais.Wallet(privKey, provider)
-
-  console.log(fromShard[0].shard, toShard[0].shard)
 
   if (fromShard[0].shard !== toShard[0].shard) {
     transaction.type = 2
@@ -500,6 +539,11 @@ export async function signAndSendTransaction(transaction: TransactionRequest) {
   return tx
 }
 
+/**
+ * Send a token transfer event to the blockchain
+ * @param transaction
+ * @returns
+ */
 export async function sendTokenTransfer(transaction) {
   const signingWallet = await getSigningWallet(transaction.from)
 
@@ -526,9 +570,13 @@ export async function sendTokenTransfer(transaction) {
 export async function getAddresses() {
   const wallet = await getActiveWallet()
   const activeNetwork = await getActiveNetwork()
+
   const activeDerivations = wallet.derivations?.find(
     (item) => item.chainCode === Number(activeNetwork.chainCode)
   )
+  if (activeDerivations === undefined) {
+    return []
+  }
   return activeDerivations.addresses
 }
 

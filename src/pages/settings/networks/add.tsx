@@ -6,7 +6,6 @@ import { useLocation } from "wouter"
 
 import { Network, QUAI_CONTEXTS } from "~background/services/network/chains"
 import type { ChainData } from "~background/services/network/chains"
-import Footer from "~components/navigation/Footer"
 import { addCustomNetwork, setActiveNetwork } from "~storage/network"
 
 function AddCustomNetwork() {
@@ -120,7 +119,6 @@ function AddCustomNetwork() {
           </button>
         </div>
       </div>
-      <Footer />
     </>
   )
 }

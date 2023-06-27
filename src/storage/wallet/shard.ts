@@ -3,21 +3,23 @@ import { Storage } from "@plasmohq/storage"
 import { QUAI_CONTEXTS } from "~background/services/network/chains"
 
 import type { Address } from "./index"
+import { setActiveAddressByShard } from "./index"
 
 const storage = new Storage({ area: "local" })
 
 /**
- * Update active location
+ * Update active shard
  *
- * @param location Updated active location
+ * @param shard Updated active shard
  */
-export async function setActiveLocation(location: string) {
-  if (!location) {
-    throw new Error("Location is required")
+export async function setActiveShard(shard: string) {
+  if (!shard) {
+    throw new Error("Shard is required")
   }
 
-  // save new active location
-  await storage.set("active_location", location)
+  // save new active shard
+  await storage.set("active_shard", shard)
+  await setActiveAddressByShard(shard)
 }
 
 export const getQuaiContextForLocation = (latitude, longitude) => {
@@ -50,12 +52,12 @@ export const getQuaiContextForLocation = (latitude, longitude) => {
   }
 }
 
-export const sortAddressesByActiveLocation = (
+export const sortAddressesByActiveShard = (
   addresses: Address[],
-  activeLocation: string
+  activeShard: string
 ): Address[] => {
   // Split the shard string to get the base name (i.e., "hydra" from "hydra-2")
-  const activeBase = activeLocation.split("-")[0]
+  const activeBase = activeShard.split("-")[0]
 
   // Make a copy of the addresses array
   const addressesCopy = addresses.slice()
@@ -66,8 +68,8 @@ export const sortAddressesByActiveLocation = (
     const bBase = b.shard.split("-")[0]
 
     // Prioritize active shard
-    if (a.shard === activeLocation) return -1
-    if (b.shard === activeLocation) return 1
+    if (a.shard === activeShard) return -1
+    if (b.shard === activeShard) return 1
 
     // Prioritize shards with same base as active shard
     if (aBase === activeBase && bBase !== activeBase) return -1

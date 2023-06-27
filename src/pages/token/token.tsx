@@ -5,7 +5,6 @@ import { useEffect, useState } from "react"
 import { useLocation } from "wouter"
 
 import type { TokenNetworkAddressData } from "~background/services/network/controller"
-import Footer from "~components/navigation/Footer"
 import TokenBalanceOverview from "~components/token/tokenBalanceOverview"
 import TokenButtonGroup from "~components/token/tokenButtonGroup"
 import { updateCustomToken } from "~slices/update-token"
@@ -72,7 +71,6 @@ function TokenPage() {
       </div>
       <TokenButtonGroup />
       {tokenData && <TokenBalanceOverview tokenData={tokenData} />}
-      <Footer />
     </div>
   )
 }

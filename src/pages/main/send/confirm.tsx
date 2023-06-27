@@ -14,6 +14,7 @@ import { useStorage } from "@plasmohq/storage/hook"
 import type { Network } from "~background/services/network/chains"
 import type { TokenNetworkAddressData } from "~background/services/network/controller"
 import { getShardFromAddress } from "~storage/wallet"
+import type { Address } from "~storage/wallet"
 
 import "../../../style.css"
 
@@ -25,12 +26,16 @@ import AddressLabel from "~components/accounts/addressLabel"
 import TotalFee from "~components/send/totalFee"
 import { TokenNetworkData } from "~storage/token"
 import { useAppSelector } from "~store"
-import { formatBalance } from "~utils/format"
+import { formatAddress, formatBalance } from "~utils/format"
+
+const storage = new Storage({
+  area: "local"
+})
 
 export default function SendConfirm() {
   // router
   const [, setLocation] = useLocation()
-  const [, params] = useRoute("/send?/confirm/:fromAddress/:toAddress")
+  const [, params] = useRoute("/send?/confirm/:toAddress")
   const [fromAddress, setFromAddress] = useState<string>()
   const [toAddress, setToAddress] = useState<string>()
   const [fromBalanace, setFromBalance] = useState<number>()
@@ -47,9 +52,12 @@ export default function SendConfirm() {
 
   const [activeNetwork] = useStorage<Network>({
     key: "active_network",
-    instance: new Storage({
-      area: "local"
-    })
+    instance: storage
+  })
+
+  const [activeAddress] = useStorage<Address>({
+    key: "active_address",
+    instance: storage
   })
 
   const activeToken = useAppSelector(
@@ -62,7 +70,10 @@ export default function SendConfirm() {
 
   useEffect(() => {
     // @ts-ignore: Object is possibly 'null'.
-    setFromAddress(params!.fromAddress)
+    setFromAddress(activeAddress?.address)
+  }, [activeAddress])
+
+  useEffect(() => {
     // @ts-ignore: Object is possibly 'null'.
     setToAddress(params!.toAddress)
   }, [])
@@ -141,13 +152,6 @@ export default function SendConfirm() {
     setMaxFeePerGas(BigNumber.from(editBaseFee))
     setMaxPriorityFeePerGas(BigNumber.from(editPriorityFee))
     setGasLimit(BigNumber.from(editGasLimit))
-  }
-
-  function formatAddress(address: string): string {
-    if (address == undefined) {
-      return ""
-    }
-    return address.slice(0, 6) + "..." + address.slice(-4)
   }
 
   // Support Quaiscan by default
@@ -259,18 +263,22 @@ export default function SendConfirm() {
     <div className="">
       <div className="relative">
         <div className="flex items-center justify-center">
-          <div className="w-1/2 p-2 rounded-md bg-white dark:bg-zinc-950 flex flex-col justify-start">
-            <div>{formatAddress(fromAddress)}</div>
-            <div className="flex flex-row justify-between">
-              <AddressLabel address={fromAddress} />
+          {fromAddress && (
+            <div className="w-1/2 p-2 rounded-md bg-white dark:bg-zinc-950 flex flex-col justify-start">
+              <div>{formatAddress(fromAddress)}</div>
+              <div className="flex flex-row justify-between">
+                <AddressLabel address={fromAddress} />
+              </div>
             </div>
-          </div>
-          <div className="w-1/2 p-2 rounded-md bg-white dark:bg-zinc-950 flex flex-col justify-end">
-            <div className="flex justify-end">{formatAddress(toAddress)}</div>
-            <div className="flex flex-row justify-end">
-              <AddressLabel address={toAddress} />
+          )}
+          {toAddress && (
+            <div className="w-1/2 p-2 rounded-md bg-white dark:bg-zinc-950 flex flex-col justify-end">
+              <div className="flex justify-end">{formatAddress(toAddress)}</div>
+              <div className="flex flex-row justify-end">
+                <AddressLabel address={toAddress} />
+              </div>
             </div>
-          </div>
+          )}
         </div>
         <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 border-2 border-blue-600 dark:border-blue-400 rounded-full p-2">
           <svg

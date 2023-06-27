@@ -6,7 +6,6 @@ import "../../style.css"
 import { useEffect } from "react"
 
 import ContactList from "~components/contacts/list"
-import Footer from "~components/navigation/Footer"
 import type { WalletContact } from "~storage/contacts"
 
 export default function Contacts() {
@@ -25,7 +24,6 @@ export default function Contacts() {
       <div className="p-3">
         <ContactList selectable={false} onContactSelect={undefined} />
       </div>
-      <Footer />
     </div>
   )
 }

@@ -47,11 +47,11 @@ export function checkTypes(...values: [any, Types | Types[]][]) {
  *
  * @returns Formatted address
  */
-export function formatAddress(address: string, count = 13) {
+export function formatAddress(address: string) {
   return (
-    address.substring(0, count) +
+    address.substring(0, 6) +
     "..." +
-    address.substring(address.length - count, address.length)
+    address.substring(address.length - 4, address.length)
   )
 }
 

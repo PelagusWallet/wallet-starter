@@ -1,8 +1,4 @@
-import {
-  ArrowDownIcon,
-  ArrowUpRightIcon,
-  ArrowsRightLeftIcon
-} from "@heroicons/react/24/solid"
+import { ArrowDownIcon, ArrowUpRightIcon } from "@heroicons/react/24/solid"
 import { FaFaucet } from "react-icons/fa"
 import { useLocation } from "wouter"
 
@@ -11,23 +7,12 @@ import { useAppDispatch } from "~store"
 
 import "../../style.css"
 
-import { Storage } from "@plasmohq/storage"
-import { useStorage } from "@plasmohq/storage/hook"
-
 import { DEFAULT_TOKENS } from "~storage/token"
-import type { StoredWallet } from "~storage/wallet"
-
-const storage = new Storage({ area: "local" })
 
 export default function FunctionButtonGroup() {
   // router
   const [location, setLocation] = useLocation()
   const dispatch = useAppDispatch()
-
-  const [activeWallet] = useStorage<StoredWallet>({
-    key: "active_wallet",
-    instance: storage
-  })
 
   const openFaucet = () => {
     window.open(process.env.PLASMO_PUBLIC_FAUCET_LINK, "_blank")

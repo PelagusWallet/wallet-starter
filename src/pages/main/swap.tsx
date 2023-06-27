@@ -1,7 +1,5 @@
 import { useLocation } from "wouter"
 
-import Footer from "~components/navigation/Footer"
-
 import "../../style.css"
 
 export default function Swap() {
@@ -12,7 +10,6 @@ export default function Swap() {
       <main>
         <div className="rounded-lg bg-quai-black/20 shadow-lg px-8 mt-10"></div>
       </main>
-      <Footer />
     </>
   )
 }

@@ -8,7 +8,6 @@ import { useStorage } from "@plasmohq/storage/hook"
 
 import { QUAI_CONTEXTS } from "~background/services/network/chains"
 import SelectListbox from "~components/form/Listbox"
-import Footer from "~components/navigation/Footer"
 import { getAddresses } from "~storage/wallet"
 import type { Address } from "~storage/wallet"
 
@@ -66,29 +65,6 @@ export default function GeneralSettings() {
     }
   }
 
-  const options = QUAI_CONTEXTS?.map((context) => ({
-    value: context.shard,
-    label: context.name
-  }))
-
-  const handleLocationChange = (selectedOption) => {
-    console.log(selectedOption)
-    setActiveLocation(selectedOption.value)
-  }
-
-  useEffect(() => {
-    const defaultContext = QUAI_CONTEXTS?.find(
-      (context) => context.shard === activeLocation
-    )
-    if (defaultContext) {
-      setDefaultValue({
-        value: defaultContext.shard,
-        label: defaultContext.name
-      })
-      setSelected(defaultContext)
-    }
-  }, [activeLocation])
-
   return (
     <>
       <div className="min-h-full">
@@ -117,17 +93,8 @@ export default function GeneralSettings() {
               Toggle Dark Mode
             </button>
           </div>
-          <div className="w-full p-4">
-            <p className="text-center">Select your active shard</p>
-            <SelectListbox
-              options={options}
-              selectedOption={defaultValue}
-              setSelectedOption={handleLocationChange}
-            />
-          </div>
         </Disclosure>
       </div>
-      <Footer />
     </>
   )
 }

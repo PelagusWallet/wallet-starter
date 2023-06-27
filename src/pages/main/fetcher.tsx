@@ -13,15 +13,15 @@ import { updateActivityData } from "~slices/activity-data"
 import { updateBalanceData } from "~slices/balance-data"
 import type { TokenNetworkData } from "~storage/token"
 import { DEFAULT_TOKENS } from "~storage/token"
-import type { Address, StoredWallet } from "~storage/wallet"
+import type { Address } from "~storage/wallet"
 import { useAppDispatch } from "~store"
 
 const storage = new Storage({ area: "local" })
 
 function Fetcher() {
   // const [signedIn, setSignedIn] = useState<boolean>(false)
-  const [activeWallet] = useStorage<StoredWallet>({
-    key: "active_wallet",
+  const [activeAddress] = useStorage<Address>({
+    key: "active_address",
     instance: storage
   })
 
@@ -38,28 +38,28 @@ function Fetcher() {
   })
 
   useEffect(() => {
-    if (!activeWallet) return
+    if (!activeAddress) return
     dispatch(updateActiveToken(DEFAULT_TOKENS[0]))
-    fetchAddressData().catch((err) => console.error(err))
-    const intervalId = setInterval(fetchAddressData, 10000) // Update data every 10 seconds
+    fetchData().catch((err) => console.error(err))
+    const intervalId = setInterval(fetchData, 10000) // Update data every 10 seconds
     return () => {
       clearInterval(intervalId) // Clean up the interval when the component unmounts
     }
-  }, [activeWallet, activeNetwork, tokens])
+  }, [activeAddress, activeNetwork, tokens])
 
-  async function fetchData(addresses: Address[]) {
+  async function fetchData() {
     try {
       let balanceDataPromise = sendToBackground({
         name: "get-balance-data",
         body: {
-          addresses: addresses
+          addresses: [activeAddress]
         }
       })
 
       let activityDataPromise = sendToBackground({
         name: "get-activity-data",
         body: {
-          addresses: addresses
+          addresses: [activeAddress]
         }
       })
 
@@ -74,19 +74,6 @@ function Fetcher() {
       // handle error
       console.log(error)
     }
-  }
-
-  async function fetchAddressData() {
-    // Get addresses off of activeWallet derivations and match activeNetwork
-    // chain code
-    if (!activeWallet || !activeNetwork) return
-    const addresses = activeWallet.derivations.filter(
-      (derivation) => derivation.chainCode === activeNetwork.chainCode
-    )[0].addresses
-
-    dispatch(updateActiveAddresses(addresses))
-
-    await fetchData(addresses)
   }
 
   return <div></div>

@@ -10,7 +10,6 @@ import { Storage } from "@plasmohq/storage"
 import { useStorage } from "@plasmohq/storage/hook"
 
 import type { Network } from "~background/services/network/chains"
-import Footer from "~components/navigation/Footer"
 import NetworkData from "~components/settings/networks/networkData"
 import {
   getAllNetworks,
@@ -85,7 +84,6 @@ function SwitchNetworks({ activeNetwork }) {
           })}
         </div>
       </div>
-      <Footer />
     </div>
   )
 }

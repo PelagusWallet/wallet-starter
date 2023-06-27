@@ -7,8 +7,7 @@ import { Route, Router } from "wouter"
 import { Storage } from "@plasmohq/storage"
 
 import MenuBar from "~components/navigation/MenuBar"
-import AccountData from "~pages/accounts/accountData"
-import Accounts from "~pages/accounts/accounts"
+import AddAddress from "~pages/accounts/addAddress"
 import Collectibles from "~pages/main/collectibles"
 import Contacts from "~pages/main/contacts"
 import Home from "~pages/main/home"
@@ -40,7 +39,7 @@ import SwitchNetworks from "~pages/settings/networks/switch"
 import SecurityAndPrivacy from "~pages/settings/securityAndPrivacy"
 import AddOrUpdateCustomToken from "~pages/token/addOrUpdateToken"
 import TokenPage from "~pages/token/token"
-import type { StoredWallet } from "~storage/wallet"
+import type { Address } from "~storage/wallet"
 
 const storage = new Storage({ area: "local" })
 
@@ -52,8 +51,8 @@ function IndexPopup() {
     instance: storage
   })
 
-  const [activeWallet] = useStorage<StoredWallet>({
-    key: "active_wallet",
+  const [activeAddress] = useStorage<Address>({
+    key: "active_address",
     instance: storage
   })
 
@@ -80,8 +79,8 @@ function IndexPopup() {
 
   useEffect(() => {
     setRenderKey((prevKey) => prevKey + 1)
-    if (!activeWallet) return
-  }, [activeWallet, activeNetwork, signedIn])
+    if (!activeAddress) return
+  }, [activeAddress, activeNetwork, signedIn])
 
   return (
     <Provider store={store}>
@@ -91,13 +90,14 @@ function IndexPopup() {
             <Toaster />
             <Fetcher />
             <Router hook={useHashLocation}>
-              <MenuBar activeWallet={activeWallet} />
-              <div className="pt-[66px]"></div>
+              <MenuBar />
+              <div className="pt-[60px]"></div>
               <Route path="/" component={() => <Home />} />
-              <Route path="/send">
-                <SendFrom activeWallet={activeWallet} />
-              </Route>
-              <Route path="/send?/:fromAddr" component={SendTo} />
+              {/* <Route path="/send">
+                <SendFrom activeAddress={activeAddress} />
+              </Route> */}
+              <Route path="/add-address" component={AddAddress} />
+              <Route path="/send" component={SendTo} />
               <Route
                 path="/send?/confirm/:fromAddr?/:toAddr"
                 component={SendConfirm}
@@ -124,10 +124,9 @@ function IndexPopup() {
               />
               <Route path="/settings/security" component={SecurityAndPrivacy} />
               <Route path="/settings/about" component={SettingsAbout} />
-              <Route path="/accounts" component={Accounts} />
-              <Route path="/accounts?/:account" key={renderKey}>
-                <AccountData key={renderKey} activeWallet={activeWallet} />
-              </Route>
+              {/* <Route path="/accounts?/:account" key={renderKey}>
+                <AccountData key={renderKey} activeAddress={activeAddress} />
+              </Route> */}
 
               <Route path="/token" component={TokenPage} />
               <Route path="/token/add" component={AddOrUpdateCustomToken} />

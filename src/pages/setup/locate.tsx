@@ -6,9 +6,8 @@ import "../../style.css"
 import { QuaiContext } from "~background/services/network/chains"
 import {
   getCountriesForContext,
-  getQuaiContextForLocation,
-  setActiveLocation
-} from "~storage/wallet/location"
+  getQuaiContextForLocation
+} from "~storage/wallet/shard"
 import worldGeoJSON from "~utils/map/worldgeo.json"
 
 function LocateShard({ onContinue }) {
@@ -24,7 +23,6 @@ function LocateShard({ onContinue }) {
         let context = getQuaiContextForLocation(lat, lon)
         let selectedCountries = getCountriesForContext(context.shard)
         setContext(context)
-        setActiveLocation(context.shard)
         setSelectedCountries(selectedCountries)
       },
       function (error) {
@@ -68,7 +66,7 @@ function LocateShard({ onContinue }) {
       <div className="flex justify-center pt-10">
         <button
           data-testid="pinExtensionButton"
-          onClick={() => onContinue()}
+          onClick={() => onContinue(context.shard)}
           className="btn-class">
           Continue
         </button>

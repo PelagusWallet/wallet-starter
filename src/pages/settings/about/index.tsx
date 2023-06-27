@@ -4,8 +4,6 @@ import pelagusLgBlack from "url:/assets/logos/black/png/vertical-lockup.png"
 import pelagusLgWhite from "url:/assets/logos/white/png/vertical-lockup.png"
 import { useLocation } from "wouter"
 
-import Footer from "~components/navigation/Footer"
-
 import "../../../style.css"
 
 import { Storage } from "@plasmohq/storage"
@@ -85,7 +83,6 @@ export default function SettingsAbout() {
           </div>
         </Disclosure>
       </div>
-      <Footer />
     </>
   )
 }

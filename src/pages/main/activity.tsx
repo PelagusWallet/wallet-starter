@@ -1,7 +1,5 @@
 import { useLocation } from "wouter"
 
-import Footer from "~components/navigation/Footer"
-
 import "../../style.css"
 
 export default function Activity() {
@@ -14,7 +12,6 @@ export default function Activity() {
           Activity Coming Soon.
         </h1>
       </div>
-      <Footer />
     </>
   )
 }

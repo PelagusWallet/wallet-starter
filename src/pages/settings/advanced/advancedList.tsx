@@ -2,7 +2,6 @@ import { Disclosure } from "@headlessui/react"
 import { ChevronLeftIcon, GlobeAltIcon } from "@heroicons/react/24/outline"
 import { useLocation } from "wouter"
 
-import Footer from "~components/navigation/Footer"
 import { signOut } from "~storage/wallet/password"
 
 import "../../../style.css"
@@ -65,7 +64,6 @@ export default function AdvancedList() {
           </div>
         </Disclosure>
       </div>
-      <Footer />
     </>
   )
 }

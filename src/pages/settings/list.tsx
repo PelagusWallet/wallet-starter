@@ -12,7 +12,6 @@ import {
 import { FaDiscord, FaTwitter } from "react-icons/fa"
 import { useLocation } from "wouter"
 
-import Footer from "~components/navigation/Footer"
 import { signOut } from "~storage/wallet/password"
 
 import "../../style.css"
@@ -128,7 +127,6 @@ export default function SettingsList() {
           </div>
         </Disclosure>
       </div>
-      <Footer />
     </>
   )
 }

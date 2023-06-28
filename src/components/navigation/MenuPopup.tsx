@@ -53,13 +53,14 @@ export default function MenuPopup({ onClicked }) {
     <div>
       <div className="absolute w-screen h-screen" onClick={onClicked}></div>
       <div className="absolute top-[70px] p-2 w-full">
-        <div className="modal-content secondary-bg-container cursor-pointer border border-3 p-0">
+        <div className="modal-content secondary-bg-container cursor-pointer border border-3 p-0 w-full">
           <div className="border-b">
             <div className="m-2 text-base">My accounts</div>
           </div>
           {addresses.map((address) => {
             return (
               <div
+                key={address.address}
                 onClick={() => clickAddress(address)}
                 className="flex flex-row mb-3 m-2 w-full">
                 <div className="flex flex-row w-1/2">

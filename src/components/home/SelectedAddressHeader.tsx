@@ -5,14 +5,22 @@ import { formatAddress } from "~utils/format"
 
 import "../../style.css"
 
+import { useState } from "react"
+import { BsThreeDotsVertical } from "react-icons/bs"
+
 import { Storage } from "@plasmohq/storage"
 import { useStorage } from "@plasmohq/storage/hook"
 
-import AddressLabel from "~components/accounts/addressLabel"
+import AddressDetails from "~components/home/addressDetails/AddressDetails"
 
 const storage = new Storage({ area: "local" })
 
 export default function SelectedAddressHeader() {
+  const [addressDetailsOpen, setAddressDetailsOpen] = useStorage<boolean>(
+    "address_details_open",
+    false
+  )
+
   const [activeAddress] = useStorage<Address>({
     key: "active_address",
     instance: storage
@@ -33,6 +41,9 @@ export default function SelectedAddressHeader() {
               {/* <AddressLabel address={activeAddress.address} /> */}
             </div>
           </div>
+          {addressDetailsOpen && (
+            <AddressDetails onClicked={() => setAddressDetailsOpen(false)} />
+          )}
           <div className="w-1/3 justify-center">
             <div className="w-full h-full text-center py-1">
               <div
@@ -45,7 +56,12 @@ export default function SelectedAddressHeader() {
               </div>
             </div>
           </div>
-          <div className="w-1/3"></div>
+          <div className="w-1/3 flex justify-end items-center">
+            <BsThreeDotsVertical
+              onClick={() => setAddressDetailsOpen(true)}
+              className="h-6 w-6 m-2 cursor-pointer"
+            />
+          </div>
         </div>
       ) : (
         <div className="h-[62px]"></div>

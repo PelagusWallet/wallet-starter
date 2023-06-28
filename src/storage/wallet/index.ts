@@ -118,7 +118,76 @@ export async function setActiveAddress(newActiveAddress?: Address) {
   if (!address) {
     return
   }
+  console.log("Set active address", address)
   await storage.set("active_address", address)
+}
+
+/**
+ * Update address name
+ */
+export async function updateAddressName(address: Address, name: string) {
+  const wallet = await getActiveWallet()
+  const activeNetwork = await getActiveNetwork()
+
+  const activeDerivations = wallet.derivations?.find(
+    (item) => item.chainCode === Number(activeNetwork.chainCode)
+  )
+  if (activeDerivations === undefined) {
+    return
+  }
+
+  // Check if address is in active wallet
+  const activeAddress = activeDerivations?.addresses?.find(
+    (item) => item.address === address.address
+  )
+  if (activeAddress === undefined) {
+    return
+  }
+
+  // Get new derivations on wallet and update the derivations in place
+  const newDerivations = wallet.derivations.map((item) => {
+    if (item.path !== activeDerivations.path) {
+      return item
+    }
+
+    const newAddresses = item.addresses.map((item) => {
+      if (item.address !== address.address) {
+        return item
+      }
+      return {
+        ...item,
+        name: name
+      }
+    })
+
+    return {
+      ...item,
+      addresses: newAddresses
+    }
+  })
+
+  const wallets = await getWallets()
+
+  // Update wallets in place
+  const newWallets = wallets.map((item) => {
+    if (item.pubkey !== wallet.pubkey) {
+      return item
+    }
+
+    return {
+      ...item,
+      derivations: newDerivations
+    }
+  })
+
+  const newAddress = {
+    ...address,
+    name: name
+  }
+
+  await storage.set("wallets", newWallets)
+  await setActiveWallet(wallet)
+  await setActiveAddress(newAddress)
 }
 
 /**

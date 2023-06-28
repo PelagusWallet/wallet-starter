@@ -12,6 +12,7 @@ import { Cog6ToothIcon, PlusCircleIcon } from "@heroicons/react/24/solid"
 import { Storage } from "@plasmohq/storage"
 import { useStorage } from "@plasmohq/storage/hook"
 
+import AddressLabel from "~components/accounts/addressLabel"
 import { formatAddress } from "~utils/format"
 
 const storage = new Storage({ area: "local" })
@@ -60,13 +61,22 @@ export default function MenuPopup({ onClicked }) {
             return (
               <div
                 onClick={() => clickAddress(address)}
-                className="flex flex-row mb-3 m-2">
-                {address.address === activeAddress.address ? (
-                  <CheckCircleIcon className="h-6 w-6 my-auto mr-2 text-green-600"></CheckCircleIcon>
-                ) : (
-                  <div className="h-6 w-6 my-auto mr-2"></div>
-                )}
-                <div className="items-center my-auto">{address.name}</div>
+                className="flex flex-row mb-3 m-2 w-full">
+                <div className="flex flex-row w-1/2">
+                  {address.address === activeAddress.address ? (
+                    <CheckCircleIcon className="h-6 w-6 my-auto mr-2 text-green-600"></CheckCircleIcon>
+                  ) : (
+                    <div className="h-6 w-6 my-auto mr-2"></div>
+                  )}
+                  <div className="items-center my-auto w-fit">
+                    {address.name}
+                  </div>
+                </div>
+                <div className="my-auto w-1/2 flex justify-end mr-10">
+                  <div className="w-fit">
+                    <AddressLabel address={address.address}></AddressLabel>
+                  </div>
+                </div>
               </div>
             )
           })}

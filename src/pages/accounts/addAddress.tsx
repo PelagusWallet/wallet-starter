@@ -9,32 +9,50 @@ import {
 
 import "../../style.css"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 import { Storage } from "@plasmohq/storage"
 
 import { QUAI_CONTEXTS } from "~background/services/network/chains"
 import SelectListbox from "~components/form/Listbox"
+import { getAddresses } from "~storage/wallet"
 
 export default function AddAddress() {
-  const options = QUAI_CONTEXTS?.map((context) => ({
-    value: context.shard,
-    label: context.name
-  }))
-
   const [, setLocation] = useLocation()
   const [name, setName] = useState<string>("")
   const [selectedShard, setSelectedShard] = useState<{
     value: string
     label: string
-  }>(options[0])
+  }>(null)
+
+  const [options, setOptions] = useState([])
+
+  useEffect(() => {
+    getShardOptions()
+  }, [])
+
+  async function getShardOptions() {
+    let addresses = await getAddresses()
+    let usedShards = addresses.map((address) => address.shard)
+
+    let remainingShards = QUAI_CONTEXTS?.filter(
+      (context) => !usedShards.includes(context.shard)
+    )
+
+    let options = remainingShards?.map((context) => ({
+      value: context.shard,
+      label: context.name
+    }))
+
+    setOptions(options)
+    setSelectedShard(options[0])
+  }
 
   function handleNameChange(event) {
     setName(event.target.value)
   }
 
   function handleShardChange(selectedOption) {
-    console.log(selectedOption)
     setSelectedShard(selectedOption)
   }
 

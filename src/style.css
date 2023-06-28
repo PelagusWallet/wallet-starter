@@ -160,7 +160,7 @@
   }
 
   .input-class {
-    @apply bg-zinc-700 text-white w-full rounded-md border-black dark:border-white pr-12 shadow-sm px-2 py-1 focus:outline-none focus:ring-0 active:border-none active:ring-0 active:ring-offset-0
+    @apply bg-zinc-100 dark:bg-zinc-700 text-black dark:text-white w-full rounded-md border-black dark:border-white pr-12 shadow-sm px-2 py-1 focus:outline-none focus:ring-0 active:border-none active:ring-0 active:ring-offset-0
   }
 }
 

@@ -15,15 +15,30 @@ import { useHashLocation } from "~utils/router"
 
 import "../style.css"
 
+const storage = new Storage({
+  area: "local"
+})
+
 export default function Welcome() {
   const [location, setLocation] = useHashLocation()
 
+  const [setUp] = useStorage<boolean>({
+    key: "is_setup",
+    instance: storage
+  })
+
   const [darkMode] = useStorage<boolean>({
     key: "dark_mode",
-    instance: new Storage({
-      area: "local"
-    })
+    instance: storage
   })
+
+  useEffect(() => {
+    if (setUp) {
+      setLocation("/")
+      chrome.tabs.create({ url: chrome.runtime.getURL("/tabs/overview.html") })
+      window.close()
+    }
+  }, [setUp])
 
   useEffect(() => {
     if (darkMode) {

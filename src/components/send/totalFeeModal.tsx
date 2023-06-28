@@ -20,7 +20,7 @@ export default function TotalFeeModal({
 
   return (
     <div className="modal-backdrop">
-      <div className="modal-content secondary-bg-container mx-4 w-full">
+      <div className="modal-content secondary-bg-container mx-4 w-11/12 p-2">
         <h2 className="font-normal">Edit Fee Details</h2>
         <label className="font-normal">
           Base Fee:

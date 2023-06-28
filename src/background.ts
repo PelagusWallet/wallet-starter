@@ -16,9 +16,7 @@ storage.watch({
   }
 })
 
-browser.runtime.onMessage.addListener((msg) => {
-  console.log("Background message", msg)
-})
+// browser.runtime.onMessage.addListener((msg) => {})
 
 chrome.runtime.onInstalled.addListener(() => {
   chrome.tabs.create({ url: chrome.runtime.getURL("/tabs/welcome.html") })

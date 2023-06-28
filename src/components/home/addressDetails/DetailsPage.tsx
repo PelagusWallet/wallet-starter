@@ -14,7 +14,6 @@ import { useStorage } from "@plasmohq/storage/hook"
 import { Network } from "~background/services/network/chains"
 import { getExplorerURLForShard } from "~background/services/network/chains"
 import { getShardFromAddress, updateAddressName } from "~storage/wallet"
-import { formatAddress } from "~utils/format"
 
 const storage = new Storage({ area: "local" })
 

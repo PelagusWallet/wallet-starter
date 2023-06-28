@@ -297,9 +297,7 @@ export default function SendConfirm() {
         </div>
       </div>
       <div className="m-4">
-        <button
-          onClick={() => setLocation("/send?/" + fromAddress)}
-          className="text-gray-400">
+        <button onClick={() => setLocation("/send")} className="text-gray-400">
           <ChevronLeftIcon
             className="h-6 w-6 quai-dark-grey"
             aria-hidden="true"

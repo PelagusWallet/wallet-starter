@@ -280,6 +280,36 @@ export function attemptGetKeyfileForWallet(pubkey: string, password: string) {
   )
 }
 
+/*
+ * Exported attempt function for use in background
+ */
+export async function attemptGetPrivateKeyForAddress(
+  address: string,
+  password: string
+) {
+  if (!password) {
+    password = await storage.get("decryption_key")
+    if (!password) {
+      return []
+    }
+  }
+
+  // Attempt set secure storage password
+  await secureStorage.setPassword(password)
+
+  return await getPrivateKeyForAddress(address)
+}
+
+/**
+ * Get private key for address
+ * @param address
+ * @returns
+ */
+async function getPrivateKeyForAddress(address: string) {
+  let signingWallet = await getSigningWallet(address)
+  return signingWallet.privateKey
+}
+
 /**
  * Create a new wallet
  * @param password

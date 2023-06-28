@@ -62,6 +62,10 @@ export default function AddAddress() {
     setLocation("/")
   }
 
+  function navigateBack() {
+    setLocation("/")
+  }
+
   return (
     <div className="mt-8">
       <form
@@ -89,7 +93,12 @@ export default function AddAddress() {
           />
         </div>
         <div className="flex flex-row m-4">
-          <button className="btn-class m-3 w-1/2">Cancel</button>
+          <button
+            type="reset"
+            onClick={navigateBack}
+            className="btn-class m-3 w-1/2">
+            Cancel
+          </button>
           <button
             type="submit" // making this a submit button
             data-testid="submitPasswordButton"

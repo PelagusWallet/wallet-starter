@@ -5,6 +5,7 @@ import { useEffect, useState } from "react"
 import { useLocation } from "wouter"
 
 import { sendToBackground } from "@plasmohq/messaging"
+import { Storage } from "@plasmohq/storage"
 
 import { DEFAULT_NETWORKS } from "~background/services/network/chains"
 
@@ -13,6 +14,8 @@ import PasswordSetup from "./password"
 import ProgressBar from "./progress"
 
 import "../../style.css"
+
+import { useStorage } from "@plasmohq/storage/hook"
 
 import SetupHeaderBar from "~components/setup/setupHeaderBar"
 import { setActiveNetwork } from "~storage/network"
@@ -37,25 +40,34 @@ const steps = [
   },
   {
     id: "03",
-    name: "Locate Extension",
+    name: "Locate Shard",
     href: "#",
     status: "upcoming",
     page: 2
   },
   {
-    id: "04",
-    name: "Locate Shard",
+    id: "03",
+    name: "Locate Extension",
     href: "#",
     status: "upcoming",
     page: 3
   }
 ]
 
+const storage = new Storage({
+  area: "local"
+})
+
 function ImportMnemonic() {
   const [password, setPassword] = useState("")
   const [secretRecoveryPhrase, setSecretRecoveryPhrase] = useState("")
   const [page, setPage] = useState(0)
   const [, setLocation] = useLocation()
+
+  const [setUp, setSetUp] = useStorage<boolean>({
+    key: "is_setup",
+    instance: storage
+  })
 
   async function handlePasswordComplete(e) {
     setPassword(e)
@@ -75,10 +87,6 @@ function ImportMnemonic() {
     setPage((v) => v + 1)
   }
 
-  function handlePinnedExtension() {
-    setPage((v) => v + 1)
-  }
-
   function attemptSetPage(attemptedPage) {
     if (attemptedPage < page) {
       setPage((v) => (v = attemptedPage))
@@ -86,8 +94,17 @@ function ImportMnemonic() {
   }
 
   function handleLocateShard() {
-    setLocation("/complete")
+    setPage((v) => v + 1)
   }
+
+  async function handlePinnedExtension() {
+    setSetUp(true)
+    chrome.tabs.create({
+      url: chrome.runtime.getURL("/tabs/setupComplete.html")
+    })
+    window.close()
+  }
+
   useEffect(() => {}, [page])
 
   return (
@@ -127,27 +144,27 @@ function ImportMnemonic() {
           )}
           {page == 2 && (
             <motion.div
-              key="mnemonicVerify"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}>
-              {/* <MnemonicVerify
-                mnemonic={secretRecoveryPhrase}
-                onCompleteMnemonic={(e) => {
-                  handleMnemonicComplete()
-                }}
-              /> */}
-              <PinExtension onContinue={(e) => handlePinnedExtension()} />
-            </motion.div>
-          )}
-          {page == 3 && (
-            <motion.div
               key="locateShard"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}>
               <LocateShard
                 onContinue={(e) => handleLocateShard()}></LocateShard>
+            </motion.div>
+          )}
+          {page == 3 && (
+            <motion.div
+              key="pinExtension"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}>
+              {/* <MnemonicVerify
+  mnemonic={secretRecoveryPhrase}
+  onCompleteMnemonic={(e) => {
+    handleMnemonicComplete()
+  }}
+/> */}
+              <PinExtension onContinue={(e) => handlePinnedExtension()} />
             </motion.div>
           )}
         </AnimatePresence>

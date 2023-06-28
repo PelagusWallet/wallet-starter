@@ -51,7 +51,7 @@ function LocateShard({ onContinue }) {
                   <Geography
                     key={geo.rsmKey}
                     geography={geo}
-                    fill={isSelected ? "blue" : "white"}
+                    fill={isSelected ? "blue" : "gray"}
                   />
                 )
               })
@@ -64,12 +64,14 @@ function LocateShard({ onContinue }) {
         <div className="text-center text-lg font-bold">{context?.shard}</div>
       </div>
       <div className="flex justify-center pt-10">
-        <button
-          data-testid="pinExtensionButton"
-          onClick={() => onContinue(context.shard)}
-          className="btn-class">
-          Continue
-        </button>
+        {context && (
+          <button
+            data-testid="pinExtensionButton"
+            onClick={() => onContinue(context.shard)}
+            className="btn-class">
+            Continue
+          </button>
+        )}
       </div>
     </div>
   )

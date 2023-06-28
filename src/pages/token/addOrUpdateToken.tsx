@@ -9,7 +9,7 @@ import { QUAI_CONTEXTS } from "~background/services/network/chains"
 import { updateCustomToken } from "~slices/update-token"
 import { getActiveNetwork } from "~storage/network"
 import { addOrUpdateToken, removeToken } from "~storage/token"
-import type { TokenNetworkData, TokenShardData } from "~storage/token"
+import { TokenNetworkData, type TokenShardData } from "~storage/token"
 import { getShardFromAddress } from "~storage/wallet"
 import { useAppSelector } from "~store"
 
@@ -136,7 +136,7 @@ function AddOrUpdateCustomToken() {
   }
 
   function returnHome() {
-    if (updateToken === null || updateToken === undefined) {
+    if (Object.keys(updateToken).length === 0) {
       setLocation("/")
     } else {
       setLocation("/token")

@@ -1,6 +1,7 @@
 import { Disclosure } from "@headlessui/react"
 import { ChevronLeftIcon } from "@heroicons/react/24/outline"
 import { useEffect, useState } from "react"
+import toast from "react-hot-toast"
 import { useLocation } from "wouter"
 
 import MnemonicReveal from "~components/settings/securityAndPrivacy/mnemonicReveal"
@@ -22,7 +23,8 @@ export default function SecurityAndPrivacy() {
     if (passwordCorrect) {
       setRevealMnemonic(true)
     } else {
-      alert("Incorrect password")
+      toast("Incorrect password"),
+        { id: "incorrect-password", position: "top-center" }
     }
   }
 

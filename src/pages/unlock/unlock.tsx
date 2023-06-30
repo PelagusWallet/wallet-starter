@@ -54,6 +54,7 @@ export default function Unlock() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
+          {error && <div className="text-red-500 text-sm mt-2">{error}</div>}
           <button
             className="mt-2 w-full secondary-bg-container text-blue-600 dark:text-blue-400 font-thin text-sm px-6 py-3 rounded"
             type="submit">

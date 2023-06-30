@@ -84,10 +84,10 @@ function IndexPopup() {
 
   return (
     <Provider store={store}>
+      <Toaster />
       <div className="bg-container">
         {signedIn && (
           <div>
-            <Toaster />
             <Fetcher />
             <Router hook={useHashLocation}>
               <MenuBar />

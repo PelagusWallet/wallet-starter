@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react"
 import "../../../style.css"
 
 import { ChevronLeftIcon } from "@heroicons/react/24/outline"
+import toast from "react-hot-toast"
 
 import { sendToBackground } from "@plasmohq/messaging"
 import { Storage } from "@plasmohq/storage"
@@ -38,7 +39,8 @@ export default function RevealPrivateKey({ setPage }) {
       })
       setPrivKey(privKey.privateKey)
     } else {
-      alert("Incorrect password")
+      toast("Incorrect password"),
+        { id: "incorrect-password", position: "top-center" }
     }
   }
 

@@ -136,7 +136,7 @@ function AddOrUpdateCustomToken() {
   }
 
   function returnHome() {
-    if (Object.keys(updateToken).length === 0) {
+    if (updateToken === null || Object.keys(updateToken).length === 0) {
       setLocation("/")
     } else {
       setLocation("/token")

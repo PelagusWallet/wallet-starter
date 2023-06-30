@@ -18,12 +18,14 @@ import { useStorage } from "@plasmohq/storage/hook"
 import type { Network } from "~background/services/network/chains"
 
 import MenuPopup from "./MenuPopup"
+import NetworkPopup from "./NetworkPopup"
 
 const storage = new Storage({ area: "local" })
 
 export default function MenuBar() {
   const [location, setLocation] = useLocation()
   const [MenuPopupOpen, setMenuPopupOpen] = useState(false)
+  const [NetworkPopupOpen, setNetworkPopupOpen] = useState(false)
 
   const [activeAddress] = useStorage<Address>({
     key: "active_address",
@@ -41,11 +43,7 @@ export default function MenuBar() {
   })
 
   function networkButtonClick() {
-    if (location === "/settings/network") {
-      setLocation("/")
-    } else {
-      setLocation("/settings/network")
-    }
+    setNetworkPopupOpen(!NetworkPopupOpen)
   }
 
   function clickAccountButton() {
@@ -60,6 +58,7 @@ export default function MenuBar() {
     <div className=" secondary-bg-container fixed top-0 w-full z-50">
       <div className=" min-h-full">
         {MenuPopupOpen && <MenuPopup onClicked={clickAccountButton} />}
+        {NetworkPopupOpen && <NetworkPopup onClicked={networkButtonClick} />}
         <Disclosure as="nav" className="bg-transparent">
           <div className="mx-auto max-w-7xl px-4 py-1 sm:px-6 lg:px-8">
             <div className="flex items-center justify-between">

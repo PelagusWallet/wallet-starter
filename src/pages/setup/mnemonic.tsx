@@ -22,7 +22,7 @@ function MnemonicSetup({ mnemonic, onCopiedMnemonic }) {
         <div className="grid grid-cols-4 gap-4 w-max">
           {mnemonic.split(" ").map((object, i) => (
             <div key={i}>
-              <a className="inline-flex justify-center rounded-md border border-black dark:border-white bg-transparent py-2 px-4 text-sm font-medium shadow-sm hover:bg-gray-700 w-full">
+              <a className="inline-flex justify-center rounded-md border border-black dark:border-white bg-transparent py-2 px-4 text-sm font-medium cursor-default shadow-sm w-full">
                 {object}
               </a>
             </div>
